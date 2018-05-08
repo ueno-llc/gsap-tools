@@ -1,0 +1,39 @@
+{
+  "name": "gsap-tools",
+  "version": "1.0.0",
+  "main": "dist/gsap-tools.js",
+  "author": "Ueno.",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rimraf dist",
+    "watch": "webpack -w",
+    "build": "webpack -p",
+    "prepublish2": "npm run clean && npm run build"
+  },
+  "files": [
+    "dist/"
+  ],
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "classnames": "^2.2.5",
+    "classnames-loader": "^2.0.0",
+    "css-loader": "^0.28.11",
+    "node-sass": "^4.9.0",
+    "rimraf": "^2.6.2",
+    "sass-loader": "^7.0.1",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.8.1",
+    "webpack-cli": "^2.1.3"
+  },
+  "dependencies": {
+    "lodash": "^4.17.10",
+    "prop-types": "^15.6.1",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "resize-observer-polyfill": "^1.5.0"
+  }
+}
