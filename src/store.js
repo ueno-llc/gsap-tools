@@ -10,6 +10,8 @@ class Store extends EventEmitter {
     console.log('Added timeline', this.timelines);
 
     this.emit('change');
+
+    return () => this.remove(timeline);
   }
 
   remove(timeline) {
@@ -20,6 +22,5 @@ class Store extends EventEmitter {
     this.emit('change');
   }
 }
-
 
 export default new Store();
