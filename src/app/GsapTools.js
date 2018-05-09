@@ -1,13 +1,15 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-// import { observable } from 'mobx';
-// import { inject, observer } from 'mobx-react';
 import { TimelineLite, TweenLite } from 'gsap';
 
 import Header from 'components/header';
 import Controls from 'components/controls';
 import Range from 'components/range';
 import Button from 'components/button';
+
+import store from 'store';
+
+import 'styles/fonts.scss';
 
 import s from './GsapTools.scss';
 
@@ -21,46 +23,26 @@ export default class GsapTools extends PureComponent {
     isVisible: PropTypes.bool,
   }
 
-  // @observable
-  // isVisible = false;
-
-  // @observable
-  // playIcon = true;
-
-  // @observable
-  // active;
-
-  // @observable
-  // progress;
-
-  // @observable
-  // value;
-
-  // @observable
-  // isLoop = false;
-
   constructor(props) {
     super(props);
 
     this.state = {
-      isVisible: false,
+      isVisible: props.isVisible,
       playIcon: true,
       active: undefined,
       value: undefined,
       isLoop: false,
     };
-
-    this.setup(props);
   }
 
   setup = (props) => {
-    const { isVisible, listener } = props || this.props;
+    const { isVisible } = props || this.props;
 
     // Get the first timeline of the Map if one exist
-    this.active = listener.active();
-
-    // Is the GsapTools should be visible or hidden
-    this.isVisible = isVisible;
+    this.setState({
+      active: store.active(),
+      isVisible,
+    });
   }
 
   componentDidMount() {
@@ -69,21 +51,21 @@ export default class GsapTools extends PureComponent {
 
       this.master = new TimelineLite({
         onUpdate: () => {
-          this.value = this.master.progress() * 100;
+          this.setState({ value: this.master.progress() * 100 });
           this.progress = this.master.time();
         },
         onComplete: () => {
-          if (this.isLoop) {
+          if (this.state.isLoop) {
             this.master.restart();
           } else if (this.master.totalProgress() === 1) {
             this.master.pause();
-            this.playIcon = true;
+            this.setState({ playIcon: true });
           }
         },
       });
 
-      this.master.add(this.active);
-      this.playIcon = false;
+      this.master.add(store.active());
+      this.setState({ playIcon: false });
     });
   }
 
@@ -116,11 +98,11 @@ export default class GsapTools extends PureComponent {
     const { onClick, isVisible } = this.props;
 
     if (onClick) {
-      this.isVisible = isVisible;
+      this.setState({ isVisible });
       return onClick();
     }
 
-    this.isVisible = !this.isVisible;
+    this.setState({ isVisible: !isVisible });
   }
 
   mouseEvent = (e) => {
@@ -201,15 +183,17 @@ export default class GsapTools extends PureComponent {
   handleList = ({ currentTarget }) => {
     const active = this.props.listener.active(currentTarget.value);
 
-    this.active = active;
+    this.setState({
+      active,
+      playIcon: false,
+    });
 
     this.master.clear();
-    this.master.add(this.active);
+    this.master.add(active);
     this.master.play();
     this.master.seek(0);
 
-    this.playIcon = false;
-    this.value = 0;
+    this.setState({ value: 0 });
   }
 
   handleTimeScale = ({ currentTarget }) => {
@@ -218,24 +202,24 @@ export default class GsapTools extends PureComponent {
 
   handleRewind = () => {
     if (this.master.paused()) {
-      this.playIcon = true;
+      this.setState({ playIcon: true });
 
       if (this.inTime > 0) {
         this.master.seek(this.inTime);
-        this.value = this.inTime;
+        this.setState({ value: this.inTime });
       } else {
         this.master.seek(0);
-        this.value = 0;
+        this.setState({ value: 0 });
       }
     } else {
       this.master.restart();
-      this.playIcon = false;
+      this.setState({ playIcon: false });
     }
   }
 
   handlePlayPause = () => {
     if (this.master.totalProgress() === 1) {
-      this.playIcon = false;
+      this.setState({ playIcon: false });
       this.master.restart();
 
       return;
@@ -243,20 +227,20 @@ export default class GsapTools extends PureComponent {
 
     if (this.master.paused()) {
       this.master.play();
-      this.playIcon = false;
+      this.setState({ playIcon: false });
     } else {
       this.master.pause();
-      this.playIcon = true;
+      this.setState({ playIcon: true });
     }
   }
 
   handleLoop = () => {
-    this.isLoop = !this.isLoop;
+    this.setState({ isLoop: !this.state.isLoop });
   }
 
   handleRange = (value) => {
-    this.value = value;
-    this.master.progress(this.value / 100);
+    this.setState({ value });
+    this.master.progress(value / 100);
     this.progress = this.master.time();
   }
 
@@ -284,7 +268,10 @@ export default class GsapTools extends PureComponent {
 
   render() {
     const { listener, onClick } = this.props;
-    const visible = this.isVisible;
+    const { isVisible, isLoop, playIcon, value } = this.state;
+
+    console.log('isVisible', isVisible);
+    console.log('store', store);
 
     return (
       <div
@@ -292,11 +279,11 @@ export default class GsapTools extends PureComponent {
         ref={(c) => { this.container = c; }}
       >
         <div className={s.gsapTools__container}>
-          <div className={s(s.gsapTools__box, { visible })}>
+          <div className={s(s.gsapTools__box, { isVisible })}>
             <Header
               headerRef={(c) => { this.header = c; }}
               onMouseDown={this.handleUIBox}
-              keys={listener.keys}
+              keys={store.keys}
               handleList={this.handleList}
               handleTimeScale={this.handleTimeScale}
               handleUIClose={this.handleUIClose}
@@ -308,12 +295,12 @@ export default class GsapTools extends PureComponent {
                 handleRewind={this.handleRewind}
                 handlePlayPause={this.handlePlayPause}
                 handleLoop={this.handleLoop}
-                paused={this.playIcon}
-                looped={this.isLoop}
+                paused={playIcon}
+                looped={isLoop}
               />
 
               <Range
-                value={this.value}
+                value={value}
                 onDrag={this.handleRange}
                 onDragStart={this.handleRangeStart}
                 onDragEnd={this.handleRangeEnd}
@@ -325,7 +312,7 @@ export default class GsapTools extends PureComponent {
 
           <Button
             handleUIClose={this.handleUIClose}
-            visible={visible}
+            visible={isVisible}
             onClick={onClick}
           />
         </div>
@@ -333,5 +320,3 @@ export default class GsapTools extends PureComponent {
     );
   }
 }
-
-// export default inject('listener')(observer(GsapTools));

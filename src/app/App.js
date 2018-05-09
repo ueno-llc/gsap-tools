@@ -8,7 +8,7 @@ export default class App extends PureComponent {
 
   static propTypes = {
     data: PropTypes.object,
-  };
+  }
 
   componentDidMount() {
     store.on('change', this.onStoreChange);
@@ -19,7 +19,7 @@ export default class App extends PureComponent {
   }
 
   onStoreChange = () => {
-    console.log('change', store.timelines);
+    console.log('change', store);
 
     // temp
     this.forceUpdate();

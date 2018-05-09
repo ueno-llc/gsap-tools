@@ -40,7 +40,7 @@
     transform: scale(0.6);
     transform-origin: 100% 100%;
 
-    &.visible {
+    &.isVisible {
       opacity: 1;
 
       transform: scale(1);

@@ -1,23 +1,58 @@
 import EventEmitter from 'events';
+import get from 'lodash/get';
 
 class Store extends EventEmitter {
 
-  timelines = new Set()
+  timelines = new Map();
 
-  add(timeline) {
-    this.timelines.add(timeline);
+  get keys() {
+    return this.timelines.keys();
+  }
 
-    console.log('Added timeline', this.timelines);
+  get values() {
+    return this.timelines.values();
+  }
+
+  active(id) {
+    // If no id specified and that we have timeline saved
+    // let's return the first one we have
+    if (!id && this.timelines.size > 0) {
+      return this.values[0];
+    }
+
+    if (this.timelines.has(id)) {
+      return this.timelines.get(id);
+    }
+
+    return [];
+  }
+
+  add(timeline, id) {
+    const tId = id || get(timeline, 'vars.id');
+
+    if (!tId) {
+      return console.warn('You need to defined an id to the timeline');
+    }
+
+    if (!this.timelines.has(tId)) {
+      console.info('Added timeline', tId);
+
+      this.timelines.set(tId, timeline);
+    }
 
     this.emit('change');
 
     return () => this.remove(timeline);
   }
 
-  remove(timeline) {
-    const r = this.timelines.delete(timeline);
+  remove(timeline, id) {
+    const tId = id || get(timeline, 'vars.id');
 
-    console.log('Removed timeline', r, this.timelines);
+    if (this.timelines.has(tId)) {
+      console.info('Removed timeline', tId);
+
+      this.timelines.delete(tId);
+    }
 
     this.emit('change');
   }

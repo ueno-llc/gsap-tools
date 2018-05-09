@@ -13,6 +13,7 @@ module.exports = {
 
   externals: {
     react: 'react',
+    gsap: 'gsap',
   },
 
   resolve: {
