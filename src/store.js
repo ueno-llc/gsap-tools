@@ -14,7 +14,6 @@ class Store extends EventEmitter {
   }
 
   get test() {
-    console.log(this.timelines.get('Heading'));
     return this.timelines.get('Heading');
   }
 
@@ -40,8 +39,6 @@ class Store extends EventEmitter {
     }
 
     if (!this.timelines.has(tId)) {
-      console.log('Added');
-
       this.timelines.set(tId, timeline);
     }
 
