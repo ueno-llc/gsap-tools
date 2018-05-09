@@ -30,7 +30,7 @@ export default class GsapTools extends PureComponent {
       isVisible: props.isVisible,
       playIcon: true,
       active: undefined,
-      value: undefined,
+      value: 0,
       isLoop: false,
     };
   }
@@ -40,7 +40,7 @@ export default class GsapTools extends PureComponent {
 
     // Get the first timeline of the Map if one exist
     this.setState({
-      active: store.active(),
+      active: store.test,
       isVisible,
     });
   }
@@ -49,10 +49,13 @@ export default class GsapTools extends PureComponent {
     setTimeout(() => {
       this.initUI();
 
+      console.log('------- store', store);
+
       this.master = new TimelineLite({
         onUpdate: () => {
-          this.setState({ value: this.master.progress() * 100 });
-          this.progress = this.master.time();
+          this.setState({
+            value: this.master.progress() * 100,
+          });
         },
         onComplete: () => {
           if (this.state.isLoop) {
@@ -64,7 +67,9 @@ export default class GsapTools extends PureComponent {
         },
       });
 
-      this.master.add(store.active());
+      console.log('-store.active()', store.test);
+
+      this.master.add(store.test);
       this.setState({ playIcon: false });
     });
   }
@@ -241,7 +246,6 @@ export default class GsapTools extends PureComponent {
   handleRange = (value) => {
     this.setState({ value });
     this.master.progress(value / 100);
-    this.progress = this.master.time();
   }
 
   handleMarkerInRange = (value) => {
@@ -270,8 +274,9 @@ export default class GsapTools extends PureComponent {
     const { listener, onClick } = this.props;
     const { isVisible, isLoop, playIcon, value } = this.state;
 
-    console.log('isVisible', isVisible);
-    console.log('store', store);
+    console.log('');
+    console.log('');
+    console.log('store keys', store.keys);
 
     return (
       <div

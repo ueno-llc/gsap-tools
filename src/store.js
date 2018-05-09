@@ -13,6 +13,11 @@ class Store extends EventEmitter {
     return this.timelines.values();
   }
 
+  get test() {
+    console.log(this.timelines.get('Heading'));
+    return this.timelines.get('Heading');
+  }
+
   active(id) {
     // If no id specified and that we have timeline saved
     // let's return the first one we have
@@ -35,7 +40,7 @@ class Store extends EventEmitter {
     }
 
     if (!this.timelines.has(tId)) {
-      console.info('Added timeline', tId);
+      console.log('Added');
 
       this.timelines.set(tId, timeline);
     }
@@ -49,8 +54,6 @@ class Store extends EventEmitter {
     const tId = id || get(timeline, 'vars.id');
 
     if (this.timelines.has(tId)) {
-      console.info('Removed timeline', tId);
-
       this.timelines.delete(tId);
     }
 

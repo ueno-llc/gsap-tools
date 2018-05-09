@@ -43,6 +43,8 @@ export default class Range extends PureComponent {
   }
 
   componentWillReceiveProps(props) {
+    console.log('-props', props);
+
     if (props.value !== this.props.value) {
       this.updateFill(props);
     }
@@ -63,10 +65,15 @@ export default class Range extends PureComponent {
 
     const { offsetWidth: rw } = this.range;
     const val = (value * (rw - MARKER_MEDIAN_WIDTH)) / 100;
+    console.log('-value', value);
 
     if (val < this.markerIn || val > (this.markerOut + 7.5)) {
       return;
     }
+
+    console.log('-val', val);
+    console.log('-this.markerIn', this.markerIn);
+    console.log('-this.markerOut', this.markerOut);
 
     const width = this.markerIn > 0 ? val - this.markerIn : val;
 
