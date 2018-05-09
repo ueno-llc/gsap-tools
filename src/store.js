@@ -6,15 +6,11 @@ class Store extends EventEmitter {
   timelines = new Map();
 
   get keys() {
-    return this.timelines.keys();
+    return Array.from(this.timelines.keys());
   }
 
   get values() {
-    return this.timelines.values();
-  }
-
-  get test() {
-    return this.timelines.get('Heading');
+    return Array.from(this.timelines.values());
   }
 
   active(id) {

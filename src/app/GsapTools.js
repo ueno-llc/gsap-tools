@@ -18,7 +18,6 @@ const PADDING = 20;
 export default class GsapTools extends PureComponent {
 
   static propTypes = {
-    listener: PropTypes.object,
     onClick: PropTypes.func,
     isVisible: PropTypes.bool,
   }
@@ -46,10 +45,10 @@ export default class GsapTools extends PureComponent {
   }
 
   componentDidMount() {
+    store.on('change', this.onStoreChange);
+
     setTimeout(() => {
       this.initUI();
-
-      console.log('------- store', store);
 
       this.master = new TimelineLite({
         onUpdate: () => {
@@ -67,7 +66,7 @@ export default class GsapTools extends PureComponent {
         },
       });
 
-      console.log('-store.active()', store.test);
+      console.log('-------store.active()', store.active());
 
       this.master.add(store.test);
       this.setState({ playIcon: false });
@@ -78,9 +77,21 @@ export default class GsapTools extends PureComponent {
     this.setup(props);
   }
 
+  componentWillUnmount() {
+    store.removeListener('change', this.onStoreChange);
+  }
+
   /*
    * Internal functions
    */
+
+  onStoreChange = () => {
+    console.log('change', store);
+    console.log('change', store.active());
+
+    // temp
+    this.forceUpdate();
+  }
 
   initUI = () => {
     if (!this.container) {
@@ -186,7 +197,7 @@ export default class GsapTools extends PureComponent {
    */
 
   handleList = ({ currentTarget }) => {
-    const active = this.props.listener.active(currentTarget.value);
+    const active = store.active(currentTarget.value);
 
     this.setState({
       active,
@@ -271,7 +282,7 @@ export default class GsapTools extends PureComponent {
   }
 
   render() {
-    const { listener, onClick } = this.props;
+    const { onClick } = this.props;
     const { isVisible, isLoop, playIcon, value } = this.state;
 
     console.log('');
