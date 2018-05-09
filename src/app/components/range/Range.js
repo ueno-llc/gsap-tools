@@ -20,6 +20,7 @@ export default class Range extends PureComponent {
     onDragEnd: PropTypes.func,
     onDragMarkerIn: PropTypes.func,
     onDragMarkerOut: PropTypes.func,
+    hasTimeline: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -266,11 +267,11 @@ export default class Range extends PureComponent {
   }
 
   render() {
-    const { onDragMarkerIn, onDragMarkerOut } = this.props;
+    const { onDragMarkerIn, onDragMarkerOut, hasTimeline } = this.props;
 
     return (
       <div className={s.range}>
-        {onDragMarkerIn && (
+        {(hasTimeline && onDragMarkerIn) && (
           <button
             ref={(c) => { this.rangeIn = c; }}
             className={s(s.range__markers, s.range__markersIn)}
@@ -283,7 +284,7 @@ export default class Range extends PureComponent {
           </button>
         )}
 
-        {onDragMarkerOut && (
+        {(hasTimeline && onDragMarkerOut) && (
           <button
             ref={(c) => { this.rangeOut = c; }}
             className={s(s.range__markers, s.range__markersOut)}

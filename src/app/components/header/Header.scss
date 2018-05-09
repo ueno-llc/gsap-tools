@@ -52,9 +52,6 @@
   &__scale {
     @include reset-input;
 
-    position: relative;
-    top: -1px;
-
     padding: 1px 5px 0;
     margin-left: 15px;
 
@@ -70,6 +67,8 @@
 
   &__cross {
     @include reset-button;
+
+    display: flex;
 
     padding: 15px;
     margin-left: 5px;

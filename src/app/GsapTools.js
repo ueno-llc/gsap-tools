@@ -115,10 +115,11 @@ export default class GsapTools extends PureComponent {
 
     if (onClick) {
       this.setState({ isVisible });
+
       return onClick();
     }
 
-    this.setState({ isVisible: !isVisible });
+    this.setState({ isVisible: !this.state.isVisible });
   }
 
   mouseEvent = (e) => {
@@ -322,6 +323,7 @@ export default class GsapTools extends PureComponent {
                 onDragEnd={this.handleRangeEnd}
                 onDragMarkerIn={this.handleMarkerInRange}
                 onDragMarkerOut={this.handleMarkerRange}
+                hasTimeline={store.keys.length > 0}
               />
             </section>
           </div>
