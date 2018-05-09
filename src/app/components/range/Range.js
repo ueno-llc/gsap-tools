@@ -65,8 +65,6 @@ export default class Range extends PureComponent {
     const { offsetWidth: rw } = this.range;
     const val = (value * (rw - MARKER_MEDIAN_WIDTH)) / 100;
 
-    console.log('-value', value);
-
     if (val < this.markerIn || val > (this.markerOut + 7.5)) {
       return;
     }

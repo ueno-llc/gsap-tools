@@ -28,20 +28,9 @@ export default class GsapTools extends PureComponent {
     this.state = {
       isVisible: props.isVisible,
       playIcon: true,
-      active: undefined,
       value: 0,
       isLoop: false,
     };
-  }
-
-  setup = (props) => {
-    const { isVisible } = props || this.props;
-
-    // Get the first timeline of the Map if one exist
-    this.setState({
-      active: store.test,
-      isVisible,
-    });
   }
 
   componentDidMount() {
@@ -66,15 +55,13 @@ export default class GsapTools extends PureComponent {
         },
       });
 
-      console.log('-------store.active()', store.active());
-
-      this.master.add(store.test);
+      this.master.add(store.active());
       this.setState({ playIcon: false });
     });
   }
 
   componentWillReceiveProps(props) {
-    this.setup(props);
+    this.setState({ isVisible: props.isVisible });
   }
 
   componentWillUnmount() {
@@ -86,10 +73,7 @@ export default class GsapTools extends PureComponent {
    */
 
   onStoreChange = () => {
-    console.log('change', store);
-    console.log('change', store.active());
-
-    // temp
+    // Re-render the UI box
     this.forceUpdate();
   }
 
@@ -200,17 +184,15 @@ export default class GsapTools extends PureComponent {
   handleList = ({ currentTarget }) => {
     const active = store.active(currentTarget.value);
 
-    this.setState({
-      active,
-      playIcon: false,
-    });
-
     this.master.clear();
     this.master.add(active);
     this.master.play();
     this.master.seek(0);
 
-    this.setState({ value: 0 });
+    this.setState({
+      playIcon: false,
+      value: 0,
+    });
   }
 
   handleTimeScale = ({ currentTarget }) => {
@@ -285,10 +267,6 @@ export default class GsapTools extends PureComponent {
   render() {
     const { onClick } = this.props;
     const { isVisible, isLoop, playIcon, value } = this.state;
-
-    console.log('');
-    console.log('');
-    console.log('store keys', store.keys);
 
     return (
       <div

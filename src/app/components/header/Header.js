@@ -28,8 +28,6 @@ export default class Header extends PureComponent {
       master,
     } = this.props;
 
-    console.log('-keys', keys);
-
     return (
       <header // eslint-disable-line
         className={s.header}
