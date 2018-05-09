@@ -37,6 +37,7 @@ module.exports = {
           'classnames-loader',
           'simple-universal-style-loader',
           'css-loader?modules=1&importLoaders=1',
+          'postcss-loader',
           'sass-loader',
         ],
         exclude: /node_modules.*\.css$/,

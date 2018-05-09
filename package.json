@@ -39,6 +39,8 @@
   "dependencies": {
     "gsap": "^1.20.4",
     "lodash": "^4.17.10",
+    "postcss-csso": "^3.0.0",
+    "postcss-loader": "^2.1.5",
     "prop-types": "^15.6.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
