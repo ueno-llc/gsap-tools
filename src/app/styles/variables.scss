@@ -1,18 +1,5 @@
-$gutter: 30px;
-$container-gutter-mobile: $gutter;
-$container-gutter-tablet: 50px;
-$container-gutter-desktop: 70px;
-
-// Page dimensions
-$page-width: 1290px;
-$page-limit: $page-width + ($container-gutter-desktop * 2);
-
 // Fonts
-$font-family: 'Roboto', sans-serif;
-$font-gsap: 'Akagi Pro', sans-serif;
-$font-size: 16px;
-$font-size-min: 13px;
-$line-height: 1.5;
+$font-family: 'Akagi Pro', sans-serif;
 
-// gsap-tools
+// Gsap-tools
 $gsap-header: 58px;

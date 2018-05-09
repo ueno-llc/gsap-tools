@@ -21,11 +21,11 @@
 
   &__select {
     @include reset-input;
-    @include responsive-font(14, 16);
 
     padding-right: 30px;
 
     color: #fff;
+    font-size: 16px;
 
     cursor: pointer;
 
@@ -39,11 +39,10 @@
   }
 
   &__duration {
-    @include responsive-font(12, 14);
-
     margin-left: auto;
 
     color: #fff;
+    font-size: 14px;
 
     span { // stylelint-disable-line
       opacity: 0.6;
@@ -52,7 +51,6 @@
 
   &__scale {
     @include reset-input;
-    @include responsive-font(10, 12);
 
     position: relative;
     top: -1px;
@@ -61,6 +59,7 @@
     margin-left: 15px;
 
     color: #000;
+    font-size: 12px;
     font-weight: 600;
 
     cursor: pointer;

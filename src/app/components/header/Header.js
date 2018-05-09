@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import round from './round';
+import round from 'utils/round';
 
 import s from './Header.scss';
 

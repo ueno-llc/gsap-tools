@@ -1,3 +1,13 @@
-node_modules/
-yarn.lock
+# Dist output folders
 dist/*
+
+# Dependency directory
+# https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git-
+node_modules
+
+# Yarn
+yarn.lock
+yarn-error.log
+
+# OSX Files
+.DS_Store

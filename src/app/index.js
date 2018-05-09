@@ -1,1 +1,3 @@
-export default from './App';
+import 'styles/fonts.scss';
+
+export default from './GsapTools';

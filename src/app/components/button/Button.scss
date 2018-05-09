@@ -2,7 +2,6 @@
 
 .button {
   @include reset-button;
-  @include responsive-font(12, 14);
 
   position: absolute;
   right: 0;
@@ -14,6 +13,7 @@
   height: $gsap-header;
 
   color: #fff;
+  font-weight: 14px;
   text-transform: uppercase;
 
   cursor: pointer;
