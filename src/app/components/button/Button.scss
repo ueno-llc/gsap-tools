@@ -1,0 +1,33 @@
+@import '~styles/config';
+
+.button {
+  @include reset-button;
+  @include responsive-font(12, 14);
+
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 9002;
+  opacity: 1;
+
+  width: $gsap-header;
+  height: $gsap-header;
+
+  color: #fff;
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  background: #000;
+  border-radius: 50%;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.12);
+
+  transition: transform 160ms, opacity 160ms;
+  transform: scale(1);
+
+  &.visible {
+    opacity: 0;
+
+    transform: scale(0.6);
+  }
+}

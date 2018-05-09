@@ -1,0 +1,64 @@
+@import '~styles/config';
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 30px;
+
+  &__rewind,
+  &__playPause,
+  &__loop {
+    @include reset-button;
+
+    display: flex;
+
+    cursor: pointer;
+  }
+
+  &__playPause {
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+  }
+
+  &__rewind {
+    margin-right: 40px;
+
+    path { // stylelint-disable-line
+      transition: fill 240ms;
+
+      fill: #cad5db;
+    }
+
+    &:hover {
+      path { // stylelint-disable-line
+        fill: darken(#cad5db, 20%);
+      }
+    }
+  }
+
+  &__loop {
+    margin-left: 40px;
+
+    .looped & {
+      path { // stylelint-disable-line
+        fill: #000;
+      }
+    }
+
+    path { // stylelint-disable-line
+      transition: fill 240ms;
+
+      fill: #cad5db;
+    }
+
+    &:hover {
+      path { // stylelint-disable-line
+        fill: darken(#cad5db, 20%);
+      }
+    }
+  }
+}

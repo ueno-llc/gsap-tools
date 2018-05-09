@@ -1,0 +1,33 @@
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+
+  @return $number;
+}
+
+@mixin responsive-font($min-size: $font-size-min, $size: $font-size, $limit: $page-limit) {
+  $unitless-min: strip-unit($min-size);
+  $unitless-size: strip-unit($size);
+  $baseline: strip-unit($min-mobile);
+
+  $font-multiplier: (($unitless-size - $unitless-min) / (strip-unit($limit) - $baseline));
+  $font-baseline: ($unitless-min - $font-multiplier * $baseline);
+
+  @if $unitless-min >= $unitless-size {
+    @warn 'Responsive font: min-size equal or greater than size';
+  }
+
+  font-size: #{$unitless-min}px;
+  font-size: calc(#{$unitless-min}px * #{var(--scale-font)});
+
+  @media (min-width: $min-mobile) {
+    font-size: #{$unitless-min}px;
+    font-size: calc((#{$font-multiplier} * #{100vw} + (#{$font-baseline}px)) * #{var(--scale-font)});
+  }
+
+  @media (min-width: $limit) {
+    font-size: #{$unitless-size}px;
+    font-size: calc(#{$unitless-size}px * #{var(--scale-font)});
+  }
+}

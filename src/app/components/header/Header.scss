@@ -1,0 +1,81 @@
+@import '~styles/config';
+
+.header {
+  display: flex;
+  align-items: center;
+
+  padding-left: 25px;
+  padding-right: 25px;
+
+  height: $gsap-header;
+
+  background-color: #000;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.14);
+
+  &__list {
+    display: flex;
+    align-items: center;
+  }
+
+  &__select {
+    @include reset-input;
+    @include responsive-font(14, 16);
+
+    padding-right: 30px;
+
+    color: #fff;
+
+    cursor: pointer;
+
+    background-color: transparent;
+  }
+
+  &__arrowDown {
+    margin-left: -20px;
+
+    pointer-events: none;
+  }
+
+  &__duration {
+    @include responsive-font(12, 14);
+
+    margin-left: auto;
+
+    color: #fff;
+
+    span { // stylelint-disable-line
+      opacity: 0.6;
+    }
+  }
+
+  &__scale {
+    @include reset-input;
+    @include responsive-font(10, 12);
+
+    position: relative;
+    top: -1px;
+
+    padding: 1px 5px 0;
+    margin-left: 15px;
+
+    color: #000;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    background-color: #fff;
+    border-radius: 2px;
+  }
+
+  &__cross {
+    @include reset-button;
+
+    padding: 15px;
+    margin-left: 5px;
+    margin-right: -15px;
+
+    cursor: pointer;
+  }
+}
