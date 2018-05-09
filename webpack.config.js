@@ -1,5 +1,4 @@
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'production',
@@ -35,7 +34,7 @@ module.exports = {
         test: /(\.scss|\.css)$/,
         use: [
           'classnames-loader',
-          MiniCssExtractPlugin.loader,
+          'simple-universal-style-loader',
           'css-loader?modules=1&importLoaders=1',
           'sass-loader',
         ],
@@ -43,12 +42,4 @@ module.exports = {
       }
     ]
   },
-
-  plugins: [
-    new MiniCssExtractPlugin({
-      path: path.resolve(__dirname, 'dist'),
-      filename: "gsap-tools.css",
-      chunkFilename: "[id].css"
-    })
-  ],
 };
