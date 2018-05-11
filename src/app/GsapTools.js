@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { TimelineLite } from 'gsap';
+import { TimelineMax } from 'gsap';
 
 import Header from 'components/header';
 import Controls from 'components/controls';
@@ -31,17 +31,17 @@ export default class GsapTools extends PureComponent {
     };
   }
 
+  inTime = 0
+
   componentDidMount() {
     store.on('change', this.onStoreChange);
 
     setTimeout(() => {
       this.initDraggable();
 
-      this.master = new TimelineLite({
+      this.master = new TimelineMax({
         onUpdate: () => {
-          this.setState({
-            value: this.master.progress() * 100,
-          });
+          this.setState({ value: this.master.progress() * 100 });
         },
         onComplete: () => {
           if (this.state.isLoop) {
@@ -49,6 +49,8 @@ export default class GsapTools extends PureComponent {
             this.setState({ playIcon: false });
           } else if (this.master.totalProgress() === 1) {
             this.master.pause();
+            this.setState({ playIcon: true });
+          } else if (this.outTime && this.master.totalProgress() === this.outTime) {
             this.setState({ playIcon: true });
           }
         },
@@ -178,14 +180,23 @@ export default class GsapTools extends PureComponent {
   }
 
   handlePlayPause = () => {
-    if (this.master.totalProgress() === 1) {
+    if (this.inTime || this.outTime) {
+      this.setState({ playIcon: false });
+      this.master.seek(this.inTime);
+
+      this.markersMaster = this.master.tweenFromTo(this.inTime, this.outTime, {
+        onComplete: () => {
+          if (this.state.isLoop) {
+            this.markersMaster.restart();
+          } else {
+            this.setState({ playIcon: true });
+          }
+        },
+      });
+    } else if (this.master.totalProgress() === 1) {
       this.setState({ playIcon: false });
       this.master.restart();
-
-      return;
-    }
-
-    if (this.master.paused()) {
+    } else if (this.master.paused()) {
       this.master.play();
       this.setState({ playIcon: false });
     } else {
@@ -218,11 +229,28 @@ export default class GsapTools extends PureComponent {
   }
 
   handleMarkerInRange = (value) => {
-    this.inTime = value;
+    this.master.pause();
+    this.setState({ playIcon: true });
+    this.inTime = this.master.totalDuration() * (value / 100);
+    this.master.seek(this.inTime);
   }
 
   handleMarkerRange = (value) => {
-    this.outTime = value;
+    this.master.pause();
+    this.setState({ playIcon: true });
+    this.outTime = this.master.totalDuration() * (value / 100);
+  }
+
+  handleMarkerReset = () => {
+    this.inTime = 0;
+    this.outTime = undefined;
+    this.master.seek(0);
+    this.master.pause();
+
+    this.setState({
+      value: 0,
+      playIcon: true,
+    });
   }
 
   render() {
@@ -258,6 +286,7 @@ export default class GsapTools extends PureComponent {
                 onDragEnd={this.handleRangeEnd}
                 onDragMarkerIn={this.handleMarkerInRange}
                 onDragMarkerOut={this.handleMarkerRange}
+                onDragMarkerReset={this.handleMarkerReset}
                 hasTimeline={store.keys.length > 0}
               />
             </section>

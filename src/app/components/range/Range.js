@@ -20,6 +20,7 @@ export default class Range extends PureComponent {
     onDragEnd: PropTypes.func,
     onDragMarkerIn: PropTypes.func,
     onDragMarkerOut: PropTypes.func,
+    onDragMarkerReset: PropTypes.func,
     hasTimeline: PropTypes.bool,
   }
 
@@ -221,7 +222,7 @@ export default class Range extends PureComponent {
   }
 
   handleMarkersDoubleClick = () => {
-    const { onDrag } = this.props;
+    const { onDrag, onDragMarkerReset } = this.props;
 
     if (!onDrag) {
       return;
@@ -249,6 +250,10 @@ export default class Range extends PureComponent {
         width: 0,
       },
     );
+
+    if (onDragMarkerReset) {
+      onDragMarkerReset();
+    }
   }
 
   getValueFromPosition = (pos) => {
