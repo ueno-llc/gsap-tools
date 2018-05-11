@@ -15,6 +15,10 @@ export default class Header extends PureComponent {
     handleTimeScale: PropTypes.func,
     handleUIClose: PropTypes.func,
     master: PropTypes.object,
+    timeScale: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]),
   }
 
   render() {
@@ -26,6 +30,7 @@ export default class Header extends PureComponent {
       handleTimeScale,
       handleUIClose,
       master,
+      timeScale,
     } = this.props;
 
     return (
@@ -66,7 +71,7 @@ export default class Header extends PureComponent {
         <select
           className={s.header__scale}
           onChange={handleTimeScale}
-          defaultValue={1}
+          value={Number(timeScale)}
         >
           <option value="0.2">0.2x</option>
           <option value="0.5">0.5x</option>

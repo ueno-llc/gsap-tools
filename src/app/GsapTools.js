@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { TimelineMax } from 'gsap';
+import { TimelineMax, TweenLite } from 'gsap';
 
 import Header from 'components/header';
 import Controls from 'components/controls';
@@ -9,9 +9,16 @@ import Button from 'components/button';
 
 import store from 'store';
 
-import 'styles/fonts.scss';
-
 import s from './GsapTools.scss';
+
+const LOCAL_STORAGE = {
+  // ACTIVE: '_gsapToolsActive', how to do localstorage on gsap object
+  LOOP: '_gsapToolsIsLoop',
+  TIME_SCALE: '_gsapToolsTimeScale',
+  IN_TIME: '_gsapToolsInTime',
+  OUT_TIME: '_gsapToolsOutTime',
+  BOX_POSITION: '_gsapToolsBoxPosition',
+};
 
 export default class GsapTools extends PureComponent {
 
@@ -28,6 +35,7 @@ export default class GsapTools extends PureComponent {
       playIcon: true,
       value: 0,
       isLoop: false,
+      timeScale: 1,
     };
   }
 
@@ -56,6 +64,7 @@ export default class GsapTools extends PureComponent {
         },
       });
 
+      this.syncWithLocalStorage();
       this.master.add(store.active());
       this.setState({ playIcon: false });
     });
@@ -84,6 +93,14 @@ export default class GsapTools extends PureComponent {
           trigger: this.button,
           onClick: () => {
             this.handleUIClose();
+          },
+          onDragEnd() {
+            const obj = {
+              x: this.endX,
+              y: this.endY,
+            };
+
+            localStorage.setItem(LOCAL_STORAGE.BOX_POSITION, JSON.stringify(obj));
           },
         },
       );
@@ -119,8 +136,39 @@ export default class GsapTools extends PureComponent {
           x: endValue => parseInt(endValue, 10),
           y: endValue => parseInt(endValue, 10),
         },
+        onDragEnd() {
+          const obj = {
+            x: this.endX,
+            y: this.endY,
+          };
+
+          localStorage.setItem(LOCAL_STORAGE.BOX_POSITION, JSON.stringify(obj));
+        },
       },
     );
+  }
+
+  syncWithLocalStorage = () => {
+    const timeScale = localStorage.getItem(LOCAL_STORAGE.TIME_SCALE) || 1;
+    const { x, y } = JSON.parse(localStorage.getItem(LOCAL_STORAGE.BOX_POSITION));
+
+    TweenLite.set(
+      this.container,
+      {
+        x,
+        y,
+      },
+    );
+
+    // this.inTime = localStorage.getItem(LOCAL_STORAGE.IN_TIME) || 0;
+    // this.outTime = localStorage.getItem(LOCAL_STORAGE.OUT_TIME) || this.master.totalDuration();
+
+    this.setState({
+      isLoop: localStorage.getItem(LOCAL_STORAGE.LOOP) === 'true',
+      timeScale,
+    });
+
+    this.master.timeScale(timeScale);
   }
 
   onStoreChange = () => {
@@ -160,6 +208,9 @@ export default class GsapTools extends PureComponent {
 
   handleTimeScale = ({ currentTarget }) => {
     this.master.timeScale(currentTarget.value);
+    this.setState({ timeScale: currentTarget.value });
+
+    localStorage.setItem(LOCAL_STORAGE.TIME_SCALE, currentTarget.value);
   }
 
   handleRewind = () => {
@@ -207,6 +258,8 @@ export default class GsapTools extends PureComponent {
 
   handleLoop = () => {
     this.setState({ isLoop: !this.state.isLoop });
+
+    localStorage.setItem(LOCAL_STORAGE.LOOP, !this.state.isLoop);
   }
 
   handleRange = (value) => {
@@ -233,12 +286,16 @@ export default class GsapTools extends PureComponent {
     this.setState({ playIcon: true });
     this.inTime = this.master.totalDuration() * (value / 100);
     this.master.seek(this.inTime);
+
+    localStorage.setItem(LOCAL_STORAGE.IN_TIME, this.inTime);
   }
 
   handleMarkerRange = (value) => {
     this.master.pause();
     this.setState({ playIcon: true });
     this.outTime = this.master.totalDuration() * (value / 100);
+
+    localStorage.setItem(LOCAL_STORAGE.OUT_TIME, this.outTime);
   }
 
   handleMarkerReset = () => {
@@ -259,12 +316,12 @@ export default class GsapTools extends PureComponent {
 
   render() {
     const { onClick } = this.props;
-    const { isVisible, isLoop, playIcon, value } = this.state;
+    const { isVisible, isLoop, playIcon, value, timeScale } = this.state;
 
     return (
       <div className={s.gsapTools} ref={(c) => { this.container = c; }}>
         <div className={s.gsapTools__container}>
-          <div className={s(s.gsapTools__box, { isVisible })}>
+          <div className={s(s.gsapTools__box, { isVisible, onClick })}>
             <Header
               headerRef={(c) => { this.header = c; }}
               keys={store.keys}
@@ -272,6 +329,7 @@ export default class GsapTools extends PureComponent {
               handleTimeScale={this.handleTimeScale}
               handleUIClose={this.handleUIClose}
               master={this.master}
+              timeScale={timeScale}
             />
 
             <section className={s.gsapTools__inner}>
