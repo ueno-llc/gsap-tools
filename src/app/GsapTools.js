@@ -35,6 +35,8 @@ export default class GsapTools extends PureComponent {
     store.on('change', this.onStoreChange);
 
     setTimeout(() => {
+      this.initDraggable();
+
       this.master = new TimelineLite({
         onUpdate: () => {
           this.setState({
@@ -59,30 +61,23 @@ export default class GsapTools extends PureComponent {
   componentDidUpdate(props, state) {
     const { isVisible } = this.state;
 
-    const config = {
-      type: 'x, y',
-      edgeResistance: 0.65,
-      bounds: document.body,
-      throwProps: true,
-    };
-
     if (isVisible) {
-      Draggable.create(
-        this.container,
-        {
-          ...config,
-          trigger: this.header,
-          snap: {
-            x: endValue => parseInt(endValue, 10),
-            y: endValue => parseInt(endValue, 10),
-          },
-        },
-      );
+      if (this.headerDraggable) {
+        this.headerDraggable[0].enable();
+      }
+
+      if (this.buttonDraggable) {
+        this.buttonDraggable[0].disable();
+      }
     } else if (state.isVisible !== isVisible) {
-      Draggable.create(
+      if (this.headerDraggable) {
+        this.headerDraggable[0].disable();
+      }
+
+      this.buttonDraggable = Draggable.create(
         this.container,
         {
-          ...config,
+          ...this.config,
           trigger: this.button,
           onClick: () => {
             this.handleUIClose();
@@ -103,6 +98,27 @@ export default class GsapTools extends PureComponent {
   /*
    * Internal functions
    */
+
+  initDraggable = () => {
+    this.config = {
+      type: 'x, y',
+      edgeResistance: 0.65,
+      bounds: document.body,
+      throwProps: true,
+    };
+
+    this.headerDraggable = Draggable.create(
+      this.container,
+      {
+        ...this.config,
+        trigger: this.header,
+        snap: {
+          x: endValue => parseInt(endValue, 10),
+          y: endValue => parseInt(endValue, 10),
+        },
+      },
+    );
+  }
 
   onStoreChange = () => {
     // Re-render the UI box
