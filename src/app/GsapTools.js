@@ -235,10 +235,10 @@ export default class GsapTools extends PureComponent {
       this.setState({ playIcon: false });
       this.master.seek(this.inTime);
 
-      this.markersMaster = this.master.tweenFromTo(this.inTime, this.outTime, {
+      this.inOutMaster = this.master.tweenFromTo(this.inTime, this.outTime, {
         onComplete: () => {
           if (this.state.isLoop) {
-            this.markersMaster.restart();
+            this.inOutMaster.restart();
           } else {
             this.setState({ playIcon: true });
           }
@@ -302,10 +302,10 @@ export default class GsapTools extends PureComponent {
     this.inTime = 0;
     this.outTime = undefined;
 
-    this.markersMaster.pause();
+    this.inOutMaster.pause();
     this.master.pause();
 
-    this.markersMaster.seek(0);
+    this.inOutMaster.seek(0);
     this.master.seek(0);
 
     this.setState({
