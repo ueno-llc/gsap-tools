@@ -244,8 +244,12 @@ export default class GsapTools extends PureComponent {
   handleMarkerReset = () => {
     this.inTime = 0;
     this.outTime = undefined;
-    this.master.seek(0);
+
+    this.markersMaster.pause();
     this.master.pause();
+
+    this.markersMaster.seek(0);
+    this.master.seek(0);
 
     this.setState({
       value: 0,

@@ -222,16 +222,14 @@ export default class Range extends PureComponent {
   }
 
   handleMarkersDoubleClick = () => {
-    const { onDrag, onDragMarkerReset } = this.props;
-
-    if (!onDrag) {
-      return;
-    }
+    const { onDragMarkerReset } = this.props;
 
     this.markerIn = 0;
     this.markerOut = this.range.offsetWidth;
 
-    onDrag(0);
+    if (onDragMarkerReset) {
+      onDragMarkerReset();
+    }
 
     TweenLite.set(
       this.rangeIn,
@@ -250,10 +248,6 @@ export default class Range extends PureComponent {
         width: 0,
       },
     );
-
-    if (onDragMarkerReset) {
-      onDragMarkerReset();
-    }
   }
 
   getValueFromPosition = (pos) => {
