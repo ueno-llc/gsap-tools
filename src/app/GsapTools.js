@@ -46,6 +46,7 @@ export default class GsapTools extends PureComponent {
         onComplete: () => {
           if (this.state.isLoop) {
             this.master.restart();
+            this.setState({ playIcon: false });
           } else if (this.master.totalProgress() === 1) {
             this.master.pause();
             this.setState({ playIcon: true });
@@ -202,14 +203,6 @@ export default class GsapTools extends PureComponent {
     this.master.progress(value / 100);
   }
 
-  handleMarkerInRange = (value) => {
-    this.inTime = value;
-  }
-
-  handleMarkerRange = (value) => {
-    this.outTime = value;
-  }
-
   handleRangeStart = () => {
     this.wasPlaying = !this.master.paused();
 
@@ -222,6 +215,14 @@ export default class GsapTools extends PureComponent {
     if (this.wasPlaying) {
       this.master.play();
     }
+  }
+
+  handleMarkerInRange = (value) => {
+    this.inTime = value;
+  }
+
+  handleMarkerRange = (value) => {
+    this.outTime = value;
   }
 
   render() {
