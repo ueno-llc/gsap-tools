@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { TimelineLite, TweenLite } from 'gsap';
+import { TimelineLite } from 'gsap';
 
 import Header from 'components/header';
 import Controls from 'components/controls';
@@ -12,8 +12,6 @@ import store from 'store';
 import 'styles/fonts.scss';
 
 import s from './GsapTools.scss';
-
-const PADDING = 20;
 
 export default class GsapTools extends PureComponent {
 
@@ -37,8 +35,6 @@ export default class GsapTools extends PureComponent {
     store.on('change', this.onStoreChange);
 
     setTimeout(() => {
-      this.initUI();
-
       this.master = new TimelineLite({
         onUpdate: () => {
           this.setState({
@@ -60,6 +56,42 @@ export default class GsapTools extends PureComponent {
     });
   }
 
+  componentDidUpdate(props, state) {
+    const { isVisible } = this.state;
+
+    const config = {
+      type: 'x, y',
+      edgeResistance: 0.65,
+      bounds: document.body,
+      throwProps: true,
+    };
+
+    if (isVisible) {
+      Draggable.create(
+        this.container,
+        {
+          ...config,
+          trigger: this.header,
+          snap: {
+            x: endValue => parseInt(endValue, 10),
+            y: endValue => parseInt(endValue, 10),
+          },
+        },
+      );
+    } else if (state.isVisible !== isVisible) {
+      Draggable.create(
+        this.container,
+        {
+          ...config,
+          trigger: this.button,
+          onClick: () => {
+            this.handleUIClose();
+          },
+        },
+      );
+    }
+  }
+
   componentWillReceiveProps(props) {
     this.setState({ isVisible: props.isVisible });
   }
@@ -77,23 +109,6 @@ export default class GsapTools extends PureComponent {
     this.forceUpdate();
   }
 
-  initUI = () => {
-    if (!this.container) {
-      return;
-    }
-
-    const { innerWidth, innerHeight } = window;
-    const { width: cw, height: ch } = this.container.getBoundingClientRect();
-
-    TweenLite.set(
-      this.container,
-      {
-        top: innerHeight - ch - PADDING,
-        left: innerWidth - cw - PADDING - 14,
-      },
-    );
-  }
-
   handleUIClose = () => {
     const { onClick, isVisible } = this.props;
 
@@ -104,77 +119,6 @@ export default class GsapTools extends PureComponent {
     }
 
     this.setState({ isVisible: !this.state.isVisible });
-  }
-
-  mouseEvent = (e) => {
-    const x = !e.touches ? e.clientX : e.touches[0].clientX;
-    const y = !e.touches ? e.clientY : e.touches[0].clientY;
-
-    return {
-      x,
-      y,
-    };
-  }
-
-  handleUIBoxPosition = (e) => {
-    const { width: hw, height: hh, top: ht, left: hl } = this.header.getBoundingClientRect();
-    const { width: cw, height: ch, top: ct, left: cl } = this.container.getBoundingClientRect();
-
-    const x = hw - (hw - (this.mouseEvent(e).x - hl));
-    const y = hh - (hh - (this.mouseEvent(e).y - ht));
-
-    const top = ch - (ch - (this.mouseEvent(e).y - ct));
-    const left = cw - (cw - (this.mouseEvent(e).x - cl));
-    const right = cw - left;
-    const bottom = ch - top;
-
-    this.drag = {
-      top,
-      right,
-      bottom,
-      left,
-      x,
-      y,
-    };
-  }
-
-  handleUIBox = (e) => {
-    this.handleUIBoxPosition(e);
-
-    document.addEventListener('mousemove', this.handleUIBoxDrag);
-    document.addEventListener('mouseup', this.handleUIBoxEnd);
-  }
-
-  handleUIBoxDrag = (e) => {
-    if (!this.container) {
-      return;
-    }
-
-    const pos = this.mouseEvent(e);
-    const { innerWidth, innerHeight } = window;
-    const { top, right, bottom, left, x, y } = this.drag;
-
-    if (
-      (pos.x - PADDING) < left ||
-      (pos.y - PADDING) < top ||
-      (pos.x + right) > (innerWidth - PADDING) ||
-      (pos.y + bottom) > (innerHeight - PADDING)
-    ) {
-      return;
-    }
-
-    TweenLite.set(
-      this.container,
-      {
-        top: pos.y - y,
-        left: pos.x - x,
-      },
-    );
-  }
-
-  handleUIBoxEnd = () => {
-    document.removeEventListener('mousemove', this.handleUIBoxDrag);
-    document.removeEventListener('mouseup', this.handleUIBoxEnd);
   }
 
   /*
@@ -269,15 +213,11 @@ export default class GsapTools extends PureComponent {
     const { isVisible, isLoop, playIcon, value } = this.state;
 
     return (
-      <div
-        className={s.gsapTools}
-        ref={(c) => { this.container = c; }}
-      >
+      <div className={s.gsapTools} ref={(c) => { this.container = c; }}>
         <div className={s.gsapTools__container}>
           <div className={s(s.gsapTools__box, { isVisible })}>
             <Header
               headerRef={(c) => { this.header = c; }}
-              onMouseDown={this.handleUIBox}
               keys={store.keys}
               handleList={this.handleList}
               handleTimeScale={this.handleTimeScale}
@@ -307,7 +247,7 @@ export default class GsapTools extends PureComponent {
           </div>
 
           <Button
-            handleUIClose={this.handleUIClose}
+            buttonRef={(c) => { this.button = c; }}
             visible={isVisible}
             onClick={onClick}
           />

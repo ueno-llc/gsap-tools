@@ -1,7 +1,9 @@
 @import '~styles/config';
 
 .button {
-  @include reset-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   position: absolute;
   right: 0;
@@ -26,6 +28,7 @@
   transform: scale(1);
 
   &.visible {
+    z-index: 9000;
     opacity: 0;
 
     transform: scale(0.6);

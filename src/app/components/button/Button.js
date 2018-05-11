@@ -6,25 +6,25 @@ import s from './Button.scss';
 export default class Button extends PureComponent {
 
   static propTypes = {
-    handleUIClose: PropTypes.func,
+    buttonRef: PropTypes.func,
     visible: PropTypes.bool,
     onClick: PropTypes.func,
   }
 
   render() {
-    const { handleUIClose, visible, onClick } = this.props;
+    const { buttonRef, visible, onClick } = this.props;
 
     if (onClick) {
       return null;
     }
 
     return (
-      <button
+      <div
         className={s(s.button, { visible })}
-        onClick={handleUIClose}
+        ref={buttonRef}
       >
         GSAP
-      </button>
+      </div>
     );
   }
 }
