@@ -282,6 +282,10 @@ export default class GsapTools extends PureComponent {
   }
 
   handleMarkerInRange = (value) => {
+    if (this.inOutMaster) {
+      this.inOutMaster.pause();
+    }
+
     this.master.pause();
     this.setState({ playIcon: true });
     this.inTime = this.master.totalDuration() * (value / 100);
@@ -291,6 +295,10 @@ export default class GsapTools extends PureComponent {
   }
 
   handleMarkerRange = (value) => {
+    if (this.inOutMaster) {
+      this.inOutMaster.pause();
+    }
+
     this.master.pause();
     this.setState({ playIcon: true });
     this.outTime = this.master.totalDuration() * (value / 100);
