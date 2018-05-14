@@ -39,28 +39,11 @@ export default class GsapTools extends PureComponent {
   }
 
   componentDidMount() {
+    // Add a store's listener for changes
     store.on('change', this.onStoreChange);
 
     setTimeout(() => {
-      // Init a master timeline to wrap the child timeline and be able
-      // to loop it, pause it, control it
-      this.master = new TimelineMax({
-        onUpdate: () => {
-          this.setState({ value: this.master.progress() * 100 });
-        },
-        onComplete: () => {
-          if (this.state.isLoop) {
-            this.master.restart();
-            this.setState({ playIcon: false });
-          } else if (this.master.totalProgress() === 1) {
-            this.master.pause();
-            this.setState({ playIcon: true });
-          } else if (this.outTime && this.master.totalProgress() === this.outTime) {
-            this.setState({ playIcon: true });
-          }
-        },
-      });
-
+      this.initMaster();
       this.initWithStorage();
       this.initDraggable();
     });
@@ -98,37 +81,19 @@ export default class GsapTools extends PureComponent {
   }
 
   componentWillUnmount() {
+    // Remove the store's listener when unmouting the component
     store.removeListener('change', this.onStoreChange);
   }
 
   /*
    * Internal functions
+   * They are mainly made to drag, toggle the ui
+   * and init the saved preferences
    */
 
-  initDraggable = () => {
-    this.config = {
-      type: 'x, y',
-      edgeResistance: 0.65,
-      bounds: document.body,
-      throwProps: true,
-      onDragEnd() {
-        const obj = { x: this.endX, y: this.endY };
-
-        localStorage.setItem(LOCAL_STORAGE.BOX_POSITION, JSON.stringify(obj));
-      },
-    };
-
-    this.headerDraggable = Draggable.create(
-      this.container,
-      {
-        ...this.config,
-        trigger: this.header,
-        snap: {
-          x: endValue => parseInt(endValue, 10),
-          y: endValue => parseInt(endValue, 10),
-        },
-      },
-    )[0];
+  onStoreChange = () => {
+    // Re-render the UI box
+    this.forceUpdate();
   }
 
   initWithStorage = () => {
@@ -158,9 +123,30 @@ export default class GsapTools extends PureComponent {
     this.master.add(store.active());
   }
 
-  onStoreChange = () => {
-    // Re-render the UI box
-    this.forceUpdate();
+  initDraggable = () => {
+    this.config = {
+      type: 'x, y',
+      edgeResistance: 0.65,
+      bounds: document.body,
+      throwProps: true,
+      onDragEnd() {
+        const obj = { x: this.endX, y: this.endY };
+
+        localStorage.setItem(LOCAL_STORAGE.BOX_POSITION, JSON.stringify(obj));
+      },
+    };
+
+    this.headerDraggable = Draggable.create(
+      this.container,
+      {
+        ...this.config,
+        trigger: this.header,
+        snap: {
+          x: endValue => parseInt(endValue, 10),
+          y: endValue => parseInt(endValue, 10),
+        },
+      },
+    )[0];
   }
 
   handleUIClose = () => {
@@ -179,7 +165,62 @@ export default class GsapTools extends PureComponent {
 
   /*
    * Functions to manage GSAP's timelines
+   * All the methods here are made to control timeline,
+   * play/pause, loop, restart, timescale, markers
    */
+
+  initMaster = () => {
+    // Init a master timeline to wrap the child timeline to control it
+    this.master = new TimelineMax({
+      onUpdate: () => {
+        this.setState({ value: this.master.progress() * 100 });
+      },
+      onComplete: () => {
+        if (this.state.isLoop) {
+          this.master.restart();
+          this.setState({ playIcon: false });
+        } else if (this.master.totalProgress() === 1) {
+          this.master.pause();
+          this.setState({ playIcon: true });
+        } else if (this.outTime && this.master.totalProgress() === this.outTime) {
+          this.setState({ playIcon: true });
+        }
+      },
+    });
+  }
+
+  initInOut = ({ inTime, outTime } = {}) => {
+    // If we inTime and outTime params are undefined, it means
+    // we just want to interact with the control over the tweenFromTo timeline…
+    if (!inTime && !outTime && this.inOutMaster) {
+      if (this.inOutMaster.paused()) {
+        this.inOutMaster.play();
+        this.setState({ playIcon: false });
+      } else if (this.inOutMasterComplete) {
+        this.inOutMaster.restart();
+        this.setState({ playIcon: false });
+      } else {
+        this.inOutMaster.pause();
+        this.setState({ playIcon: true });
+      }
+
+      return;
+    }
+
+    // …otherwise, it means we want to init a tweenFromTo timeline
+    this.inOutMaster = this.master.tweenFromTo(this.inTime, this.outTime, {
+      onStart: () => {
+        this.inOutMasterComplete = false;
+      },
+      onComplete: () => {
+        this.inOutMasterComplete = true;
+
+        if (this.state.isLoop) {
+          this.inOutMaster.restart();
+        }
+      },
+    }).pause();
+  }
 
   handleList = ({ currentTarget }) => {
     const active = store.active(currentTarget.value);
@@ -224,8 +265,7 @@ export default class GsapTools extends PureComponent {
 
   handlePlayPause = () => {
     if (this.inTime || this.outTime) {
-      this.handleInOutTimeline();
-      this.setState({ playIcon: false });
+      this.initInOut();
     } else if (this.master.totalProgress() === 1) {
       this.master.restart();
       this.setState({ playIcon: false });
@@ -265,20 +305,6 @@ export default class GsapTools extends PureComponent {
     }
   }
 
-  handleInOutTimeline = () => {
-    this.master.seek(this.inTime);
-
-    this.inOutMaster = this.master.tweenFromTo(this.inTime, this.outTime, {
-      onComplete: () => {
-        if (this.state.isLoop) {
-          this.inOutMaster.restart();
-        } else {
-          this.setState({ playIcon: true });
-        }
-      },
-    });
-  }
-
   handleMarkerInRange = (value) => {
     if (this.inOutMaster) {
       this.inOutMaster.pause();
@@ -288,6 +314,7 @@ export default class GsapTools extends PureComponent {
     this.setState({ playIcon: true });
     this.inTime = this.master.totalDuration() * (value / 100);
     this.master.seek(this.inTime);
+    this.initInOut({ inTime: this.inTime });
 
     localStorage.setItem(LOCAL_STORAGE.IN_TIME, this.inTime);
   }
@@ -300,6 +327,7 @@ export default class GsapTools extends PureComponent {
     this.master.pause();
     this.setState({ playIcon: true });
     this.outTime = this.master.totalDuration() * (value / 100);
+    this.initInOut({ outTime: this.outTime });
 
     localStorage.setItem(LOCAL_STORAGE.OUT_TIME, this.outTime);
   }
