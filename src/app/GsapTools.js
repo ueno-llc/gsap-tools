@@ -61,9 +61,7 @@ export default class GsapTools extends PureComponent {
         },
       });
 
-      this.syncWithLocalStorage();
-      this.master.add(store.active());
-      this.setState({ playIcon: false });
+      this.initWithStorage();
     });
   }
 
@@ -88,17 +86,7 @@ export default class GsapTools extends PureComponent {
         {
           ...this.config,
           trigger: this.button,
-          onClick: () => {
-            this.handleUIClose();
-          },
-          onDragEnd() {
-            const obj = {
-              x: this.endX,
-              y: this.endY,
-            };
-
-            localStorage.setItem(LOCAL_STORAGE.BOX_POSITION, JSON.stringify(obj));
-          },
+          onClick: this.handleUIClose,
         },
       );
     }
@@ -122,6 +110,11 @@ export default class GsapTools extends PureComponent {
       edgeResistance: 0.65,
       bounds: document.body,
       throwProps: true,
+      onDragEnd() {
+        const obj = { x: this.endX, y: this.endY };
+
+        localStorage.setItem(LOCAL_STORAGE.BOX_POSITION, JSON.stringify(obj));
+      },
     };
 
     this.headerDraggable = Draggable.create(
@@ -133,36 +126,35 @@ export default class GsapTools extends PureComponent {
           x: endValue => parseInt(endValue, 10),
           y: endValue => parseInt(endValue, 10),
         },
-        onDragEnd() {
-          const obj = {
-            x: this.endX,
-            y: this.endY,
-          };
-
-          localStorage.setItem(LOCAL_STORAGE.BOX_POSITION, JSON.stringify(obj));
-        },
       },
     );
   }
 
-  syncWithLocalStorage = () => {
-    const timeScale = localStorage.getItem(LOCAL_STORAGE.TIME_SCALE) || 1;
-    const { x, y } = JSON.parse(localStorage.getItem(LOCAL_STORAGE.BOX_POSITION));
+  initWithStorage = () => {
+    const timeScale = Number(localStorage.getItem(LOCAL_STORAGE.TIME_SCALE)) || 1;
+    const isLoop = localStorage.getItem(LOCAL_STORAGE.LOOP) === 'true';
+    const box = JSON.parse(localStorage.getItem(LOCAL_STORAGE.BOX_POSITION));
 
-    TweenLite.set(
-      this.container,
-      {
-        x,
-        y,
-      },
-    );
+    if (box) {
+      const { x, y } = box;
+
+      TweenLite.set(
+        this.container,
+        {
+          x,
+          y,
+        },
+      );
+    }
 
     this.setState({
-      isLoop: localStorage.getItem(LOCAL_STORAGE.LOOP) === 'true',
+      isLoop,
+      playIcon: false,
       timeScale,
     });
 
     this.master.timeScale(timeScale);
+    this.master.add(store.active());
   }
 
   onStoreChange = () => {
