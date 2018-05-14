@@ -232,21 +232,11 @@ export default class GsapTools extends PureComponent {
 
   handlePlayPause = () => {
     if (this.inTime || this.outTime) {
+      this.handleInOutTimeline();
       this.setState({ playIcon: false });
-      this.master.seek(this.inTime);
-
-      this.inOutMaster = this.master.tweenFromTo(this.inTime, this.outTime, {
-        onComplete: () => {
-          if (this.state.isLoop) {
-            this.inOutMaster.restart();
-          } else {
-            this.setState({ playIcon: true });
-          }
-        },
-      });
     } else if (this.master.totalProgress() === 1) {
-      this.setState({ playIcon: false });
       this.master.restart();
+      this.setState({ playIcon: false });
     } else if (this.master.paused()) {
       this.master.play();
       this.setState({ playIcon: false });
@@ -281,6 +271,20 @@ export default class GsapTools extends PureComponent {
     }
   }
 
+  handleInOutTimeline = () => {
+    this.master.seek(this.inTime);
+
+    this.inOutMaster = this.master.tweenFromTo(this.inTime, this.outTime, {
+      onComplete: () => {
+        if (this.state.isLoop) {
+          this.inOutMaster.restart();
+        } else {
+          this.setState({ playIcon: true });
+        }
+      },
+    });
+  }
+
   handleMarkerInRange = (value) => {
     if (this.inOutMaster) {
       this.inOutMaster.pause();
@@ -294,7 +298,7 @@ export default class GsapTools extends PureComponent {
     localStorage.setItem(LOCAL_STORAGE.IN_TIME, this.inTime);
   }
 
-  handleMarkerRange = (value) => {
+  handleMarkerOutRange = (value) => {
     if (this.inOutMaster) {
       this.inOutMaster.pause();
     }
@@ -355,7 +359,7 @@ export default class GsapTools extends PureComponent {
                 onDragStart={this.handleRangeStart}
                 onDragEnd={this.handleRangeEnd}
                 onDragMarkerIn={this.handleMarkerInRange}
-                onDragMarkerOut={this.handleMarkerRange}
+                onDragMarkerOut={this.handleMarkerOutRange}
                 onDragMarkerReset={this.handleMarkerReset}
                 hasTimeline={store.keys.length > 0}
               />

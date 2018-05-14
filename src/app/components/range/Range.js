@@ -51,10 +51,6 @@ export default class Range extends PureComponent {
   }
 
   get calculateFillWidth() {
-    if (!this.range) {
-      return;
-    }
-
     return (this.markerOut + MARKER_WIDTH) - this.markerIn;
   }
 
@@ -155,7 +151,7 @@ export default class Range extends PureComponent {
   handleMarkerInDrag = (e) => {
     const { onDrag, onDragMarkerIn } = this.props;
 
-    if (!onDrag) {
+    if (!onDrag || !this.rangeIn || !this.fill) {
       return;
     }
 
@@ -194,7 +190,7 @@ export default class Range extends PureComponent {
   handleMarkerDragOut = (e) => {
     const { onDrag, onDragMarkerOut } = this.props;
 
-    if (!onDrag) {
+    if (!onDrag || !this.rangeOut || !this.fill) {
       return;
     }
 
