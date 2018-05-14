@@ -33,6 +33,7 @@
     "sass-loader": "^7.0.1",
     "simple-universal-style-loader": "^0.14.4",
     "stylelint": "^9.2.0",
+    "url-loader": "^1.0.1",
     "webpack": "^4.8.1",
     "webpack-cli": "^2.1.3"
   },
