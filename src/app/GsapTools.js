@@ -12,11 +12,8 @@ import store from 'store';
 import s from './GsapTools.scss';
 
 const LOCAL_STORAGE = {
-  // ACTIVE: '_gsapToolsActive', how to do localstorage on gsap object
   LOOP: '_gsapToolsIsLoop',
   TIME_SCALE: '_gsapToolsTimeScale',
-  IN_TIME: '_gsapToolsInTime',
-  OUT_TIME: '_gsapToolsOutTime',
   BOX_POSITION: '_gsapToolsBoxPosition',
 };
 
@@ -159,9 +156,6 @@ export default class GsapTools extends PureComponent {
         y,
       },
     );
-
-    // this.inTime = localStorage.getItem(LOCAL_STORAGE.IN_TIME) || 0;
-    // this.outTime = localStorage.getItem(LOCAL_STORAGE.OUT_TIME) || this.master.totalDuration();
 
     this.setState({
       isLoop: localStorage.getItem(LOCAL_STORAGE.LOOP) === 'true',
