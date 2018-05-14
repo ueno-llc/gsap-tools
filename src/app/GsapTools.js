@@ -27,6 +27,8 @@ export default class GsapTools extends PureComponent {
   constructor(props) {
     super(props);
 
+    this.inTime = 0;
+
     this.state = {
       isVisible: props.isVisible,
       playIcon: true,
@@ -36,14 +38,12 @@ export default class GsapTools extends PureComponent {
     };
   }
 
-  inTime = 0
-
   componentDidMount() {
     store.on('change', this.onStoreChange);
 
     setTimeout(() => {
-      this.initDraggable();
-
+      // Init a master timeline to wrap the child timeline and be able
+      // to loop it, pause it, control it
       this.master = new TimelineMax({
         onUpdate: () => {
           this.setState({ value: this.master.progress() * 100 });
@@ -62,6 +62,7 @@ export default class GsapTools extends PureComponent {
       });
 
       this.initWithStorage();
+      this.initDraggable();
     });
   }
 
@@ -70,15 +71,15 @@ export default class GsapTools extends PureComponent {
 
     if (isVisible) {
       if (this.headerDraggable) {
-        this.headerDraggable[0].enable();
+        this.headerDraggable.enable();
       }
 
       if (this.buttonDraggable) {
-        this.buttonDraggable[0].disable();
+        this.buttonDraggable.disable();
       }
     } else if (state.isVisible !== isVisible) {
       if (this.headerDraggable) {
-        this.headerDraggable[0].disable();
+        this.headerDraggable.disable();
       }
 
       this.buttonDraggable = Draggable.create(
@@ -88,7 +89,7 @@ export default class GsapTools extends PureComponent {
           trigger: this.button,
           onClick: this.handleUIClose,
         },
-      );
+      )[0];
     }
   }
 
@@ -127,7 +128,7 @@ export default class GsapTools extends PureComponent {
           y: endValue => parseInt(endValue, 10),
         },
       },
-    );
+    )[0];
   }
 
   initWithStorage = () => {
@@ -165,12 +166,14 @@ export default class GsapTools extends PureComponent {
   handleUIClose = () => {
     const { onClick, isVisible } = this.props;
 
+    // If user choose his own way to display gsap-tools
     if (onClick) {
       this.setState({ isVisible });
 
       return onClick();
     }
 
+    // Build-in toggle for gsap-tools
     this.setState({ isVisible: !this.state.isVisible });
   }
 
@@ -183,20 +186,23 @@ export default class GsapTools extends PureComponent {
 
     this.master.clear();
     this.master.add(active);
-    this.master.play();
     this.master.seek(0);
 
     this.setState({
       playIcon: false,
       value: 0,
     });
+
+    this.master.play();
   }
 
   handleTimeScale = ({ currentTarget }) => {
-    this.master.timeScale(currentTarget.value);
-    this.setState({ timeScale: currentTarget.value });
+    const { value } = currentTarget;
 
-    localStorage.setItem(LOCAL_STORAGE.TIME_SCALE, currentTarget.value);
+    this.master.timeScale(value);
+    this.setState({ timeScale: value });
+
+    localStorage.setItem(LOCAL_STORAGE.TIME_SCALE, value);
   }
 
   handleRewind = () => {
@@ -233,9 +239,11 @@ export default class GsapTools extends PureComponent {
   }
 
   handleLoop = () => {
-    this.setState({ isLoop: !this.state.isLoop });
+    const { isLoop } = this.state;
 
-    localStorage.setItem(LOCAL_STORAGE.LOOP, !this.state.isLoop);
+    this.setState({ isLoop: !isLoop });
+
+    localStorage.setItem(LOCAL_STORAGE.LOOP, !isLoop);
   }
 
   handleRange = (value) => {
