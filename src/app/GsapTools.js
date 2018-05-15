@@ -9,6 +9,8 @@ import Button from 'components/button';
 
 import store from 'store';
 
+import 'styles/fonts.scss';
+
 import s from './GsapTools.scss';
 
 const LOCAL_STORAGE = {
