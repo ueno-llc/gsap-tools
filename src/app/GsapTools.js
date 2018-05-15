@@ -201,6 +201,7 @@ export default class GsapTools extends PureComponent {
         this.inOutMaster.restart();
         this.setState({ playIcon: false });
       } else if (this.inOutMaster.totalDuration() === this.outTime) {
+        this.inOutMaster.pause();
         this.setState({ playIcon: true });
       } else {
         this.inOutMaster.pause();
@@ -222,6 +223,8 @@ export default class GsapTools extends PureComponent {
 
         if (this.state.isLoop) {
           this.inOutMaster.restart();
+        } else {
+          this.setState({ playIcon: true });
         }
       },
     }).pause();
