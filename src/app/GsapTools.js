@@ -269,7 +269,16 @@ export default class GsapTools extends PureComponent {
   }
 
   handleRewind = () => {
-    if (this.master.paused()) {
+    if (this.inTime || this.outTime) {
+      if (this.inOutMaster.paused()) {
+        this.inOutMaster.restart();
+        this.inOutMaster.pause();
+        this.setState({ playIcon: true });
+      } else {
+        this.inOutMaster.restart();
+        this.setState({ playIcon: false });
+      }
+    } else if (this.master.paused()) {
       this.setState({ playIcon: true });
 
       if (this.inTime > 0) {
