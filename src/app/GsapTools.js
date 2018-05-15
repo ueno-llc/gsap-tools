@@ -358,11 +358,15 @@ export default class GsapTools extends PureComponent {
     this.inTime = 0;
     this.outTime = undefined;
 
-    this.inOutMaster.pause();
-    this.master.pause();
+    if (this.inOutMaster) {
+      this.inOutMaster.pause();
+      this.inOutMaster.seek(0);
+    }
 
-    this.inOutMaster.seek(0);
-    this.master.seek(0);
+    if (this.master) {
+      this.master.pause();
+      this.master.seek(0);
+    }
 
     this.setState({
       value: 0,
