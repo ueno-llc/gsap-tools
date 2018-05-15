@@ -40,7 +40,7 @@ export default class Range extends PureComponent {
     resizeObserver.observe(this.range);
 
     setTimeout(() => {
-      this.markerOut = this.range.offsetWidth;
+      this.markerOut = this.range.offsetWidth - MARKER_WIDTH;
     });
   }
 
