@@ -190,8 +190,9 @@ export default class GsapTools extends PureComponent {
   }
 
   initInOut = ({ inTime, outTime } = {}) => {
-    // If we inTime and outTime params are undefined, it means
-    // we just want to interact with the control over the tweenFromTo timeline…
+    // If inTime or outTime params are undefined, it means we just want to play/pause
+    // the timeline. We check the current status and toggle play/pause on both
+    // timeline and button…
     if (!inTime && !outTime && this.inOutMaster) {
       if (this.inOutMaster.paused()) {
         this.inOutMaster.play();
@@ -199,6 +200,8 @@ export default class GsapTools extends PureComponent {
       } else if (this.inOutMasterComplete) {
         this.inOutMaster.restart();
         this.setState({ playIcon: false });
+      } else if (this.inOutMaster.totalDuration() === this.outTime) {
+        this.setState({ playIcon: true });
       } else {
         this.inOutMaster.pause();
         this.setState({ playIcon: true });
@@ -207,7 +210,9 @@ export default class GsapTools extends PureComponent {
       return;
     }
 
-    // …otherwise, it means we want to init a tweenFromTo timeline
+    // … otherwise, if we have either inTime or outTime params defined, it means
+    // we change the tweenFromTo values, so we need to create a new instance of
+    // tweenFromTo from the master timeline.
     this.inOutMaster = this.master.tweenFromTo(this.inTime, this.outTime, {
       onStart: () => {
         this.inOutMasterComplete = false;
@@ -223,26 +228,35 @@ export default class GsapTools extends PureComponent {
   }
 
   handleList = ({ currentTarget }) => {
+    // We store the active GSAP timeline in the store
     const active = store.active(currentTarget.value);
 
+    // We clear the previous timeline before adding the new one
     this.master.clear();
+
+    // We add the new timeline, and seek to 0 to start it from beginning
     this.master.add(active);
     this.master.seek(0);
 
+    // We set the handle value at zero
     this.setState({
       playIcon: false,
       value: 0,
     });
 
+    // We finally play the new timeline
     this.master.play();
   }
 
   handleTimeScale = ({ currentTarget }) => {
     const { value } = currentTarget;
 
+    // We get the value from the select option, and we set it on the
+    // master timeline, and set a state to send it to Header component
     this.master.timeScale(value);
     this.setState({ timeScale: value });
 
+    // Set the timeScale value in localStorage to be pre-populated after reload
     localStorage.setItem(LOCAL_STORAGE.TIME_SCALE, value);
   }
 
