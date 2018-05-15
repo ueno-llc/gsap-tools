@@ -8,7 +8,8 @@ module.exports = {
   output: {
     libraryTarget: 'commonjs2',
     path: path.resolve(__dirname, 'dist'),
-    filename: 'gsap-tools.js'
+    filename: 'gsap-tools.js',
+    publicPath: 'dist/',
   },
 
   externals: {
@@ -41,7 +42,12 @@ module.exports = {
           'sass-loader',
         ],
         exclude: /node_modules.*\.css$/,
-      }
-    ]
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: 'file-loader',
+        exclude: [/node_modules/],
+      },
+    ],
   },
 };
