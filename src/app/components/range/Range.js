@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import ResizeObserver from 'resize-observer-polyfill';
 import clamp from 'lodash/clamp';
 import { TweenLite } from 'gsap';
 
@@ -33,28 +32,38 @@ export default class Range extends PureComponent {
   widthWithoutHandle = 0
 
   componentDidMount() {
-    this.handleUpdate();
-
-    const resizeObserver = new ResizeObserver(this.handleUpdate);
-
-    resizeObserver.observe(this.range);
-
     setTimeout(() => {
+      this.initRange();
       this.markerOut = this.range.offsetWidth - MARKER_WIDTH;
     });
   }
 
   componentWillReceiveProps(props) {
+    // If the value of the range has changd, let's update the position
+    // of the handle and the progress bar
     if (props.value !== this.props.value) {
-      this.updateFill(props);
+      this.handleProgress(props);
     }
   }
 
+  /**
+   * Internal functions
+   */
+
   get calculateFillWidth() {
+    // Return the width of the progress bar
     return (this.markerOut + MARKER_WIDTH) - this.markerIn;
   }
 
-  updateFill = ({ onDrag, value }) => {
+  initRange = () => {
+    if (!this.range) {
+      return;
+    }
+
+    this.widthWithoutHandle = this.range.offsetWidth - HANDLE_WIDTH;
+  }
+
+  handleProgress = ({ onDrag, value }) => {
     if (!onDrag || !this.fill || !this.handle) {
       return;
     }
@@ -79,15 +88,21 @@ export default class Range extends PureComponent {
     );
   }
 
-  handleUpdate = () => {
-    if (!this.range || !this.handle) {
-      return;
-    }
+  /*
+   * Functions to manage the range component
+   */
 
-    const { offsetWidth: rw } = this.range;
-    const { offsetWidth: hw } = this.handle;
+  getValueFromPosition = (pos) => {
+    const value = clamp(pos, 0, this.widthWithoutHandle) / (this.widthWithoutHandle || 1);
 
-    this.widthWithoutHandle = rw - hw;
+    return Math.round(value * 100);
+  }
+
+  position = (e) => {
+    const coordinate = !e.touches ? e.clientX : e.touches[0].clientX;
+    const { left } = this.range.getBoundingClientRect();
+
+    return coordinate - left - HANDLE_MEDIAN_WIDTH;
   }
 
   handleStart = (e) => {
@@ -162,7 +177,7 @@ export default class Range extends PureComponent {
     this.markerIn = left;
 
     if (left < (this.markerOut - MARKER_WIDTH)) {
-      onDrag(value);
+      onDrag(value + 0.5); // Align handle with marker
       onDragMarkerIn(value);
 
       TweenLite.set(
@@ -202,7 +217,7 @@ export default class Range extends PureComponent {
     this.markerOut = val;
 
     if (val >= (this.markerIn + MARKER_WIDTH)) {
-      onDrag(value);
+      onDrag(value + 0.5); // Align handle with marker
       onDragMarkerOut(value);
 
       TweenLite.set(
@@ -244,19 +259,6 @@ export default class Range extends PureComponent {
         width: 0,
       },
     );
-  }
-
-  getValueFromPosition = (pos) => {
-    const value = clamp(pos, 0, this.widthWithoutHandle) / (this.widthWithoutHandle || 1);
-
-    return Math.round(value * 100);
-  }
-
-  position = (e) => {
-    const coordinate = !e.touches ? e.clientX : e.touches[0].clientX;
-    const { left } = this.range.getBoundingClientRect();
-
-    return coordinate - left - HANDLE_MEDIAN_WIDTH;
   }
 
   render() {
