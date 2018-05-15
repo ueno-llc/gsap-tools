@@ -190,6 +190,11 @@ export default class GsapTools extends PureComponent {
   }
 
   initInOut = ({ inTime, outTime } = {}) => {
+    // If we reset the inTime to zero we don't want to play the timeline
+    if (inTime <= 0) {
+      return;
+    }
+
     // If inTime or outTime params are undefined, it means we just want to play/pause
     // the timeline. We check the current status and toggle play/pause on both
     // timeline and button…
