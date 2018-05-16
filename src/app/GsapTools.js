@@ -199,15 +199,12 @@ export default class GsapTools extends PureComponent {
     // the timeline. We check the current status and toggle play/pause on both
     // timeline and button…
     if (!inTime && !outTime && this.inOutMaster) {
-      if (this.inOutMaster.paused()) {
-        this.inOutMaster.play();
-        this.setState({ playIcon: false });
-      } else if (this.inOutMasterComplete) {
+      if (this.inOutMasterComplete) {
         this.inOutMaster.restart();
         this.setState({ playIcon: false });
-      } else if (this.inOutMaster.totalDuration() === this.outTime) {
-        this.inOutMaster.pause();
-        this.setState({ playIcon: true });
+      } else if (this.inOutMaster.paused()) {
+        this.inOutMaster.play();
+        this.setState({ playIcon: false });
       } else {
         this.inOutMaster.pause();
         this.setState({ playIcon: true });
@@ -270,6 +267,9 @@ export default class GsapTools extends PureComponent {
 
   handleRewind = () => {
     if (this.inTime || this.outTime) {
+      // If inTime or outTime are defined, we want to control the inOutTimeline
+      // In this case, we check either if the inOutMaster timeline is paused or not
+
       if (this.inOutMaster.paused()) {
         this.inOutMaster.restart();
         this.inOutMaster.pause();
@@ -279,16 +279,14 @@ export default class GsapTools extends PureComponent {
         this.setState({ playIcon: false });
       }
     } else if (this.master.paused()) {
-      this.setState({ playIcon: true });
+      // Otherwise, it means we want to control the default master timeline
+      // We do the same by checking if the master timeline is paused or not
 
-      if (this.inTime > 0) {
-        this.master.seek(this.inTime);
-        this.setState({ value: this.inTime });
-      } else {
-        this.master.seek(0);
-        this.setState({ value: 0 });
-      }
+      this.master.seek(0);
+      this.setState({ value: 0, playIcon: true });
     } else {
+      // And if the master is not paused, we just restart it
+
       this.master.restart();
       this.setState({ playIcon: false });
     }
@@ -323,6 +321,8 @@ export default class GsapTools extends PureComponent {
   }
 
   handleRangeStart = () => {
+    // Let's keep in memory if the master timeline was paused or not
+    // when we start dragging the handle
     this.wasPlaying = !this.master.paused();
 
     if (this.wasPlaying) {
@@ -331,6 +331,8 @@ export default class GsapTools extends PureComponent {
   }
 
   handleRangeEnd = () => {
+    // After we release the handle, if the timeline was playing when
+    // we started dragging, we will just resume it
     if (this.wasPlaying) {
       this.master.play();
     }
