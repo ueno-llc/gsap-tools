@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { TimelineMax, TweenLite } from 'gsap';
+import { TimelineMax, TweenLite } from 'utils/gsap';
 
 import Header from 'components/header';
 import Controls from 'components/controls';
@@ -14,7 +14,6 @@ import s from './GsapTools.scss';
 const LOCAL_STORAGE = {
   LOOP: '_gsapToolsIsLoop',
   TIME_SCALE: '_gsapToolsTimeScale',
-  BOX_POSITION: '_gsapToolsBoxPosition',
   IN_PERCENT: '_gsapToolsInPercent',
   OUT_PERCENT: '_gsapToolsOutPercent',
 };
@@ -32,7 +31,7 @@ export default class GsapTools extends PureComponent {
     this.inTime = 0;
 
     this.state = {
-      isVisible: props.isVisible,
+      isVisible: props.isVisible || false,
       playIcon: true,
       value: 0,
       isLoop: false,
@@ -47,35 +46,7 @@ export default class GsapTools extends PureComponent {
     setTimeout(() => {
       this.initMaster();
       this.initWithStorage();
-      // this.initDraggable();
     });
-  }
-
-  componentDidUpdate(props, state) {
-    const { isVisible } = this.state;
-
-    if (isVisible) {
-      if (this.headerDraggable) {
-        this.headerDraggable.enable();
-      }
-
-      if (this.buttonDraggable) {
-        this.buttonDraggable.disable();
-      }
-    } else if (state.isVisible !== isVisible) {
-      if (this.headerDraggable) {
-        this.headerDraggable.disable();
-      }
-
-      this.buttonDraggable = Draggable.create(
-        this.container,
-        {
-          ...this.config,
-          trigger: this.button,
-          onClick: this.handleUIClose,
-        },
-      )[0];
-    }
   }
 
   componentWillReceiveProps(props) {
@@ -101,19 +72,6 @@ export default class GsapTools extends PureComponent {
   initWithStorage = () => {
     const timeScale = Number(localStorage.getItem(LOCAL_STORAGE.TIME_SCALE)) || 1;
     const isLoop = localStorage.getItem(LOCAL_STORAGE.LOOP) === 'true';
-    const box = JSON.parse(localStorage.getItem(LOCAL_STORAGE.BOX_POSITION));
-
-    if (box) {
-      const { x, y } = box;
-
-      TweenLite.set(
-        this.container,
-        {
-          x,
-          y,
-        },
-      );
-    }
 
     this.setState({
       isLoop,
@@ -132,32 +90,6 @@ export default class GsapTools extends PureComponent {
       this.outTime = this.master.totalDuration() * (this.outPercent / 100);
       this.initInOut({ inTime: this.inTime, outTime: this.outTime });
     }
-  }
-
-  initDraggable = () => {
-    this.config = {
-      type: 'x, y',
-      edgeResistance: 0.65,
-      bounds: document.body,
-      throwProps: true,
-      onDragEnd() {
-        const obj = { x: this.endX, y: this.endY };
-
-        localStorage.setItem(LOCAL_STORAGE.BOX_POSITION, JSON.stringify(obj));
-      },
-    };
-
-    this.headerDraggable = Draggable.create(
-      this.container,
-      {
-        ...this.config,
-        trigger: this.header,
-        snap: {
-          x: endValue => parseInt(endValue, 10),
-          y: endValue => parseInt(endValue, 10),
-        },
-      },
-    )[0];
   }
 
   handleUIClose = () => {
@@ -447,6 +379,7 @@ export default class GsapTools extends PureComponent {
 
           <Button
             buttonRef={(c) => { this.button = c; }}
+            handleUIClose={this.handleUIClose}
             visible={isVisible}
             onClick={onClick}
           />

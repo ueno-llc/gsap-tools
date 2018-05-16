@@ -12,19 +12,20 @@ export default class Button extends PureComponent {
   }
 
   render() {
-    const { buttonRef, visible, onClick } = this.props;
+    const { buttonRef, visible, onClick, handleUIClose } = this.props;
 
     if (onClick) {
       return null;
     }
 
     return (
-      <div
+      <button
         className={s(s.button, { visible })}
+        onClick={handleUIClose}
         ref={buttonRef}
       >
         GSAP
-      </div>
+      </button>
     );
   }
 }
