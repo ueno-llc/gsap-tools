@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import clamp from 'lodash/clamp';
-import { TweenLite } from 'utils/gsap';
+import { TweenLite } from 'gsap';
 
 import s from './Range.scss';
 
@@ -14,6 +14,8 @@ export default class Range extends PureComponent {
 
   static propTypes = {
     value: PropTypes.number,
+    inPercent: PropTypes.number,
+    outPercent: PropTypes.number,
     onDrag: PropTypes.func,
     onDragStart: PropTypes.func,
     onDragEnd: PropTypes.func,
@@ -34,13 +36,13 @@ export default class Range extends PureComponent {
   componentDidMount() {
     setTimeout(() => {
       this.initRange();
-      this.markerOut = this.range.offsetWidth - MARKER_WIDTH;
-    });
+      this.initMarkers();
+    }, 300);
   }
 
   componentWillReceiveProps(props) {
-    // If the value of the range has changd, let's update the position
-    // of the handle and the progress bar
+    // If the value of the range changes, let's update the
+    // position of the handle and the progress bar
     if (props.value !== this.props.value) {
       this.handleProgress(props);
     }
@@ -60,7 +62,57 @@ export default class Range extends PureComponent {
       return;
     }
 
-    this.widthWithoutHandle = this.range.offsetWidth - HANDLE_WIDTH;
+    const { offsetWidth: rw } = this.range;
+
+    this.widthWithoutHandle = rw - HANDLE_WIDTH;
+    this.markerOut = rw - MARKER_WIDTH;
+  }
+
+  initMarkers = () => {
+    const { inPercent, outPercent } = this.props;
+
+    // There is nothing to init if markers are
+    // to theirs initials values
+    if (
+      (inPercent <= 0 && outPercent >= 100) ||
+      !this.rangeIn || !this.rangeOut
+    ) {
+      return;
+    }
+
+    const { offsetWidth: rw } = this.range;
+    const w = rw - MARKER_WIDTH;
+    const val = (inPercent * w) / 100;
+
+    this.markerIn = inPercent ? val : w;
+    this.markerOut = outPercent ? (outPercent * w) / 100 : w;
+
+    const left = this.markerIn;
+    const right = (rw - MARKER_WIDTH) - this.markerOut;
+    const width = this.markerIn > 0 ? val - this.markerIn : val;
+
+    TweenLite.set(
+      this.fill,
+      {
+        left,
+        width,
+      },
+    );
+
+    TweenLite.set(
+      this.handle,
+      { left: val > MARKER_WIDTH ? val : MARKER_WIDTH },
+    );
+
+    TweenLite.set(
+      this.rangeIn,
+      { left },
+    );
+
+    TweenLite.set(
+      this.rangeOut,
+      { right },
+    );
   }
 
   handleProgress = ({ onDrag, value }) => {

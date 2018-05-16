@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { TimelineMax, TweenLite } from 'utils/gsap';
+import { TimelineMax, TweenLite } from 'gsap';
 
 import Header from 'components/header';
 import Controls from 'components/controls';
