@@ -1,7 +1,7 @@
 if (typeof window === 'undefined') {
   module.exports = {};
 } else if (typeof window.TweenLite === 'undefined') {
-  // possibly import gsap here ?
+  // possibly import gsap here?
   console.error('Missing TweenLite');
 } else {
   module.exports = {

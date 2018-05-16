@@ -15,6 +15,8 @@ const LOCAL_STORAGE = {
   LOOP: '_gsapToolsIsLoop',
   TIME_SCALE: '_gsapToolsTimeScale',
   BOX_POSITION: '_gsapToolsBoxPosition',
+  IN_PERCENT: '_gsapToolsInPercent',
+  OUT_PERCENT: '_gsapToolsOutPercent',
 };
 
 export default class GsapTools extends PureComponent {
@@ -121,6 +123,15 @@ export default class GsapTools extends PureComponent {
 
     this.master.timeScale(timeScale);
     this.master.add(store.active());
+
+    this.inPercent = Number(localStorage.getItem(LOCAL_STORAGE.IN_PERCENT)) || 0;
+    this.outPercent = Number(localStorage.getItem(LOCAL_STORAGE.OUT_PERCENT)) || 100;
+
+    if (this.inPercent > 0 || this.outPercent < 100) {
+      this.inTime = this.master.totalDuration() * (this.inPercent / 100);
+      this.outTime = this.master.totalDuration() * (this.outPercent / 100);
+      this.initInOut({ inTime: this.inTime, outTime: this.outTime });
+    }
   }
 
   initDraggable = () => {
@@ -346,10 +357,11 @@ export default class GsapTools extends PureComponent {
     this.master.pause();
     this.setState({ playIcon: true });
     this.inTime = this.master.totalDuration() * (value / 100);
+    this.inPercent = value;
     this.master.seek(this.inTime);
     this.initInOut({ inTime: this.inTime });
 
-    localStorage.setItem(LOCAL_STORAGE.IN_TIME, this.inTime);
+    localStorage.setItem(LOCAL_STORAGE.IN_PERCENT, this.inPercent);
   }
 
   handleMarkerOutRange = (value) => {
@@ -360,14 +372,17 @@ export default class GsapTools extends PureComponent {
     this.master.pause();
     this.setState({ playIcon: true });
     this.outTime = this.master.totalDuration() * (value / 100);
+    this.outPercent = value;
     this.initInOut({ outTime: this.outTime });
 
-    localStorage.setItem(LOCAL_STORAGE.OUT_TIME, this.outTime);
+    localStorage.setItem(LOCAL_STORAGE.OUT_PERCENT, this.outPercent);
   }
 
   handleMarkerReset = () => {
     this.inTime = 0;
+    this.inPercent = 0;
     this.outTime = undefined;
+    this.outPercent = 100;
 
     if (this.inOutMaster) {
       this.inOutMaster.pause();
@@ -383,6 +398,9 @@ export default class GsapTools extends PureComponent {
       value: 0,
       playIcon: true,
     });
+
+    localStorage.removeItem(LOCAL_STORAGE.IN_PERCENT);
+    localStorage.removeItem(LOCAL_STORAGE.OUT_PERCENT);
   }
 
   render() {
@@ -414,6 +432,8 @@ export default class GsapTools extends PureComponent {
 
               <Range
                 value={value}
+                inPercent={this.inPercent}
+                outPercent={this.outPercent}
                 onDrag={this.handleRange}
                 onDragStart={this.handleRangeStart}
                 onDragEnd={this.handleRangeEnd}
