@@ -14,6 +14,8 @@ export default class Range extends PureComponent {
 
   static propTypes = {
     value: PropTypes.number,
+    inPercent: PropTypes.number,
+    outPercent: PropTypes.number,
     onDrag: PropTypes.func,
     onDragStart: PropTypes.func,
     onDragEnd: PropTypes.func,
@@ -32,14 +34,20 @@ export default class Range extends PureComponent {
   widthWithoutHandle = 0
 
   componentDidMount() {
-    setTimeout(() => {
-      this.initRange();
-      this.markerOut = this.range.offsetWidth - MARKER_WIDTH;
-    });
+    this.initRange();
   }
 
   componentWillReceiveProps(props) {
-    // If the value of the range has changd, let's update the position
+    // Init the range component if we have inPercent or outPercent
+    // from localstorage and change positions according to values
+    if (
+      props.inPercent !== this.props.inPercent ||
+      props.outPercent !== this.props.outPercent
+    ) {
+      this.initRange(props);
+    }
+
+    // If the value of the range changes, let's update the position
     // of the handle and the progress bar
     if (props.value !== this.props.value) {
       this.handleProgress(props);
@@ -55,18 +63,67 @@ export default class Range extends PureComponent {
     return (this.markerOut + MARKER_WIDTH) - this.markerIn;
   }
 
-  initRange = () => {
+  initRange = (props) => {
     if (!this.range) {
       return;
     }
 
-    this.widthWithoutHandle = this.range.offsetWidth - HANDLE_WIDTH;
-  }
+    const { inPercent, outPercent } = props || this.props;
+    const { offsetWidth: rw } = this.range;
+    const width = rw - MARKER_WIDTH;
 
-  handleProgress = ({ onDrag, value }) => {
-    if (!onDrag || !this.fill || !this.handle) {
+    this.widthWithoutHandle = rw - HANDLE_WIDTH;
+    this.markerOut = width;
+
+    console.log('-before', );
+
+    if (
+      (!inPercent || inPercent <= 0) &&
+      (!outPercent || outPercent >= 100)
+    ) {
       return;
     }
+
+    console.log('-after', inPercent, outPercent);
+
+    this.markerIn = inPercent ? ((inPercent * width) / 100) : width;
+    this.markerOut = outPercent ? ((outPercent * width) / 100) : width;
+
+    const val = (inPercent * width) / 100;
+    const fillWidth = this.markerIn > 0 ? val - this.markerIn : val;
+    const left = val;
+    const right = (rw - MARKER_WIDTH) - this.markerOut;
+
+    TweenLite.set(
+      this.fill,
+      {
+        left: this.markerIn,
+        width: fillWidth,
+      },
+    );
+
+    TweenLite.set(
+      this.handle,
+      { left: val > MARKER_MEDIAN_WIDTH ? val : MARKER_MEDIAN_WIDTH },
+    );
+
+    TweenLite.set(
+      this.rangeIn,
+      { left: this.markerIn },
+    );
+
+    TweenLite.set(
+      this.rangeOut,
+      { right },
+    );
+  }
+
+  handleProgress = ({ onDrag, value, isDraggingMarkers }) => {
+    if (!onDrag || !this.fill || !this.handle || isDraggingMarkers) {
+      return;
+    }
+
+    console.log('-handleProgress');
 
     const { offsetWidth: rw } = this.range;
     const val = (value * (rw - MARKER_MEDIAN_WIDTH)) / 100;
