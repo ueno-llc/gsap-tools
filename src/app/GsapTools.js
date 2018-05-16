@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { TimelineMax, TweenLite } from 'gsap';
+import { TimelineMax, TweenLite } from 'utils/gsap';
 
 import Header from 'components/header';
 import Controls from 'components/controls';
@@ -47,7 +47,7 @@ export default class GsapTools extends PureComponent {
     setTimeout(() => {
       this.initMaster();
       this.initWithStorage();
-      this.initDraggable();
+      // this.initDraggable();
     });
   }
 

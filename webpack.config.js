@@ -8,7 +8,7 @@ module.exports = {
   output: {
     libraryTarget: 'commonjs2',
     path: path.resolve(__dirname, 'dist'),
-    filename: 'gsap-tools.js'
+    filename: 'gsap-tools.js',
   },
 
   externals: {
