@@ -46,7 +46,7 @@ export default class GsapTools extends PureComponent {
     setTimeout(() => {
       this.initMaster();
       this.initWithStorage();
-    });
+    }, 300);
   }
 
   componentWillReceiveProps(props) {
@@ -85,11 +85,11 @@ export default class GsapTools extends PureComponent {
     this.inPercent = Number(localStorage.getItem(LOCAL_STORAGE.IN_PERCENT)) || 0;
     this.outPercent = Number(localStorage.getItem(LOCAL_STORAGE.OUT_PERCENT)) || 100;
 
-    if (this.inPercent > 0 || this.outPercent < 100) {
-      this.inTime = this.master.totalDuration() * (this.inPercent / 100);
-      this.outTime = this.master.totalDuration() * (this.outPercent / 100);
-      this.initInOut({ inTime: this.inTime, outTime: this.outTime });
-    }
+    // if (this.inPercent > 0 || this.outPercent < 100) {
+    //   this.inTime = this.master.totalDuration() * (this.inPercent / 100);
+    //   this.outTime = this.master.totalDuration() * (this.outPercent / 100);
+    //   this.initInOut({ inTime: this.inTime, outTime: this.outTime });
+    // }
   }
 
   handleUIClose = () => {
@@ -364,8 +364,8 @@ export default class GsapTools extends PureComponent {
 
               <Range
                 value={value}
-                inPercent={this.inPercent}
-                outPercent={this.outPercent}
+                // inPercent={this.inPercent}
+                // outPercent={this.outPercent}
                 onDrag={this.handleRange}
                 onDragStart={this.handleRangeStart}
                 onDragEnd={this.handleRangeEnd}
