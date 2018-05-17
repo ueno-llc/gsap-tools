@@ -23,6 +23,7 @@ export default class GsapTools extends PureComponent {
   static propTypes = {
     onClick: PropTypes.func,
     isVisible: PropTypes.bool,
+    isFixed: PropTypes.bool,
   }
 
   constructor(props) {
@@ -31,7 +32,7 @@ export default class GsapTools extends PureComponent {
     this.inTime = 0;
 
     this.state = {
-      isVisible: props.isVisible || false,
+      isVisible: props.isVisible,
       playIcon: true,
       value: 0,
       isLoop: false,
@@ -336,11 +337,11 @@ export default class GsapTools extends PureComponent {
   }
 
   render() {
-    const { onClick } = this.props;
+    const { onClick, isFixed } = this.props;
     const { isVisible, isLoop, playIcon, value, timeScale } = this.state;
 
     return (
-      <div className={s.gsapTools} ref={(c) => { this.container = c; }}>
+      <div className={s('gsapTools', { [s.gsapToolsFixed]: isFixed })} ref={(c) => { this.container = c; }}>
         <div className={s.gsapTools__container}>
           <div className={s(s.gsapTools__box, { isVisible, onClick })}>
             <Header

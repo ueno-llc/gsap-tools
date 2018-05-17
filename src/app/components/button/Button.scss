@@ -10,17 +10,17 @@
   position: absolute;
   right: 0;
   bottom: 0;
-  z-index: 9002;
-  opacity: 1;
 
   width: $gsap-header;
   height: $gsap-header;
 
   color: #fff;
   font-size: 14px;
+
   text-transform: uppercase;
 
   cursor: pointer;
+  pointer-events: auto;
 
   background: #000;
   border-radius: 50%;
@@ -30,8 +30,9 @@
   transform: scale(1);
 
   &.visible {
-    z-index: 9000;
     opacity: 0;
+
+    pointer-events: none;
 
     transform: scale(0.6);
   }
