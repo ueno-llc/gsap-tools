@@ -195,13 +195,6 @@ export default class GsapTools extends PureComponent {
     // We get the timeline from the store
     const active = store.active(currentTarget.value);
 
-    // We set the handle value at zero
-    this.setState({
-      active,
-      playIcon: false,
-      value: 0,
-    });
-
     // Reset any markers if exists
     this.range.clear();
 
@@ -212,6 +205,13 @@ export default class GsapTools extends PureComponent {
     // We add the new timeline, and restart
     this.master.add(active);
     this.master.restart();
+
+    // We set the handle value at zero
+    this.setState({
+      active,
+      playIcon: false,
+      value: 0,
+    });
   }
 
   handleTimeScale = ({ currentTarget }) => {
