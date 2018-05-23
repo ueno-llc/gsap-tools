@@ -195,7 +195,7 @@ export default class GsapTools extends PureComponent {
     // We store the active GSAP timeline in the store
     const active = store.active(currentTarget.value);
 
-    // Reset any loop if exists
+    // Reset any markers if exists
     this.range.clear();
 
     // We finish the previous timeline and clear it before adding the new one
