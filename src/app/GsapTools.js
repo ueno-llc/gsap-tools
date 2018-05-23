@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { TimelineMax, TweenLite } from 'utils/gsap';
+import { TimelineMax } from 'utils/gsap';
 
 import Header from 'components/header';
 import Controls from 'components/controls';
@@ -23,6 +23,7 @@ export default class GsapTools extends PureComponent {
   static propTypes = {
     onClick: PropTypes.func,
     isVisible: PropTypes.bool,
+    isFixed: PropTypes.bool,
   }
 
   constructor(props) {
@@ -31,7 +32,8 @@ export default class GsapTools extends PureComponent {
     this.inTime = 0;
 
     this.state = {
-      isVisible: props.isVisible || false,
+      active: undefined,
+      isVisible: props.isVisible,
       playIcon: true,
       value: 0,
       isLoop: false,
@@ -43,10 +45,11 @@ export default class GsapTools extends PureComponent {
     // Add a store's listener for changes
     store.on('change', this.onStoreChange);
 
-    setTimeout(() => {
-      this.initMaster();
-      this.initWithStorage();
-    });
+    // Init the master timeline which will contain timelines to debug
+    this.initMaster();
+
+    // Init controls from localstorage values
+    this.initControls();
   }
 
   componentWillReceiveProps(props) {
@@ -65,11 +68,25 @@ export default class GsapTools extends PureComponent {
    */
 
   onStoreChange = () => {
+    // Register new timeline
+    this.handleStoreChange();
+
     // Re-render the UI box
     this.forceUpdate();
   }
 
-  initWithStorage = () => {
+  handleStoreChange = () => {
+    const active = store.active();
+
+    if (!active) {
+      return;
+    }
+
+    this.setState({ active });
+    this.master.add(active);
+  }
+
+  initControls = () => {
     const timeScale = Number(localStorage.getItem(LOCAL_STORAGE.TIME_SCALE)) || 1;
     const isLoop = localStorage.getItem(LOCAL_STORAGE.LOOP) === 'true';
 
@@ -80,16 +97,15 @@ export default class GsapTools extends PureComponent {
     });
 
     this.master.timeScale(timeScale);
-    this.master.add(store.active());
 
     this.inPercent = Number(localStorage.getItem(LOCAL_STORAGE.IN_PERCENT)) || 0;
     this.outPercent = Number(localStorage.getItem(LOCAL_STORAGE.OUT_PERCENT)) || 100;
 
-    if (this.inPercent > 0 || this.outPercent < 100) {
-      this.inTime = this.master.totalDuration() * (this.inPercent / 100);
-      this.outTime = this.master.totalDuration() * (this.outPercent / 100);
-      this.initInOut({ inTime: this.inTime, outTime: this.outTime });
-    }
+    // if (this.inPercent > 0 || this.outPercent < 100) {
+    //   this.inTime = this.master.totalDuration() * (this.inPercent / 100);
+    //   this.outTime = this.master.totalDuration() * (this.outPercent / 100);
+    //   this.initInOut({ inTime: this.inTime, outTime: this.outTime });
+    // }
   }
 
   handleUIClose = () => {
@@ -179,7 +195,11 @@ export default class GsapTools extends PureComponent {
     // We store the active GSAP timeline in the store
     const active = store.active(currentTarget.value);
 
-    // We clear the previous timeline before adding the new one
+    // Reset any loop if exists
+    this.range.clear();
+
+    // We finish the previous timeline and clear it before adding the new one
+    this.master.progress(1, false);
     this.master.clear();
 
     // We add the new timeline, and seek to 0 to start it from beginning
@@ -336,11 +356,15 @@ export default class GsapTools extends PureComponent {
   }
 
   render() {
-    const { onClick } = this.props;
-    const { isVisible, isLoop, playIcon, value, timeScale } = this.state;
+    const { onClick, isFixed } = this.props;
+    const { isVisible, isLoop, playIcon, value, timeScale, active } = this.state;
+    const isActive = Boolean(active);
 
     return (
-      <div className={s.gsapTools} ref={(c) => { this.container = c; }}>
+      <div
+        className={s(s.gsapTools, { [s.gsapToolsFixed]: isFixed })}
+        ref={(c) => { this.container = c; }}
+      >
         <div className={s.gsapTools__container}>
           <div className={s(s.gsapTools__box, { isVisible, onClick })}>
             <Header
@@ -351,6 +375,7 @@ export default class GsapTools extends PureComponent {
               handleUIClose={this.handleUIClose}
               master={this.master}
               timeScale={timeScale}
+              isActive={isActive}
             />
 
             <section className={s.gsapTools__inner}>
@@ -358,21 +383,23 @@ export default class GsapTools extends PureComponent {
                 handleRewind={this.handleRewind}
                 handlePlayPause={this.handlePlayPause}
                 handleLoop={this.handleLoop}
-                paused={playIcon}
-                looped={isLoop}
+                isPause={playIcon}
+                isLoop={isLoop}
+                isActive={isActive}
               />
 
               <Range
                 value={value}
-                inPercent={this.inPercent}
-                outPercent={this.outPercent}
+                isActive={isActive}
+                // inPercent={this.inPercent}
+                // outPercent={this.outPercent}
                 onDrag={this.handleRange}
                 onDragStart={this.handleRangeStart}
                 onDragEnd={this.handleRangeEnd}
                 onDragMarkerIn={this.handleMarkerInRange}
                 onDragMarkerOut={this.handleMarkerOutRange}
                 onDragMarkerReset={this.handleMarkerReset}
-                hasTimeline={store.keys.length > 0}
+                ref={(c) => { this.range = c; }}
               />
             </section>
           </div>

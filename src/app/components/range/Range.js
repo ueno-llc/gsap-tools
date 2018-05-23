@@ -14,6 +14,7 @@ export default class Range extends PureComponent {
 
   static propTypes = {
     value: PropTypes.number,
+    isActive: PropTypes.bool,
     inPercent: PropTypes.number,
     outPercent: PropTypes.number,
     onDrag: PropTypes.func,
@@ -22,7 +23,6 @@ export default class Range extends PureComponent {
     onDragMarkerIn: PropTypes.func,
     onDragMarkerOut: PropTypes.func,
     onDragMarkerReset: PropTypes.func,
-    hasTimeline: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -34,10 +34,10 @@ export default class Range extends PureComponent {
   widthWithoutHandle = 0
 
   componentDidMount() {
-    setTimeout(() => {
-      this.initRange();
-      this.initMarkers();
-    }, 300);
+    this.initRange();
+
+    // TODO: Fix markers with localStorage
+    // this.initMarkers();
   }
 
   componentWillReceiveProps(props) {
@@ -284,6 +284,10 @@ export default class Range extends PureComponent {
     }
   }
 
+  clear = () => {
+    this.handleMarkersDoubleClick();
+  }
+
   handleMarkersDoubleClick = () => {
     const { onDragMarkerReset } = this.props;
 
@@ -314,11 +318,11 @@ export default class Range extends PureComponent {
   }
 
   render() {
-    const { onDragMarkerIn, onDragMarkerOut, hasTimeline } = this.props;
+    const { isActive, onDragMarkerIn, onDragMarkerOut } = this.props;
 
     return (
       <div className={s.range}>
-        {(hasTimeline && onDragMarkerIn) && (
+        {(isActive && onDragMarkerIn) && (
           <button
             ref={(c) => { this.rangeIn = c; }}
             className={s(s.range__markers, s.range__markersIn)}
@@ -331,7 +335,7 @@ export default class Range extends PureComponent {
           </button>
         )}
 
-        {(hasTimeline && onDragMarkerOut) && (
+        {(isActive && onDragMarkerOut) && (
           <button
             ref={(c) => { this.rangeOut = c; }}
             className={s(s.range__markers, s.range__markersOut)}
@@ -344,13 +348,15 @@ export default class Range extends PureComponent {
           </button>
         )}
 
-        <button
-          ref={(c) => { this.handle = c; }}
-          className={s.range__handle}
-          onMouseDown={this.handleStart}
-          onTouchMove={this.handleDrag}
-          onTouchEnd={this.handleEnd}
-        />
+        {isActive && (
+          <button
+            ref={(c) => { this.handle = c; }}
+            className={s.range__handle}
+            onMouseDown={this.handleStart}
+            onTouchMove={this.handleDrag}
+            onTouchEnd={this.handleEnd}
+          />
+        )}
 
         <div // eslint-disable-line
           ref={(c) => { this.range = c; }}

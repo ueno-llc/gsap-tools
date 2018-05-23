@@ -15,23 +15,24 @@
     display: flex;
 
     cursor: pointer;
-  }
 
-  &__playPause {
-    justify-content: center;
-
-    width: 32px;
-    height: 32px;
-  }
-
-  &__rewind {
-    margin-right: 40px;
+    pointer-events: none;
 
     path { // stylelint-disable-line
       transition: fill 240ms;
 
       fill: #cad5db;
     }
+
+    .isActive & {
+      pointer-events: all;
+
+      fill: #cad5db;
+    }
+  }
+
+  &__rewind {
+    margin-right: 40px;
 
     &:hover {
       path { // stylelint-disable-line
@@ -40,19 +41,26 @@
     }
   }
 
-  &__loop {
-    margin-left: 40px;
+  &__playPause {
+    justify-content: center;
 
-    .looped & {
+    width: 32px;
+    height: 32px;
+
+    .isActive & {
       path { // stylelint-disable-line
         fill: #000;
       }
     }
+  }
 
-    path { // stylelint-disable-line
-      transition: fill 240ms;
+  &__loop {
+    margin-left: 40px;
 
-      fill: #cad5db;
+    .isActive.isLoop & {
+      path { // stylelint-disable-line
+        fill: #000;
+      }
     }
 
     &:hover {

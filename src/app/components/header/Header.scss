@@ -9,10 +9,17 @@
 
   height: $gsap-header;
 
+  font-size: 14px;
+
+  color: #fff;
   background-color: #000;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.14);
+
+  @media (min-width: $gsap-tools-width) {
+    font-size: 16px;
+  }
 
   &__list {
     display: flex;
@@ -24,13 +31,20 @@
 
     padding-right: 30px;
 
-    color: #fff;
-    font-size: 16px;
+    color: inherit;
+
     letter-spacing: -0.025em;
 
     cursor: pointer;
 
     background-color: transparent;
+
+    &Empty {
+      opacity: 0.6;
+      font-style: italic;
+
+      cursor: default;
+    }
   }
 
   &__arrowDown {
@@ -45,6 +59,8 @@
     color: #fff;
     font-size: 14px;
     letter-spacing: -0.025em;
+
+    white-space: nowrap;
 
     span { // stylelint-disable-line
       opacity: 0.6;
