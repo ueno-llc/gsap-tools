@@ -202,18 +202,15 @@ export default class GsapTools extends PureComponent {
     this.master.progress(1, false);
     this.master.clear();
 
-    // We add the new timeline, and seek to 0 to start it from beginning
-    this.master.add(active);
-    this.master.seek(0);
-
     // We set the handle value at zero
     this.setState({
       playIcon: false,
       value: 0,
     });
 
-    // We finally play the new timeline
-    this.master.play();
+    // We add the new timeline, and restart
+    this.master.add(active);
+    this.master.restart();
   }
 
   handleTimeScale = ({ currentTarget }) => {
