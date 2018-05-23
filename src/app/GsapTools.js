@@ -199,7 +199,7 @@ export default class GsapTools extends PureComponent {
     this.range.clear();
 
     // We finish the previous timeline and clear it before adding the new one
-    this.master.progress(1, false);
+    this.master.progress(0, false);
     this.master.clear();
 
     // We add the new timeline, and restart
