@@ -11,10 +11,15 @@ npm install --save-dev gsap-tools
 
 ### React
 
+GsapTools is only working for React now, it will be working for Vanilla JS, or others libraries in the future.
+
 **1. Add the GsapTools component**
 
 Wherever you want you to include the GsapTools, just import it like this.
-You can toggle and drag the ui box as you want on the screen.
+You can toggle and drag the UI box as you want on the screen.
+
+:rotating_light: Just import the component once, on a global level, it's then just a matter
+of registering timelines you want, with the `add` method or not.
 
 ```js
 import GsapTools from 'gsap-tools';
@@ -67,6 +72,13 @@ componentWillMount() {
 ## Development
 
 In source folder:
+
+```bash
+npm run watch
+```
+
+In another tab from source folder:
+
 ```bash
 npm link
 ```
