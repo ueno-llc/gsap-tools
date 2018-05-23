@@ -19,6 +19,7 @@ export default class Header extends PureComponent {
       PropTypes.string,
       PropTypes.number,
     ]),
+    isActive: PropTypes.bool,
   }
 
   render() {
@@ -31,6 +32,7 @@ export default class Header extends PureComponent {
       handleUIClose,
       master,
       timeScale,
+      isActive,
     } = this.props;
 
     return (
@@ -39,7 +41,7 @@ export default class Header extends PureComponent {
         onMouseDown={onMouseDown}
         ref={headerRef}
       >
-        {keys.length > 0 ? (
+        {isActive ? (
           <div className={s.header__list}>
             <select className={s.header__select} onChange={handleList}>
               {keys.map((g, i) => (
@@ -61,24 +63,26 @@ export default class Header extends PureComponent {
         )}
 
         <div className={s.header__duration}>
-          {master && (
+          {isActive && (
             <div>
               <span>{round(master.time())}</span> / {round(master.totalDuration())}
             </div>
           )}
         </div>
 
-        <select
-          className={s.header__scale}
-          onChange={handleTimeScale}
-          value={Number(timeScale)}
-        >
-          <option value="0.2">0.2x</option>
-          <option value="0.5">0.5x</option>
-          <option value="1">1x</option>
-          <option value="2">2x</option>
-          <option value="5">5x</option>
-        </select>
+        {isActive && (
+          <select
+            className={s.header__scale}
+            onChange={handleTimeScale}
+            value={Number(timeScale)}
+          >
+            <option value="0.2">0.2x</option>
+            <option value="0.5">0.5x</option>
+            <option value="1">1x</option>
+            <option value="2">2x</option>
+            <option value="5">5x</option>
+          </select>
+        )}
 
         <button className={s.header__cross} onClick={handleUIClose}>
           <svg width="11" height="11">

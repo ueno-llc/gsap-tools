@@ -9,6 +9,7 @@ export default class Button extends PureComponent {
     buttonRef: PropTypes.func,
     visible: PropTypes.bool,
     onClick: PropTypes.func,
+    handleUIClose: PropTypes.func,
   }
 
   render() {
