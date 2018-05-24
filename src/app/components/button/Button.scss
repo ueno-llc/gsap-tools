@@ -30,6 +30,8 @@
   transform: scale(1);
 
   &.visible {
+    z-index: 9997;
+
     opacity: 0;
 
     pointer-events: none;
