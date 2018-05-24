@@ -31,7 +31,7 @@ export default class Range extends PureComponent {
     this.initRange();
 
     // We need a setTimeout to get the ref to `this.range` available
-    setTimeout(this.initMarkers);
+    // setTimeout(this.initMarkers);
   }
 
   componentWillReceiveProps(props) {
