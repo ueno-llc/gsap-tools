@@ -70,10 +70,15 @@ export default class GsapTools extends PureComponent {
   }
 
   handleStoreChange = () => {
-    // Clear timeline and in/out markers that could
-    // have persists between pages navigation
-    this.master.clear();
-    this.range.clear();
+    // Clear master timeline between page navigation
+    if (this.master) {
+      this.master.clear();
+    }
+
+    // Clear in/out markers between page navigation
+    if (this.range) {
+      this.range.clear();
+    }
 
     // Get active timeline from store
     const active = store.active();
