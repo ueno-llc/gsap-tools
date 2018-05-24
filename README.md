@@ -16,6 +16,7 @@ npm install --save-dev gsap-tools
 - Time scale
 - Draggable UI
 - Timelines added and removed when navigating between pages
+- Works for `TimelineLite` or `TimelineMax`
 
 ## React's usage
 
@@ -33,8 +34,8 @@ import GsapTools from 'gsap-tools';
 
 The simple way to do it:
 
-- You defined an id on the `TimelineLite()` constructor
-- You create a reference to the add function to dispose of the timeline on the `componentWillMount()`
+- You defined an id on the `TimelineLite` constructor
+- You create a reference to the add function to dispose of the timeline on the `componentWillUnmount`
 
 ```js
 import { add } from 'gsap-tools';
@@ -45,7 +46,7 @@ componentDidMount() {
   this.disposer = add(this.t);
 }
 
-componentWillMount() {
+componentWillUnmount() {
   this.disposer();
 }
 ```
@@ -56,19 +57,23 @@ Others ways:
 componentDidMount() {
   this.t = new TimelineLite();
 
-  add(this.t, 'myTimeline'); // You can defined the id of the timeline on the `add()` function itself
+  // You can defined the id of the timeline on the `add` function itself
+  add(this.t, 'myTimeline');
 
   // or
 
-  add(this.t); // It will generated an id, if you don't specified any
+  // It will generated an id, if you don't specified any
+  add(this.t);
 }
 
-componentWillMount() {
-  remove(this.t); // Remove the timeline just by passing the reference to the timeline
+componentWillUnmount() {
+  // Remove the timeline just by passing the reference to the timeline
+  remove(this.t);
 
   // or
 
-  remove(null, 'myTimeline') // Remove the timeline by passing the id, without the timeline reference
+  // Remove the timeline by passing the id, without the timeline reference
+  remove(null, 'myTimeline');
 }
 ```
 
@@ -78,15 +83,11 @@ In source folder:
 
 ```bash
 npm run watch
-```
-
-In another tab from source folder:
-
-```bash
 npm link
 ```
 
 In project:
+
 ```bash
 npm link gsap-tools
 ```

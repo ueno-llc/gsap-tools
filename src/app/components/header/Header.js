@@ -69,7 +69,7 @@ export default class Header extends PureComponent {
         )}
 
         <div className={s.header__duration}>
-          {isActive && (
+          {(isActive && master) && (
             <div>
               <span>{round(master.time())}</span> / {round(master.totalDuration())}
             </div>
