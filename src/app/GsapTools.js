@@ -381,14 +381,10 @@ export default class GsapTools extends PureComponent {
     const isActive = store.timelines.size > 0;
 
     return (
-      <div
-        className={s(s.gsapTools, { [s.gsapToolsFixed]: isFixed })}
-        ref={(el) => { this.container = el; }}
-      >
+      <div className={s(s.gsapTools, { [s.gsapToolsFixed]: isFixed })}>
         <div className={s.gsapTools__container}>
           <div className={s(s.gsapTools__box, { isLoaded, isVisible, onClick })}>
             <Header
-              headerRef={(el) => { this.header = el; }}
               keys={store.keys}
               handleList={this.handleList}
               handleTimeScale={this.handleTimeScale}
@@ -423,7 +419,6 @@ export default class GsapTools extends PureComponent {
           </div>
 
           <Button
-            buttonRef={(el) => { this.button = el; }}
             handleUIClose={this.handleUIClose}
             visible={isVisible}
             onClick={onClick}

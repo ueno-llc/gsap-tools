@@ -8,7 +8,6 @@ import s from './Header.scss';
 export default class Header extends PureComponent {
 
   static propTypes = {
-    headerRef: PropTypes.func,
     onMouseDown: PropTypes.func,
     keys: PropTypes.array,
     handleList: PropTypes.func,
@@ -24,7 +23,6 @@ export default class Header extends PureComponent {
 
   render() {
     const {
-      headerRef,
       onMouseDown,
       keys,
       handleList,
@@ -39,7 +37,6 @@ export default class Header extends PureComponent {
       <header // eslint-disable-line
         className={s.header}
         onMouseDown={onMouseDown}
-        ref={headerRef}
       >
         {isActive ? (
           <div className={s.header__list}>
