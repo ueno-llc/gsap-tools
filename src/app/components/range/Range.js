@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import clamp from 'lodash/clamp';
 import { TweenLite } from 'utils/gsap';
+import { SIZES, LOCAL_STORAGE } from 'utils/constants';
 
-import { SIZES, LOCAL_STORAGE } from 'variables';
 import s from './Range.scss';
 
 export default class Range extends PureComponent {

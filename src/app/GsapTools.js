@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { TimelineMax } from 'utils/gsap';
+import { LOCAL_STORAGE } from 'utils/constants';
 
 import Header from 'components/header';
 import Controls from 'components/controls';
 import Range from 'components/range';
 import Button from 'components/button';
 
-import { LOCAL_STORAGE } from 'variables';
 import store from 'store';
 
 import s from './GsapTools.scss';
