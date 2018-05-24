@@ -378,12 +378,12 @@ export default class GsapTools extends PureComponent {
     return (
       <div
         className={s(s.gsapTools, { [s.gsapToolsFixed]: isFixed })}
-        ref={(c) => { this.container = c; }}
+        ref={(el) => { this.container = el; }}
       >
         <div className={s.gsapTools__container}>
           <div className={s(s.gsapTools__box, { isVisible, onClick })}>
             <Header
-              headerRef={(c) => { this.header = c; }}
+              headerRef={(el) => { this.header = el; }}
               keys={store.keys}
               handleList={this.handleList}
               handleTimeScale={this.handleTimeScale}
@@ -412,13 +412,13 @@ export default class GsapTools extends PureComponent {
                 onDragMarkerIn={this.handleMarkerInRange}
                 onDragMarkerOut={this.handleMarkerOutRange}
                 onDragMarkerReset={this.handleMarkerReset}
-                ref={(c) => { this.range = c; }}
+                ref={(el) => { this.range = el; }}
               />
             </section>
           </div>
 
           <Button
-            buttonRef={(c) => { this.button = c; }}
+            buttonRef={(el) => { this.button = el; }}
             handleUIClose={this.handleUIClose}
             visible={isVisible}
             onClick={onClick}
