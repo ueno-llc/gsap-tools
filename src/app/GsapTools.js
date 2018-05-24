@@ -12,6 +12,7 @@ import store from 'store';
 import s from './GsapTools.scss';
 
 const LOCAL_STORAGE = {
+  IS_VISIBLE: '_gsapToolsIsVisible',
   LOOP: '_gsapToolsIsLoop',
   TIME_SCALE: '_gsapToolsTimeScale',
   IN_PERCENT: '_gsapToolsInPercent',
@@ -49,7 +50,7 @@ export default class GsapTools extends PureComponent {
     this.initMaster();
 
     // Init controls from localstorage values
-    this.initControls();
+    this.initUI();
   }
 
   componentWillReceiveProps(props) {
@@ -86,11 +87,13 @@ export default class GsapTools extends PureComponent {
     this.master.add(active);
   }
 
-  initControls = () => {
+  initUI = () => {
+    const isVisible = localStorage.getItem(LOCAL_STORAGE.IS_VISIBLE) === 'true';
     const timeScale = Number(localStorage.getItem(LOCAL_STORAGE.TIME_SCALE)) || 1;
     const isLoop = localStorage.getItem(LOCAL_STORAGE.LOOP) === 'true';
 
     this.setState({
+      isVisible,
       isLoop,
       playIcon: false,
       timeScale,
@@ -118,8 +121,13 @@ export default class GsapTools extends PureComponent {
       return onClick();
     }
 
+    const newState = !this.state.isVisible;
+
     // Build-in toggle for gsap-tools
-    this.setState({ isVisible: !this.state.isVisible });
+    this.setState({ isVisible: newState });
+
+    // Set the isVisible value in localStorage
+    localStorage.setItem(LOCAL_STORAGE.IS_VISIBLE, newState);
   }
 
   /*
