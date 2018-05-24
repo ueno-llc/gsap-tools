@@ -225,9 +225,15 @@ export default class GsapTools extends PureComponent {
   handleTimeScale = ({ currentTarget }) => {
     const { value } = currentTarget;
 
-    // We get the value from the select option, and we set it on the
-    // master timeline, and set a state to send it to Header component
+    // Change the timescale on the master timeline
     this.master.timeScale(value);
+
+    // Also change it on the inOutMaster timeline if initialized
+    if (this.inOutMaster) {
+      this.inOutMaster.timeScale(value);
+    }
+
+    // We set a state to send it to Header component
     this.setState({ timeScale: value });
 
     // Set the timeScale value in localStorage to be pre-populated after reload
