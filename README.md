@@ -7,65 +7,68 @@ A simple way to debug GSAP's timelines
 npm install --save-dev gsap-tools
 ```
 
-## Usage
+## Features
 
-### React
+- Play/pause
+- Loop
+- Rewind
+- In/out markers
+- Time scale
+- Draggable UI
+- Timelines added and removed when navigating between pages
 
-GsapTools is only working for React now, it will be working for Vanilla JS, or others libraries in the future.
+## React's usage
 
-**1. Add the GsapTools component**
+**1. Add GsapTools component globally to your app**
 
-Wherever you want you to include the GsapTools, just import it like this.
-You can toggle and drag the UI box as you want on the screen.
-
-:rotating_light: Just import the component once, on a global level, it's then just a matter
-of registering timelines you want, with the `add` method or not.
+**:rotating_light: Just import it once in your app.**
 
 ```js
 import GsapTools from 'gsap-tools';
 
-...
-
 <GsapTools />
 ```
 
-**2. Register your Gsap timeline to be control with the GsapTools**
+**2. Register your Gsap timeline to be control with GsapTools**
+
+The simple way to do it:
+
+- You defined an id on the `TimelineLite()` constructor
+- You create a reference to the add function to dispose of the timeline on the `componentWillMount()`
 
 ```js
-import { add, remove } from 'gsap-tools';
-
-...
-
-componentDidMount() {
-  this.t = new TimelineLite();
-
-  ...
-
-  add(this.t, 'myTimeline');
-}
-
-componentWillMount() {
-  remove(this.t, 'myTimeline');
-}
-```
-
-you can also use the id from the timeline constructor,
-
-```js
-import { add, remove } from 'gsap-tools';
-
-...
+import { add } from 'gsap-tools';
 
 componentDidMount() {
   this.t = new TimelineLite({ id: 'myTimeline' });
 
-  ...
-
-  add(this.t);
+  this.disposer = add(this.t);
 }
 
 componentWillMount() {
-  remove(this.t);
+  this.disposer();
+}
+```
+
+Others ways:
+
+```js
+componentDidMount() {
+  this.t = new TimelineLite();
+
+  add(this.t, 'myTimeline'); // You can defined the id of the timeline on the `add()` function itself
+
+  // or
+
+  add(this.t); // It will generated an id, if you don't specified any
+}
+
+componentWillMount() {
+  remove(this.t); // Remove the timeline just by passing the reference to the timeline
+
+  // or
+
+  remove(null, 'myTimeline') // Remove the timeline by passing the id, without the timeline reference
 }
 ```
 
