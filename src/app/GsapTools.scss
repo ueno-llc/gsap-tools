@@ -45,9 +45,11 @@
     border-radius: 8px;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.12);
 
-    transition: transform 200ms, opacity 200ms;
-    transform: scale(0.6);
-    transform-origin: 100% 100%;
+    &.isLoaded {
+      transition: transform 180ms, opacity 180ms;
+      transform: scale(0.6);
+      transform-origin: 100% 100%;
+    }
 
     &.onClick {
       transform-origin: 50%;

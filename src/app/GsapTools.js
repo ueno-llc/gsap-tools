@@ -26,6 +26,7 @@ export default class GsapTools extends PureComponent {
     this.inTime = 0;
 
     this.state = {
+      isLoaded: false,
       isVisible: props.isVisible,
       playIcon: true,
       value: 0,
@@ -93,7 +94,11 @@ export default class GsapTools extends PureComponent {
     // If on a previous page we waited until the end of the timeline
     // we need to restart it for the new one registered from the new page
     this.master.restart();
-    this.setState({ playIcon: false });
+
+    this.setState({
+      playIcon: false,
+      isLoaded: true,
+    });
   }
 
   initUI = () => {
@@ -372,7 +377,7 @@ export default class GsapTools extends PureComponent {
 
   render() {
     const { onClick, isFixed } = this.props;
-    const { isVisible, isLoop, playIcon, value, timeScale } = this.state;
+    const { isVisible, isLoop, playIcon, value, timeScale, isLoaded } = this.state;
     const isActive = store.timelines.size > 0;
 
     return (
@@ -381,7 +386,7 @@ export default class GsapTools extends PureComponent {
         ref={(el) => { this.container = el; }}
       >
         <div className={s.gsapTools__container}>
-          <div className={s(s.gsapTools__box, { isVisible, onClick })}>
+          <div className={s(s.gsapTools__box, { isLoaded, isVisible, onClick })}>
             <Header
               headerRef={(el) => { this.header = el; }}
               keys={store.keys}
