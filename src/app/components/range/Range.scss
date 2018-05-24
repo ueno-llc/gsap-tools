@@ -54,10 +54,6 @@
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.22);
 
     transform: translate3d(-50%, -50%, 0);
-
-    .rangeslider__active {
-      opacity: 1;
-    }
   }
 
   &__input {
@@ -84,11 +80,18 @@
 
     position: relative;
     top: 0;
+    opacity: 0;
 
     width: 0;
     height: 100%;
 
     background-color: #3ec2f1;
     border-radius: 10px;
+
+    transition: opacity 240ms;
+
+    .isActive & {
+      opacity: 1;
+    }
   }
 }

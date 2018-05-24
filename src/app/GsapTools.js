@@ -7,17 +7,10 @@ import Controls from 'components/controls';
 import Range from 'components/range';
 import Button from 'components/button';
 
+import { LOCAL_STORAGE } from 'variables';
 import store from 'store';
 
 import s from './GsapTools.scss';
-
-const LOCAL_STORAGE = {
-  IS_VISIBLE: '_gsapToolsIsVisible',
-  LOOP: '_gsapToolsIsLoop',
-  TIME_SCALE: '_gsapToolsTimeScale',
-  IN_PERCENT: '_gsapToolsInPercent',
-  OUT_PERCENT: '_gsapToolsOutPercent',
-};
 
 export default class GsapTools extends PureComponent {
 
@@ -33,7 +26,6 @@ export default class GsapTools extends PureComponent {
     this.inTime = 0;
 
     this.state = {
-      active: undefined,
       isVisible: props.isVisible,
       playIcon: true,
       value: 0,
@@ -69,22 +61,34 @@ export default class GsapTools extends PureComponent {
    */
 
   onStoreChange = () => {
-    // Register new timeline
-    this.handleStoreChange();
+    // Register new timeline (We need a setTimeout to get the
+    // ref to `this.range` from <Range /> component available)
+    setTimeout(this.handleStoreChange);
 
     // Re-render the UI box
     this.forceUpdate();
   }
 
   handleStoreChange = () => {
+    // Clear timeline and in/out markers that could
+    // have persists between pages navigation
+    this.master.clear();
+    this.range.clear();
+
+    // Get active timeline from store
     const active = store.active();
 
     if (!active) {
       return;
     }
 
-    this.setState({ active });
+    // Add the active timeline to the master one
     this.master.add(active);
+
+    // If on a previous page we waited until the end of the timeline
+    // we need to restart it for the new one registered from the new page
+    this.master.restart();
+    this.setState({ playIcon: false });
   }
 
   initUI = () => {
@@ -95,20 +99,19 @@ export default class GsapTools extends PureComponent {
     this.setState({
       isVisible,
       isLoop,
-      playIcon: false,
       timeScale,
     });
 
     this.master.timeScale(timeScale);
 
-    this.inPercent = Number(localStorage.getItem(LOCAL_STORAGE.IN_PERCENT)) || 0;
-    this.outPercent = Number(localStorage.getItem(LOCAL_STORAGE.OUT_PERCENT)) || 100;
+    const inPercent = Number(localStorage.getItem(LOCAL_STORAGE.IN_PERCENT)) || 0;
+    const outPercent = Number(localStorage.getItem(LOCAL_STORAGE.OUT_PERCENT)) || 100;
 
-    // if (this.inPercent > 0 || this.outPercent < 100) {
-    //   this.inTime = this.master.totalDuration() * (this.inPercent / 100);
-    //   this.outTime = this.master.totalDuration() * (this.outPercent / 100);
-    //   this.initInOut({ inTime: this.inTime, outTime: this.outTime });
-    // }
+    if (inPercent > 0 || outPercent < 100) {
+      this.inTime = this.master.totalDuration() * (inPercent / 100);
+      this.outTime = this.master.totalDuration() * (outPercent / 100);
+      this.initInOut({ inTime: this.inTime, outTime: this.outTime });
+    }
   }
 
   handleUIClose = () => {
@@ -216,7 +219,6 @@ export default class GsapTools extends PureComponent {
 
     // We set the handle value at zero
     this.setState({
-      active,
       playIcon: false,
       value: 0,
     });
@@ -321,11 +323,10 @@ export default class GsapTools extends PureComponent {
     this.master.pause();
     this.setState({ playIcon: true });
     this.inTime = this.master.totalDuration() * (value / 100);
-    this.inPercent = value;
     this.master.seek(this.inTime);
     this.initInOut({ inTime: this.inTime });
 
-    localStorage.setItem(LOCAL_STORAGE.IN_PERCENT, this.inPercent);
+    localStorage.setItem(LOCAL_STORAGE.IN_PERCENT, value);
   }
 
   handleMarkerOutRange = (value) => {
@@ -336,17 +337,14 @@ export default class GsapTools extends PureComponent {
     this.master.pause();
     this.setState({ playIcon: true });
     this.outTime = this.master.totalDuration() * (value / 100);
-    this.outPercent = value;
     this.initInOut({ outTime: this.outTime });
 
-    localStorage.setItem(LOCAL_STORAGE.OUT_PERCENT, this.outPercent);
+    localStorage.setItem(LOCAL_STORAGE.OUT_PERCENT, value);
   }
 
   handleMarkerReset = () => {
     this.inTime = 0;
-    this.inPercent = 0;
     this.outTime = undefined;
-    this.outPercent = 100;
 
     if (this.inOutMaster) {
       this.inOutMaster.pause();
@@ -369,8 +367,8 @@ export default class GsapTools extends PureComponent {
 
   render() {
     const { onClick, isFixed } = this.props;
-    const { isVisible, isLoop, playIcon, value, timeScale, active } = this.state;
-    const isActive = Boolean(active);
+    const { isVisible, isLoop, playIcon, value, timeScale } = this.state;
+    const isActive = store.timelines.size > 0;
 
     return (
       <div
@@ -403,8 +401,6 @@ export default class GsapTools extends PureComponent {
               <Range
                 value={value}
                 isActive={isActive}
-                // inPercent={this.inPercent}
-                // outPercent={this.outPercent}
                 onDrag={this.handleRange}
                 onDragStart={this.handleRangeStart}
                 onDragEnd={this.handleRangeEnd}

@@ -3,20 +3,14 @@ import PropTypes from 'prop-types';
 import clamp from 'lodash/clamp';
 import { TweenLite } from 'utils/gsap';
 
+import { SIZES, LOCAL_STORAGE } from 'variables';
 import s from './Range.scss';
-
-const HANDLE_WIDTH = 20;
-const HANDLE_MEDIAN_WIDTH = HANDLE_WIDTH / 2;
-const MARKER_WIDTH = 10;
-const MARKER_MEDIAN_WIDTH = MARKER_WIDTH / 2;
 
 export default class Range extends PureComponent {
 
   static propTypes = {
     value: PropTypes.number,
     isActive: PropTypes.bool,
-    inPercent: PropTypes.number,
-    outPercent: PropTypes.number,
     onDrag: PropTypes.func,
     onDragStart: PropTypes.func,
     onDragEnd: PropTypes.func,
@@ -36,8 +30,8 @@ export default class Range extends PureComponent {
   componentDidMount() {
     this.initRange();
 
-    // TODO: Fix markers with localStorage
-    // this.initMarkers();
+    // We need a setTimeout to get the ref to `this.range` available
+    setTimeout(this.initMarkers);
   }
 
   componentWillReceiveProps(props) {
@@ -54,7 +48,7 @@ export default class Range extends PureComponent {
 
   get calculateFillWidth() {
     // Return the width of the progress bar
-    return (this.markerOut + MARKER_WIDTH) - this.markerIn;
+    return (this.markerOut + SIZES.MARKER_WIDTH) - this.markerIn;
   }
 
   initRange = () => {
@@ -64,12 +58,13 @@ export default class Range extends PureComponent {
 
     const { offsetWidth: rw } = this.range;
 
-    this.widthWithoutHandle = rw - HANDLE_WIDTH;
-    this.markerOut = rw - MARKER_WIDTH;
+    this.widthWithoutHandle = rw - SIZES.HANDLE_WIDTH;
+    this.markerOut = rw - SIZES.MARKER_WIDTH;
   }
 
   initMarkers = () => {
-    const { inPercent, outPercent } = this.props;
+    const inPercent = Number(localStorage.getItem(LOCAL_STORAGE.IN_PERCENT)) || 0;
+    const outPercent = Number(localStorage.getItem(LOCAL_STORAGE.OUT_PERCENT)) || 100;
 
     // There is nothing to init if markers are
     // to theirs initials values
@@ -81,14 +76,14 @@ export default class Range extends PureComponent {
     }
 
     const { offsetWidth: rw } = this.range;
-    const w = rw - MARKER_WIDTH;
+    const w = rw - SIZES.MARKER_WIDTH;
     const val = (inPercent * w) / 100;
 
     this.markerIn = inPercent ? val : w;
     this.markerOut = outPercent ? (outPercent * w) / 100 : w;
 
     const left = this.markerIn;
-    const right = (rw - MARKER_WIDTH) - this.markerOut;
+    const right = (rw - SIZES.MARKER_WIDTH) - this.markerOut;
     const width = this.markerIn > 0 ? val - this.markerIn : val;
 
     TweenLite.set(
@@ -101,7 +96,7 @@ export default class Range extends PureComponent {
 
     TweenLite.set(
       this.handle,
-      { left: val > MARKER_WIDTH ? val : MARKER_WIDTH },
+      { left: val > SIZES.MARKER_WIDTH ? val : SIZES.MARKER_WIDTH },
     );
 
     TweenLite.set(
@@ -121,7 +116,7 @@ export default class Range extends PureComponent {
     }
 
     const { offsetWidth: rw } = this.range;
-    const val = (value * (rw - MARKER_MEDIAN_WIDTH)) / 100;
+    const val = (value * (rw - SIZES.MARKER_MEDIAN_WIDTH)) / 100;
 
     if (val < this.markerIn || val > (this.markerOut + 7.5)) {
       return;
@@ -136,7 +131,7 @@ export default class Range extends PureComponent {
 
     TweenLite.set(
       this.handle,
-      { left: val > MARKER_MEDIAN_WIDTH ? val : MARKER_MEDIAN_WIDTH },
+      { left: val > SIZES.MARKER_MEDIAN_WIDTH ? val : SIZES.MARKER_MEDIAN_WIDTH },
     );
   }
 
@@ -154,7 +149,7 @@ export default class Range extends PureComponent {
     const coordinate = !e.touches ? e.clientX : e.touches[0].clientX;
     const { left } = this.range.getBoundingClientRect();
 
-    return coordinate - left - HANDLE_MEDIAN_WIDTH;
+    return coordinate - left - SIZES.HANDLE_MEDIAN_WIDTH;
   }
 
   handleStart = (e) => {
@@ -224,11 +219,11 @@ export default class Range extends PureComponent {
 
     const value = this.getValueFromPosition(this.position(e));
     const { offsetWidth: rw } = this.range;
-    const left = (value * (rw - MARKER_WIDTH)) / 100;
+    const left = (value * (rw - SIZES.MARKER_WIDTH)) / 100;
 
     this.markerIn = left;
 
-    if (left < (this.markerOut - MARKER_WIDTH)) {
+    if (left < (this.markerOut - SIZES.MARKER_WIDTH)) {
       onDrag(value + 0.5); // Align handle with marker
       onDragMarkerIn(value);
 
@@ -263,12 +258,12 @@ export default class Range extends PureComponent {
 
     const value = this.getValueFromPosition(this.position(e));
     const { offsetWidth: rw } = this.range;
-    const val = (value * (rw - MARKER_WIDTH)) / 100;
-    const right = (rw - MARKER_WIDTH) - val;
+    const val = (value * (rw - SIZES.MARKER_WIDTH)) / 100;
+    const right = (rw - SIZES.MARKER_WIDTH) - val;
 
     this.markerOut = val;
 
-    if (val >= (this.markerIn + MARKER_WIDTH)) {
+    if (val >= (this.markerIn + SIZES.MARKER_WIDTH)) {
       onDrag(value + 0.5); // Align handle with marker
       onDragMarkerOut(value);
 
@@ -290,6 +285,10 @@ export default class Range extends PureComponent {
 
   handleMarkersDoubleClick = () => {
     const { onDragMarkerReset } = this.props;
+
+    if (!this.rangeIn || !this.rangeOut || !this.fill) {
+      return;
+    }
 
     this.markerIn = 0;
     this.markerOut = this.range.offsetWidth;
@@ -321,7 +320,7 @@ export default class Range extends PureComponent {
     const { isActive, onDragMarkerIn, onDragMarkerOut } = this.props;
 
     return (
-      <div className={s.range}>
+      <div className={s(s.range, { isActive })}>
         {(isActive && onDragMarkerIn) && (
           <button
             ref={(c) => { this.rangeIn = c; }}
