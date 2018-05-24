@@ -23,9 +23,14 @@ class Store extends EventEmitter {
       return this.values[0];
     }
 
-    // Check if the specified timeline exists and return it
+    console.log('this.timelines', this.timelines);
+
     if (this.timelines.has(id)) {
+      // Check if the specified timeline exists and return it
       return this.timelines.get(id);
+    } else if (this.timelines.size > 0) {
+      // Else, if we have any timeline saved, we return the first
+      return this.values[0];
     }
 
     // Return an empty array if we don't have anything

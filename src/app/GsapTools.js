@@ -26,6 +26,7 @@ export default class GsapTools extends PureComponent {
     this.inTime = 0;
 
     this.state = {
+      id: undefined,
       isVisible: props.isVisible,
       playIcon: true,
       value: 0,
@@ -70,6 +71,8 @@ export default class GsapTools extends PureComponent {
   }
 
   handleStoreChange = () => {
+    const id = localStorage.getItem(LOCAL_STORAGE.ACTIVE);
+
     // Clear master timeline between page navigation
     if (this.master) {
       this.master.clear();
@@ -81,13 +84,14 @@ export default class GsapTools extends PureComponent {
     }
 
     // Get active timeline from store
-    const active = store.active();
-
+    const active = store.active(id);
+    
     if (!active) {
       return;
     }
 
     // Add the active timeline to the master one
+    this.setState({ id });
     this.master.add(active);
 
     // If on a previous page we waited until the end of the timeline
@@ -98,10 +102,13 @@ export default class GsapTools extends PureComponent {
 
   initUI = () => {
     const isVisible = localStorage.getItem(LOCAL_STORAGE.IS_VISIBLE) === 'true';
+    const active = localStorage.getItem(LOCAL_STORAGE.ACTIVE);
     const timeScale = Number(localStorage.getItem(LOCAL_STORAGE.TIME_SCALE)) || 1;
     const isLoop = localStorage.getItem(LOCAL_STORAGE.LOOP) === 'true';
+    // console.log('-initUI active', active);
 
     this.setState({
+      id: active,
       isVisible,
       isLoop,
       timeScale,
@@ -208,8 +215,12 @@ export default class GsapTools extends PureComponent {
   }
 
   handleList = ({ currentTarget }) => {
+    const id = currentTarget.value;
+
+    console.log('-handleList', id);
+
     // We get the timeline from the store
-    const active = store.active(currentTarget.value);
+    const active = store.active(id);
 
     // Reset any markers if exists
     this.range.clear();
@@ -224,9 +235,13 @@ export default class GsapTools extends PureComponent {
 
     // We set the handle value at zero
     this.setState({
+      id,
       playIcon: false,
       value: 0,
     });
+
+    // Set the active timeline id in localStorage to be pre-populated after reload
+    localStorage.setItem(LOCAL_STORAGE.ACTIVE, id);
   }
 
   handleTimeScale = ({ currentTarget }) => {
@@ -244,7 +259,7 @@ export default class GsapTools extends PureComponent {
     this.setState({ timeScale: value });
 
     // Set the timeScale value in localStorage to be pre-populated after reload
-    localStorage.setItem(LOCAL_STORAGE.TIME_SCALE, value);
+    localStorage.setItem(LOCAL_STORAGE.ACTIVE, value);
   }
 
   handleRewind = () => {
@@ -372,7 +387,7 @@ export default class GsapTools extends PureComponent {
 
   render() {
     const { onClick, isFixed } = this.props;
-    const { isVisible, isLoop, playIcon, value, timeScale } = this.state;
+    const { isVisible, isLoop, playIcon, value, timeScale, id } = this.state;
     const isActive = store.timelines.size > 0;
 
     return (
@@ -391,6 +406,7 @@ export default class GsapTools extends PureComponent {
               master={this.master}
               timeScale={timeScale}
               isActive={isActive}
+              id={id}
             />
 
             <section className={s.gsapTools__inner}>

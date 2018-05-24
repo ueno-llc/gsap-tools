@@ -20,6 +20,7 @@ export default class Header extends PureComponent {
       PropTypes.number,
     ]),
     isActive: PropTypes.bool,
+    id: PropTypes.string,
   }
 
   render() {
@@ -33,6 +34,7 @@ export default class Header extends PureComponent {
       master,
       timeScale,
       isActive,
+      id,
     } = this.props;
 
     return (
@@ -43,7 +45,11 @@ export default class Header extends PureComponent {
       >
         {isActive ? (
           <div className={s.header__list}>
-            <select className={s.header__select} onChange={handleList}>
+            <select
+              className={s.header__select}
+              onChange={handleList}
+              value={id}
+            >
               {keys.map((g, i) => (
                 <option
                   key={i} // eslint-disable-line
