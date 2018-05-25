@@ -124,6 +124,7 @@ export default class Range extends PureComponent {
     }
 
     const width = this.markerIn > 0 ? val - this.markerIn : val;
+    const left = val > SIZES.MARKER_MEDIAN_WIDTH ? val : SIZES.MARKER_MEDIAN_WIDTH;
 
     TweenLite.set(
       this.fill,
@@ -132,7 +133,7 @@ export default class Range extends PureComponent {
 
     TweenLite.set(
       this.handle,
-      { left: val > SIZES.MARKER_MEDIAN_WIDTH ? val : SIZES.MARKER_MEDIAN_WIDTH },
+      { left },
     );
   }
 
@@ -141,9 +142,7 @@ export default class Range extends PureComponent {
    */
 
   getValueFromPosition = (pos) => {
-    const value = clamp(pos, 0, this.widthWithoutHandle) / (this.widthWithoutHandle || 1);
-
-    return Math.round(value * 100);
+    return (clamp(pos, 0, this.widthWithoutHandle) / (this.widthWithoutHandle || 1)) * 100;
   }
 
   position = (e) => {
