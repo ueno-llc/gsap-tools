@@ -1,0 +1,64 @@
+@import '../../styles/config.scss';
+
+.logo {
+  $width: 1175px;
+  $height: 270px;
+
+  position: relative;
+
+  margin: auto;
+
+  width: 70%;
+  height: auto;
+  max-width: $width;
+
+  &::before {
+    content: '';
+    display: block;
+    padding-bottom: percentage($height/$width);
+  }
+
+  &__svg {
+    @include fit;
+    z-index: 0;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    width: 100%;
+    height: auto;
+
+    overflow: visible;
+  }
+
+  &__dot {
+    @include fit;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+
+    opacity: 0;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    width: 100%;
+    height: 100%;
+  }
+
+  &__dotInner {
+    width: percentage(70px/$width);
+    height: auto;
+
+    overflow: visible;
+
+    svg {
+      display: block;
+      height: auto;
+
+      overflow: visible;
+    }
+  }
+
+}

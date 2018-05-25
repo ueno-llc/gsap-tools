@@ -1,0 +1,46 @@
+@import '../../styles/config.scss';
+
+.appleGuy {
+  position: absolute;
+  z-index: 1;
+
+  opacity: 0;
+
+  margin: auto;
+
+  // why this?
+  // def need to revisit
+  width: percentage(491px/1175px);
+
+  // for rounding
+  max-width: 701px;
+
+  overflow: hidden;
+
+  border-radius: 50%;
+
+  // box-shadow: 0 0 0 1px #c00;
+
+  &::before {
+    content: '';
+    display: block;
+    padding-bottom: 100%;
+  }
+
+  &__svg {
+    @include fit;
+
+    display: block;
+
+    opacity: 1;
+
+    margin: auto;
+
+    width: 80%;
+    height: 600px;
+    max-width: 30vw;
+    max-height: 70%;
+
+    overflow: hidden;
+  }
+}

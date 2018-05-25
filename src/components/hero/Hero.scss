@@ -1,0 +1,74 @@
+@import '../../styles/config.scss';
+
+.hero {
+  $width: 1670px;
+  $height: 1180px;
+
+  position: relative;
+
+  min-height: 400px;
+  max-height: 100vh;
+  overflow: hidden;
+
+  background: #fff;
+
+  &::before {
+    content: '';
+
+    display: block;
+    padding-bottom: 100%;
+  }
+
+  &__inner {
+    @include fit;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transform: translate3d(0, 0, 0);
+  }
+
+  &__svg {
+    @include fit;
+    z-index: 0;
+    min-width: 100%;
+    height: 100%;
+
+    overflow: visible;
+
+    circle {
+      @include will-animate;
+    }
+  }
+
+  &__logoWrap {
+    @include fit;
+
+    margin: auto;
+
+    width: 70%;
+    height: 0;
+
+    background: #0c0;
+
+    &::before {
+      content: '';
+      display: block;
+      padding-bottom: percentage(270/1175);
+    }
+  }
+
+  &__logo {
+    display: block;
+
+    margin: auto;
+    max-width: 100%;
+    height: auto;
+  }
+
+
+  &__container {
+    @include container;
+  }
+}

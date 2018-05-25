@@ -1,0 +1,67 @@
+@import '../../styles/config.scss';
+
+.content {
+  position: relative;
+
+  overflow: hidden;
+
+  background: #f9f9f9;
+
+  @media (min-width: $min-desktop) {
+    background: #fff;
+  }
+
+  &__col {
+    @include grid-col;
+
+    @media (min-width: $min-desktop) {
+      position: relative;
+
+      margin-left: percentage(1/12);
+      width: percentage(10/12);
+    }
+
+
+    &::before {
+      content: '';
+
+      display: none;
+
+      position: absolute;
+      top: 0;
+      left: $gutter / 2;
+      bottom: 0;
+      z-index: 0;
+
+      width: 100vw;
+
+      pointer-events: none;
+      user-select: none;
+
+      background: #f9f9f9;
+
+      @media (min-width: $min-desktop) {
+        display: block;
+      }
+    }
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 1;
+
+    padding: percentage(70px/$page-width) 0;
+
+    @media (min-width: $min-desktop) {
+      padding: 70px 110px;
+    }
+  }
+
+  &__heading {
+    @include heading;
+  }
+
+  &__subheading {
+    @include subheading;
+  }
+}

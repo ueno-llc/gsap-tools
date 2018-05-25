@@ -1,0 +1,40 @@
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+
+import Container from '../../components/container';
+import Row from '../../components/row';
+
+import './Content.css';
+
+export default class Content extends PureComponent {
+
+  static propTypes = {
+    children: PropTypes.node,
+    title: PropTypes.string,
+    subheading: PropTypes.string,
+  }
+
+  static defaultProps = {
+    children: undefined,
+  }
+
+  render() {
+    const { children, title, subheading } = this.props;
+
+    return (
+      <div className="content">
+        <Container>
+          <Row>
+            <div className="content__col">
+              <div className="content__inner">
+                <h1 className="content__heading">{title}</h1>
+                <h2 className="content__subheading">{subheading}</h2>
+                {children}
+              </div>
+            </div>
+          </Row>
+        </Container>
+      </div>
+    );
+  }
+}

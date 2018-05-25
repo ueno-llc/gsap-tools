@@ -103,11 +103,21 @@
 
 // change below to reflect your project
 @mixin heading() {
-  // per project
+  @include reset-heading;
+  @include responsive-font(28, 38);
+
+  color: #000;
+  font-family: $font-family-heading;
+  font-weight: 200;
+  letter-spacing: -((0.5/38) * 1em);
 }
 
 @mixin subheading() {
-  // per project
+  @include heading;
+
+  color: #9ea0a6;
+  font-weight: 100;
+
 }
 
 // html.js / html.no-js will not compile?!

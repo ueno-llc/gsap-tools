@@ -12,7 +12,10 @@ $page-width: 1290px;
 $page-limit: $page-width + ($container-gutter-desktop * 2);
 
 // Fonts
-$font-family: 'Roboto', sans-serif;
+$font-family: 'Akagi', sans-serif;
+$font-family-serif: testFont, serif;
+$font-family-heading: $font-family-serif;
+
 $font-size: 16px;
 $font-size-min: 13px;
 $line-height: 1.5;
@@ -70,7 +73,7 @@ $max-360: 359px;
 // Predefined breakpoints
 $min-mobile: $min-420;
 $min-tablet: $min-720;
-$min-desktop: $min-1080;
+$min-desktop: $min-1200;
 
 // Segment
 $segment-padding-mobile: $gutter * 3;

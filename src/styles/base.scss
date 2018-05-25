@@ -1,5 +1,6 @@
 @import './variables.scss';
 @import './mixins.scss';
+@import './fonts.scss';
 
 /* stylelint-disable selector-max-type */
 @-ms-viewport {
@@ -14,6 +15,26 @@
   width: device-width;
 }
 
+:root {
+  --scale-element: 1;
+  --scale-font: 1;
+
+  @media (max-height: 700px) {
+    --scale-element: 0.95;
+    --scale-font: 0.95;
+  }
+
+  @media (max-height: 600px) {
+    --scale-element: 0.9;
+    --scale-font: 0.9;
+  }
+
+  @media (max-height: 500px) {
+    --scale-element: 0.85;
+    --scale-font: 0.85;
+  }
+}
+
 html,
 body {
   min-height: 100vh;
@@ -22,11 +43,6 @@ body {
 }
 
 html {
-  -webkit-overflow-scrolling: touch;
-  overflow-x: hidden;
-  // always show the vertical scrollbar so that content doesn't jump
-  overflow-y: scroll;
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
