@@ -3,7 +3,7 @@ function round(number) {
     return '0.00';
   }
 
-  const nbr = Number(Math.round(`${number}e2`) + 'e-2'); // eslint-disable-line
+  const nbr = Math.round(`${number}e2`) + 'e-2'; // eslint-disable-line
   const { length } = nbr.toString();
 
   let val;
@@ -16,7 +16,7 @@ function round(number) {
     val = nbr;
   }
 
-  return val;
+  return Number(val);
 }
 
 export default round;
