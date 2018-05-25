@@ -10,12 +10,19 @@
   height: $gsap-header;
 
   font-size: 14px;
-
   color: #fff;
+
+  cursor: move;
+  cursor: grab;
+
   background-color: #000;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.14);
+
+  &:active {
+    cursor: grabbing;
+  }
 
   @media (min-width: $gsap-tools-width) {
     font-size: 16px;

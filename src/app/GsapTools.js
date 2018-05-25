@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { TimelineMax } from 'utils/gsap';
-import { LOCAL_STORAGE } from 'utils/constants';
+import Draggable from 'react-draggable';
+import { TimelineMax } from 'gsap';
+import storage from 'utils/storage';
 
 import Header from 'components/header';
 import Controls from 'components/controls';
@@ -32,6 +33,7 @@ export default class GsapTools extends PureComponent {
       value: 0,
       isLoop: false,
       timeScale: 1,
+      position: { x: 0, y: 0 },
     };
   }
 
@@ -102,11 +104,13 @@ export default class GsapTools extends PureComponent {
   }
 
   initUI = () => {
-    const isVisible = localStorage.getItem(LOCAL_STORAGE.IS_VISIBLE) === 'true';
-    const timeScale = Number(localStorage.getItem(LOCAL_STORAGE.TIME_SCALE)) || 1;
-    const isLoop = localStorage.getItem(LOCAL_STORAGE.LOOP) === 'true';
+    const isVisible = storage.get('IS_VISIBLE') === 'true';
+    const timeScale = Number(storage.get('TIME_SCALE')) || 1;
+    const isLoop = storage.get('LOOP') === 'true';
+    const { x, y } = JSON.parse(storage.get('BOX_POSITION')) || { x: 0, y: 0 };
 
     this.setState({
+      position: { x, y },
       isVisible,
       isLoop,
       timeScale,
@@ -114,8 +118,8 @@ export default class GsapTools extends PureComponent {
 
     this.master.timeScale(timeScale);
 
-    const inPercent = Number(localStorage.getItem(LOCAL_STORAGE.IN_PERCENT)) || 0;
-    const outPercent = Number(localStorage.getItem(LOCAL_STORAGE.OUT_PERCENT)) || 100;
+    const inPercent = Number(storage.get('IN_PERCENT')) || 0;
+    const outPercent = Number(storage.get('OUT_PERCENT')) || 100;
 
     if (inPercent > 0 || outPercent < 100) {
       this.inTime = this.master.totalDuration() * (inPercent / 100);
@@ -140,7 +144,14 @@ export default class GsapTools extends PureComponent {
     this.setState({ isVisible: newState });
 
     // Set the isVisible value in localStorage
-    localStorage.setItem(LOCAL_STORAGE.IS_VISIBLE, newState);
+    storage.set('IS_VISIBLE', newState);
+  }
+
+  handleDragStop = (e, { x, y }) => {
+    this.setState({ position: { x, y } });
+
+    // Saving the box UI position
+    storage.set('BOX_POSITION', JSON.stringify({ x, y }));
   }
 
   /*
@@ -249,7 +260,7 @@ export default class GsapTools extends PureComponent {
     this.setState({ timeScale: value });
 
     // Set the timeScale value in localStorage to be pre-populated after reload
-    localStorage.setItem(LOCAL_STORAGE.TIME_SCALE, value);
+    storage.set('TIME_SCALE', value);
   }
 
   handleRewind = () => {
@@ -299,7 +310,7 @@ export default class GsapTools extends PureComponent {
 
     this.setState({ isLoop: !isLoop });
 
-    localStorage.setItem(LOCAL_STORAGE.LOOP, !isLoop);
+    storage.set('LOOP', !isLoop);
   }
 
   handleRange = (value) => {
@@ -336,7 +347,7 @@ export default class GsapTools extends PureComponent {
     this.master.seek(this.inTime);
     this.initInOut({ inTime: this.inTime });
 
-    localStorage.setItem(LOCAL_STORAGE.IN_PERCENT, value);
+    storage.set('IN_PERCENT', value);
   }
 
   handleMarkerOutRange = (value) => {
@@ -349,7 +360,7 @@ export default class GsapTools extends PureComponent {
     this.outTime = this.master.totalDuration() * (value / 100);
     this.initInOut({ outTime: this.outTime });
 
-    localStorage.setItem(LOCAL_STORAGE.OUT_PERCENT, value);
+    storage.set('OUT_PERCENT', value);
   }
 
   handleMarkerReset = () => {
@@ -371,60 +382,79 @@ export default class GsapTools extends PureComponent {
       playIcon: true,
     });
 
-    localStorage.removeItem(LOCAL_STORAGE.IN_PERCENT);
-    localStorage.removeItem(LOCAL_STORAGE.OUT_PERCENT);
+    storage.remove('IN_PERCENT');
+    storage.remove('OUT_PERCENT');
   }
 
   render() {
     const { onClick, isFixed } = this.props;
-    const { isVisible, isLoop, playIcon, value, timeScale, isLoaded } = this.state;
     const isActive = store.timelines.size > 0;
 
+    const {
+      isVisible,
+      isLoop,
+      playIcon,
+      value,
+      timeScale,
+      isLoaded,
+      position: { x, y },
+    } = this.state;
+
     return (
-      <div className={s(s.gsapTools, { [s.gsapToolsFixed]: isFixed })}>
-        <div className={s.gsapTools__container}>
-          <div className={s(s.gsapTools__box, { isLoaded, isVisible, onClick })}>
-            <Header
-              keys={store.keys}
-              handleList={this.handleList}
-              handleTimeScale={this.handleTimeScale}
+      <Draggable
+        handle="header"
+        bounds="parent"
+        onStop={this.handleDragStop}
+        position={{ x, y }}
+      >
+        <div
+          className={s(s.gsapTools, { [s.gsapToolsFixed]: isFixed })}
+          ref={(el) => { this.container = el; }}
+        >
+          <div className={s.gsapTools__container}>
+            <div className={s(s.gsapTools__box, { isLoaded, isVisible, onClick })}>
+              <Header
+                keys={store.keys}
+                handleList={this.handleList}
+                handleTimeScale={this.handleTimeScale}
+                handleUIClose={this.handleUIClose}
+                master={this.master}
+                timeScale={timeScale}
+                isActive={isActive}
+              />
+
+              <section className={s.gsapTools__inner}>
+                <Controls
+                  handleRewind={this.handleRewind}
+                  handlePlayPause={this.handlePlayPause}
+                  handleLoop={this.handleLoop}
+                  isPause={playIcon}
+                  isLoop={isLoop}
+                  isActive={isActive}
+                />
+
+                <Range
+                  value={value}
+                  isActive={isActive}
+                  onDrag={this.handleRange}
+                  onDragStart={this.handleRangeStart}
+                  onDragEnd={this.handleRangeEnd}
+                  onDragMarkerIn={this.handleMarkerInRange}
+                  onDragMarkerOut={this.handleMarkerOutRange}
+                  onDragMarkerReset={this.handleMarkerReset}
+                  ref={(el) => { this.range = el; }}
+                />
+              </section>
+            </div>
+
+            <Button
               handleUIClose={this.handleUIClose}
-              master={this.master}
-              timeScale={timeScale}
-              isActive={isActive}
+              visible={isVisible}
+              onClick={onClick}
             />
-
-            <section className={s.gsapTools__inner}>
-              <Controls
-                handleRewind={this.handleRewind}
-                handlePlayPause={this.handlePlayPause}
-                handleLoop={this.handleLoop}
-                isPause={playIcon}
-                isLoop={isLoop}
-                isActive={isActive}
-              />
-
-              <Range
-                value={value}
-                isActive={isActive}
-                onDrag={this.handleRange}
-                onDragStart={this.handleRangeStart}
-                onDragEnd={this.handleRangeEnd}
-                onDragMarkerIn={this.handleMarkerInRange}
-                onDragMarkerOut={this.handleMarkerOutRange}
-                onDragMarkerReset={this.handleMarkerReset}
-                ref={(el) => { this.range = el; }}
-              />
-            </section>
           </div>
-
-          <Button
-            handleUIClose={this.handleUIClose}
-            visible={isVisible}
-            onClick={onClick}
-          />
         </div>
-      </div>
+      </Draggable>
     );
   }
 }

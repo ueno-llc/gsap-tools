@@ -11,3 +11,8 @@ yarn-error.log
 
 # OSX Files
 .DS_Store
+
+# From react-gh-pages
+build/*
+src/styles/*
+components/*

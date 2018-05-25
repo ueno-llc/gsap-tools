@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import clamp from 'lodash/clamp';
-import { TweenLite } from 'utils/gsap';
-import { SIZES, LOCAL_STORAGE } from 'utils/constants';
+import { TweenLite } from 'gsap';
+import { SIZES } from 'utils/constants';
+import storage from 'utils/storage';
 
 import s from './Range.scss';
 
@@ -63,8 +64,8 @@ export default class Range extends PureComponent {
   }
 
   initMarkers = () => {
-    const inPercent = Number(localStorage.getItem(LOCAL_STORAGE.IN_PERCENT)) || 0;
-    const outPercent = Number(localStorage.getItem(LOCAL_STORAGE.OUT_PERCENT)) || 100;
+    const inPercent = Number(storage.get('IN_PERCENT')) || 0;
+    const outPercent = Number(storage.get('OUT_PERCENT')) || 100;
 
     // There is nothing to init if markers are
     // to theirs initials values
