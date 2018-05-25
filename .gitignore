@@ -23,3 +23,6 @@ yarn.lock
 
 # dist gsap-tools output folder
 dist/*
+
+# generated css files
+*.css

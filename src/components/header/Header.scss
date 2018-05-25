@@ -1,0 +1,27 @@
+@import '../../styles/config.scss';
+
+.header {
+  height: 150px;
+  padding: 20px;
+
+  color: $color-pink;
+
+  background-color: #222;
+
+  &__logo {
+    opacity: 0;
+
+    height: 80px;
+
+    animation: spin infinite 20s linear;
+  }
+
+  &__title {
+    font-size: 1.5em;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
