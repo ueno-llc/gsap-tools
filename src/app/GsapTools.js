@@ -104,7 +104,8 @@ export default class GsapTools extends PureComponent {
   }
 
   initUI = () => {
-    const isVisible = storage.get('IS_VISIBLE') === 'true';
+    // Read values from props, localStorage and fallbacks
+    const isVisible = this.props.isVisible || storage.get('IS_VISIBLE') === 'true';
     const timeScale = Number(storage.get('TIME_SCALE')) || 1;
     const isLoop = storage.get('LOOP') === 'true';
     const { x, y } = JSON.parse(storage.get('BOX_POSITION')) || { x: 0, y: 0 };
@@ -121,11 +122,17 @@ export default class GsapTools extends PureComponent {
     const inPercent = Number(storage.get('IN_PERCENT')) || 0;
     const outPercent = Number(storage.get('OUT_PERCENT')) || 100;
 
+    // If inPercent and outPercent are defined it means we want
+    // an inOutMaster timeline so we have to init it
     if (inPercent > 0 || outPercent < 100) {
       this.inTime = this.master.totalDuration() * (inPercent / 100);
       this.outTime = this.master.totalDuration() * (outPercent / 100);
       this.initInOut({ inTime: this.inTime, outTime: this.outTime });
     }
+
+    // If isVisible props is defined by default on gsap-tools
+    // component we set it on localStorage
+    storage.set('IS_VISIBLE', isVisible);
   }
 
   handleUIClose = () => {
