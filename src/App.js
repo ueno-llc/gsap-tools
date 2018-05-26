@@ -13,7 +13,6 @@ export default class App extends PureComponent {
   render() {
     return (
       <AppLayout>
-
         <Hero />
 
         <Content title="GsapTools" subheading="A simple way to debug GSAP's timelines">
@@ -84,7 +83,7 @@ componentWillUnmount() {
           </Code>
         </Content>
 
-        <GsapTools isVisible isFixed />
+        <GsapTools isVisible />
       </AppLayout>
     );
   }
