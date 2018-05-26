@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import GsapTools from 'gsap-tools';
 
 import AppLayout from 'components/app-layout';
 import Hero from 'components/hero';
@@ -80,8 +79,6 @@ componentWillUnmount() {
 }`}
           </Code>
         </Content>
-
-        <GsapTools isVisible />
       </AppLayout>
     );
   }
