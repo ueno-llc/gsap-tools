@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import Container from '../../components/container';
-import Row from '../../components/row';
+import Container from 'components/container';
+import Row from 'components/row';
 
 import './Content.css';
 

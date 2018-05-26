@@ -1,12 +1,10 @@
 import React, { PureComponent } from 'react';
-
-import AppLayout from './components/app-layout';
-
-import Hero from './components/hero';
-import Content from './components/content';
 import GsapTools from 'gsap-tools';
 
-import Code from './components/code';
+import AppLayout from 'components/app-layout';
+import Hero from 'components/hero';
+import Content from 'components/content';
+import Code from 'components/code';
 
 export default class App extends PureComponent {
 

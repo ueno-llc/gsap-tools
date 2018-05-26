@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
-import TimelineLite from 'gsap/TimelineLite';
-import { add } from 'gsap-tools'; // eslint-disable-line
+import { TimelineLite } from 'gsap';
+import { add } from 'gsap-tools';
 
 import Circles from './Circles';
 import Logo from './Logo';
@@ -66,11 +65,9 @@ export default class Hero extends PureComponent {
     return (
       <div className="hero">
         <div className="hero__inner">
-
           <Circles ref={(el) => { this.circles = el; }} />
           <Logo ref={(el) => { this.logo = el; }} />
           <AppleGuy ref={(el) => { this.apple = el; }} />
-
           {children}
         </div>
       </div>
