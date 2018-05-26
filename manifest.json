@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "GsapTools",
+  "name": "GsapTools, a simple way to debug GSAP's timelines",
   "icons": [
     {
       "src": "favicon.ico",
