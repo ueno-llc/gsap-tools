@@ -109,7 +109,8 @@ export default class GsapTools extends PureComponent {
 
   initUI = () => {
     // Read values from props, localStorage and fallbacks
-    const isVisible = this.props.isVisible || storage.get('IS_VISIBLE') === 'true';
+    const storageIsVisible = JSON.parse(storage.get('IS_VISIBLE'));
+    const isVisible = storageIsVisible === null ? this.props.isVisible : storageIsVisible;
     const timeScale = Number(storage.get('TIME_SCALE')) || 1;
     const isLoop = storage.get('LOOP') === 'true';
     const { x, y } = JSON.parse(storage.get('BOX_POSITION')) || { x: 0, y: 0 };
