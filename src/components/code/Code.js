@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { github } from 'react-syntax-highlighter/styles/hljs';
+import { monokaiSublime } from 'react-syntax-highlighter/styles/hljs';
 
 import './Code.css';
 
@@ -17,7 +17,7 @@ export default class Code extends PureComponent {
     return (
       <SyntaxHighlighter
         language="javascript"
-        style={github}
+        style={monokaiSublime}
         className="code"
       >
         {children}
