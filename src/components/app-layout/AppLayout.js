@@ -1,5 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import GsapTools from 'gsap-tools';
+
+import GridOverlay from 'components/grid-overlay';
 
 import './AppLayout.css';
 
@@ -15,6 +18,9 @@ export default class AppLayout extends PureComponent {
     return (
       <div className="layout">
         {children}
+
+        <GridOverlay />
+        <GsapTools isVisible />
       </div>
     );
   }

@@ -1,19 +1,15 @@
 import React, { PureComponent } from 'react';
 
-import AppLayout from './components/app-layout';
-
-import Hero from './components/hero';
-import Content from './components/content';
-import GsapTools from 'gsap-tools';
-
-import Code from './components/code';
+import AppLayout from 'components/app-layout';
+import Hero from 'components/hero';
+import Content from 'components/content';
+import Code from 'components/code';
 
 export default class App extends PureComponent {
 
   render() {
     return (
       <AppLayout>
-
         <Hero />
 
         <Content
@@ -24,17 +20,32 @@ export default class App extends PureComponent {
           to give away all our secrets. You must understand."
         >
           <div>hi!</div>
-        </Content>
 
-        <GsapTools isVisible isFixed />
+          <h2>Installation</h2>
 
-        <Code>
+          <Code>
+{`npm install --save-dev gsap-tools`}
+          </Code>
+
+          <h2>Features</h2>
+
+          <h2>How to use it</h2>
+
+          <p>Add GsapTools component globally to your app (just import it once in your app)</p>
+
+          <Code>
 {`import GsapTools from 'gsap-tools';
 
 <GsapTools />`}
-        </Code>
+          </Code>
 
-        <Code>
+          <p>Register your Gsap timeline to be control with GsapTools</p>
+
+          <p>The simple way to do it:
+          — You defined an id on the TimelineLite constructor
+          — You create a reference to the add function to dispose of the timeline on the componentWillUnmount</p>
+
+          <Code>
 {`import { add } from 'gsap-tools';
 
 componentDidMount() {
@@ -46,9 +57,11 @@ componentDidMount() {
 componentWillUnmount() {
   this.disposer();
 }`}
-        </Code>
+          </Code>
 
-        <Code>
+          <p>Others ways:</p>
+
+          <Code>
 {`componentDidMount() {
   this.t = new TimelineLite();
 
@@ -70,7 +83,8 @@ componentWillUnmount() {
   // Remove the timeline by passing the id, without the timeline reference
   remove(null, 'myTimeline');
 }`}
-        </Code>
+          </Code>
+        </Content>
       </AppLayout>
     );
   }

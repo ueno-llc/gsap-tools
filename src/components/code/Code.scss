@@ -3,7 +3,8 @@
 .code {
   @include responsive-font(16, 18);
 
-  font-family: $font-code;
+  padding: 30px !important;
+
   letter-spacing: 0.015em;
   line-height: (22 / 18);
 

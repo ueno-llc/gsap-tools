@@ -1,13 +1,9 @@
 import React, { PureComponent } from 'react';
-import TimelineLite from 'gsap/TimelineLite';
+import { TimelineLite } from 'gsap';
 
 import './Hero.css';
 
 export default class Circles extends PureComponent {
-
-  static defaultProps = {
-    children: undefined,
-  }
 
   get timelineEnter() {
     const t = new TimelineLite();
@@ -63,26 +59,28 @@ export default class Circles extends PureComponent {
       .to(circle[2], 2, { x: '200%', y: '200%', autoAlpha: 0, ease }, 'start');
 
     t.add(t1).add(t2, 'start');
+
     return t;
   }
 
   render() {
-
     return (
       <svg className="hero__svg" viewBox="0 0 1670 1180">
-
         <radialGradient id="gradient-blue" cx="20%" cy="20%" r="50%">
           <stop offset="0%" stopColor="#8ed8f7" />
           <stop offset="100%" stopColor="#34c1fc" />
         </radialGradient>
+
         <radialGradient id="gradient-pink" cx="20%" cy="20%" r="50%">
           <stop offset="0%" stopColor="#e888ff" />
           <stop offset="100%" stopColor="#cf5eea" />
         </radialGradient>
+
         <radialGradient id="gradient-green" cx="20%" cy="20%" r="50%">
           <stop offset="0%" stopColor="#cbf9ed" />
           <stop offset="100%" stopColor="#1de1ae" />
         </radialGradient>
+
         <radialGradient id="gradient-grey" cx="20%" cy="20%" r="50%">
           <stop offset="0%" stopColor="#f9f9f9" />
           <stop offset="100%" stopColor="#eee" />
