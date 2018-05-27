@@ -3,7 +3,6 @@
 @import './mixins.scss';
 @import './fonts.scss';
 
-/* stylelint-disable selector-max-type */
 @-ms-viewport {
   width: device-width;
 }
@@ -64,6 +63,7 @@ body {
   margin: 0;
 
   font-family: $font-family;
+  font-weight: 200;
   line-height: $line-height;
   color: $color-font;
 

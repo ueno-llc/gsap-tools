@@ -16,7 +16,13 @@ export default class App extends PureComponent {
 
         <Hero />
 
-        <Content title="GsapTools" subheading="A simple way to debug GSAP's timelines">
+        <Content
+          title="Gsap Tools"
+          subheading="A simple way to debug GSAP's timelines"
+          text="The Ueno color palette is bright and fancy. And all the colors match.
+          Except one. But we won’t tell you which one. Because we’re not about
+          to give away all our secrets. You must understand."
+        >
           <div>hi!</div>
         </Content>
 

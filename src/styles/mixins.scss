@@ -110,10 +110,13 @@
   font-family: $font-family-heading;
   font-weight: 200;
   letter-spacing: -((0.5/38) * 1em);
+  line-height: 1.25;
 }
 
 @mixin subheading() {
   @include heading;
+
+  margin-bottom: (80/38) * 1em;
 
   color: #9ea0a6;
   font-weight: 100;

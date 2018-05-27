@@ -13,13 +13,13 @@ $page-limit: $page-width + ($container-gutter-desktop * 2);
 
 // Fonts
 $font-family: 'Akagi', sans-serif;
-$font-family-serif: testFont, serif;
+$font-family-serif: 'Tisa', serif;
 $font-family-heading: $font-family-serif;
 $font-code: 'Source Code Pro', monospace;
 
-$font-size: 16px;
-$font-size-min: 13px;
-$line-height: 1.5;
+$font-size: 20px;
+$font-size-min: 16px;
+$line-height: (32/strip-unit($font-size));
 
 // Colors
 $color-font: #333;

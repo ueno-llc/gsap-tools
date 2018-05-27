@@ -12,6 +12,7 @@ export default class Content extends PureComponent {
     children: PropTypes.node,
     title: PropTypes.string,
     subheading: PropTypes.string,
+    text: PropTypes.string,
   }
 
   static defaultProps = {
@@ -19,7 +20,7 @@ export default class Content extends PureComponent {
   }
 
   render() {
-    const { children, title, subheading } = this.props;
+    const { children, title, subheading, text } = this.props;
 
     return (
       <div className="content">
@@ -29,6 +30,7 @@ export default class Content extends PureComponent {
               <div className="content__inner">
                 <h1 className="content__heading">{title}</h1>
                 <h2 className="content__subheading">{subheading}</h2>
+                <p className="content__copy">{text}</p>
                 {children}
               </div>
             </div>

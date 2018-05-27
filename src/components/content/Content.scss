@@ -64,4 +64,10 @@
   &__subheading {
     @include subheading;
   }
+
+  &__copy {
+    @include reset-all;
+
+    margin-bottom: (200px / $font-size) * 1em;
+  }
 }
