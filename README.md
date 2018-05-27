@@ -83,42 +83,33 @@ componentWillUnmount() {
 
 ### `<GsapTools />` component
 
-**isVisible** (default = false)
-You can choose to show the GsapTools by default.
+- **isVisible** (default = false): You can choose to show the GsapTools by default.
 
-**isFixed** (default = true)
-With the draggable feature, the GsapTools is on fixed position to be on top of everything.
+- **isFixed** (default = true): With the draggable feature, the GsapTools is on fixed position to be on top of everything.
 But you can decide to position it in another way by passing false to this props.
 
-**onClick** (default = undefined)
-
-The tool comes with a build-in button to toggle the component. But if you decide to have
+- **onClick** (default = undefined): The tool comes with a build-in button to toggle the component. But if you decide to have
 your own button to handle this, just pass an onClick props to the component and it will
 remove the build-in one. It’s usefull if you have a whole dev tools package and
 already have a way to enable one or another tool.
 
 ### `add()` function
 
-**timeline** (required)
-The first argument to pass is the timeline from your animation. It only works with
+- **timeline** (required): The first argument to pass is the timeline from your animation. It only works with
 `TimelineLite` and `TimelineMax` for the moment.
 
-**id** (optional)
-Instead of passing the id to the timeline method constructor you can pass it on
+- **id** (optional): Instead of passing the id to the timeline method constructor you can pass it on
 the `add()` function itself `add(this.timeline, ‘myId’)`.
 
 ### `remove()` function
 
 This function is not required. It’s simpler through the disposer function call
-via the reference to the `add()
- function. However you can still use it if you want.
+via the reference to the `add()` function. However you can still use it if you want.
 
-**timeline** (optional)
-The previous timeline you added. It can be the reference to it.
+- **timeline** (optional): The previous timeline you added. It can be the reference to it.
 `this.t = new TimelineLite()` then `remove(this.t)`.
 
-**id** (optional)
-The id of the timeline if you defined one through the add function. In this case
+- **id** (optional): The id of the timeline if you defined one through the add function. In this case
 you have to pass the timeline argument as null `remove(null, ‘myId’)`.
 
 ## Motivation
