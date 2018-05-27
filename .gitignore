@@ -15,4 +15,4 @@ yarn-error.log
 # From react-gh-pages
 build/*
 src/styles/*
-components/*
+src/components/*
