@@ -123,6 +123,19 @@
 
 }
 
+
+@mixin h2() {
+  @include reset-heading;
+  @include responsive-font(20, 26);
+
+  margin-bottom: (40/26) * 1em;
+
+  font-family: $font-family;
+  font-weight: 500;
+  line-height: 1.25;
+
+}
+
 // html.js / html.no-js will not compile?!
 // hence these workaround selectors
 @mixin js-only {

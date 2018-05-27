@@ -1,12 +1,15 @@
 @import '../../styles/config.scss';
 
 .code {
-  @include responsive-font(16, 18);
+  @include responsive-font(14, 16);
 
-  padding: 30px !important;
+  line-height: (22 / 16);
 
-  letter-spacing: 0.015em;
-  line-height: (22 / 18);
+  &__heading {
+    @include h2;
+  }
 
-  border-radius: 4px;
+  &__inner {
+    line-height: (22 / 16);
+  }
 }

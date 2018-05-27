@@ -13,33 +13,26 @@ export default class App extends PureComponent {
         <Hero />
 
         <Content
-          title="Gsap Tools"
+          title="GsapTools"
           subheading="A simple way to debug GSAP's timelines"
           text="The Ueno color palette is bright and fancy. And all the colors match.
           Except one. But we won’t tell you which one. Because we’re not about
           to give away all our secrets. You must understand."
         >
-          <div>hi!</div>
 
-          <h2>Installation</h2>
-
-          <Code>
+          <Code title="Installation">
             {`npm install --save-dev gsap-tools`}
           </Code>
 
           <h2>Features</h2>
 
-          <h2>How to use it</h2>
-
-          <p>Add GsapTools component globally to your app (just import it once in your app)</p>
-
-          <Code>
+          <Code title="How to use it" text={`Add the GsapTools component globally to your app (just import it once in your app)`}>
             {`import GsapTools from 'gsap-tools';
 
             <GsapTools />`}
           </Code>
 
-          <p>Register your Gsap timeline to be control with GsapTools</p>
+          <p>Register your Gsap timeline to be controlled with GsapTools</p>
 
           <p>The simple way to do it:
           — You defined an id on the TimelineLite constructor
