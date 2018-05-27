@@ -5,6 +5,10 @@ import './Logo.css';
 
 export default class Logo extends PureComponent {
 
+  static defaultProps = {
+    children: undefined,
+  }
+
   get timelineEnter() {
     const t = new TimelineLite();
 
@@ -53,16 +57,17 @@ export default class Logo extends PureComponent {
   }
 
   // scale out circle
-  get timelineFade() {
-    const t = new TimelineLite();
-
-    t
-      .to(this.dotInner, 1.25, { scale: 0, ease: 'Power4.easeOut' });
-
-    return t;
-  }
+  // get timelineFade() {
+  //   const t = new TimelineLite();
+  //
+  //   t
+  //     .to(this.dotInner, 1.25, { scale: 0, ease: 'Power4.easeOut' });
+  //
+  //   return t;
+  // }
 
   render() {
+
     return (
       <div className="logo">
         <svg className="logo__svg" ref={(el) => { this.logo = el; }} fill="none" stroke="transparent" strokeWidth="1" viewBox="0 0 1175 270">
@@ -72,7 +77,6 @@ export default class Logo extends PureComponent {
           <path d="M966.5 270c-79 0-134.7-55.2-134.7-134.7C831.8 55.7 887.5 0 966.5 0c79.5 0 135.3 55.7 135.3 135.3 0 79.5-55.8 134.7-135.3 134.7zm0-52.8c43 0 65-33.7 65-81.9 0-48.8-22.1-82.5-65-82.5-42.4 0-64.5 33.7-64.5 82.5 0 48.2 22.1 81.9 64.5 81.9z" />
           <circle cx="1140" cy="235" r="35" />
         </svg>
-
         <div className="logo__dot" ref={(el) => { this.dot = el; }}>
           <div className="logo__dotInner" ref={(el) => { this.dotInner = el; }}>
             <svg viewBox="0 0 70 70" preserveAspectRatio="none" ref={(el) => { this.dotSvg = el; }}>

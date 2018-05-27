@@ -24,7 +24,7 @@ export default class App extends PureComponent {
           <h2>Installation</h2>
 
           <Code>
-{`npm install --save-dev gsap-tools`}
+            {`npm install --save-dev gsap-tools`}
           </Code>
 
           <h2>Features</h2>
@@ -34,9 +34,9 @@ export default class App extends PureComponent {
           <p>Add GsapTools component globally to your app (just import it once in your app)</p>
 
           <Code>
-{`import GsapTools from 'gsap-tools';
+            {`import GsapTools from 'gsap-tools';
 
-<GsapTools />`}
+            <GsapTools />`}
           </Code>
 
           <p>Register your Gsap timeline to be control with GsapTools</p>
@@ -46,43 +46,43 @@ export default class App extends PureComponent {
           — You create a reference to the add function to dispose of the timeline on the componentWillUnmount</p>
 
           <Code>
-{`import { add } from 'gsap-tools';
+            {`import { add } from 'gsap-tools';
 
-componentDidMount() {
-  this.t = new TimelineLite({ id: 'myTimeline' });
+            componentDidMount() {
+              this.t = new TimelineLite({ id: 'myTimeline' });
 
-  this.disposer = add(this.t);
-}
+              this.disposer = add(this.t);
+            }
 
-componentWillUnmount() {
-  this.disposer();
-}`}
+            componentWillUnmount() {
+              this.disposer();
+            }`}
           </Code>
 
           <p>Others ways:</p>
 
           <Code>
-{`componentDidMount() {
-  this.t = new TimelineLite();
+            {`componentDidMount() {
+              this.t = new TimelineLite();
 
-  // You can defined the id of the timeline on the 'add' function itself
-  add(this.t, 'myTimeline');
+              // You can defined the id of the timeline on the 'add' function itself
+              add(this.t, 'myTimeline');
 
-  // or
+              // or
 
-  // It will generated an id, if you don't specified any
-  add(this.t);
-}
+              // It will generated an id, if you don't specified any
+              add(this.t);
+            }
 
-componentWillUnmount() {
-  // Remove the timeline just by passing the reference to the timeline
-  remove(this.t);
+            componentWillUnmount() {
+              // Remove the timeline just by passing the reference to the timeline
+              remove(this.t);
 
-  // or
+              // or
 
-  // Remove the timeline by passing the id, without the timeline reference
-  remove(null, 'myTimeline');
-}`}
+              // Remove the timeline by passing the id, without the timeline reference
+              remove(null, 'myTimeline');
+            }`}
           </Code>
         </Content>
       </AppLayout>
