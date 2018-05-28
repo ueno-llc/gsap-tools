@@ -15,24 +15,24 @@ export default class AppleGuy extends PureComponent {
     const eyes = this.eyes.childNodes;
 
     wave
-      .to(this.arm, 1, { rotation: 0, immediateRender: false })
-      .to(this.arm, 0.15, { rotation: -20, immediateRender: false })
-      .to(this.arm, 0.15, { rotation: 0, immediateRender: false })
-      .to(this.arm, 0.15, { rotation: -20, immediateRender: false })
-      .to(this.arm, 0.15, { rotation: 0, immediateRender: false });
+      .to(this.arm, 1, { rotation: 0 })
+      .to(this.arm, 0.15, { rotation: -20 })
+      .to(this.arm, 0.15, { rotation: 0 })
+      .to(this.arm, 0.15, { rotation: -20 })
+      .to(this.arm, 0.15, { rotation: 0 });
 
     t
       .addLabel('start')
-      .set(this.appleSvg, { y: '125%', transformOrigin: 'center' })
+      .set(this.appleGuy, { opacity: 1, immediateRender: false }, 'start')
+      .set(this.appleSvg, { y: '125%', autoAlpha: 1, transformOrigin: 'center' })
       .set(this.arm, { rotation: -20, transformOrigin: 'left center' })
       .set(eyes, { xPercent: -50 })
-      .to(this.appleGuy, 0.3, { autoAlpha: 1 })
-      .to(this.appleSvg, 0.75, { y: '60%', ease: 'Power4.easeOut' }, '-=0.3')
+      .to(this.appleSvg, 0.75, { y: '60%', ease: 'Power4.easeOut' })
       .addLabel('eyes')
       .to(eyes, 0.15, { xPercent: -110, ease: 'Power2.easeOut' }, 'eyes+=0.3')
       .to(eyes, 0.15, { xPercent: 0, ease: 'Power2.easeOut' }, 'eyes+=1.3')
       .to(this.appleSvg, 1, { yPercent: 0, ease: 'Power4.easeInOut' }, 'eyes+=2.25')
-      .add(wave, 'eyes+=2');
+      .add(wave, 'eyes+=2')
     // .to(this.appleSvg, 0.75, { y: '125%', ease: 'Power4.easeOut' }, '+=0.5');
 
     return t;

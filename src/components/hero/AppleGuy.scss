@@ -10,16 +10,16 @@
 
   // why this?
   // def need to revisit
-  width: percentage(491px/1175px);
+  width: percentage(490px/1175px);
 
   // for rounding
-  max-width: 701px;
+  max-width: 700px;
 
   overflow: hidden;
 
   border-radius: 50%;
 
-  // box-shadow: 0 0 0 1px #c00;
+  background: #796d9b;
 
   &::before {
     content: '';

@@ -16,13 +16,25 @@
 
   button {
     @include reset-button;
-    text-decoration: underline;
+    position: relative;
 
     cursor: pointer;
 
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0.3ex;
+      left: 0;
+      right: 0;
+
+      height: 1px;
+
+      background: $color-font;
+    }
+
     @media (pointer: fine) {
-      &:hover {
-        text-decoration: none;
+      &:hover::after {
+        background: transparent;
       }
     }
   }

@@ -60,10 +60,10 @@ export default class App extends PureComponent {
           <Copy>
             <p><b>Register your Gsap timeline to be controlled with GsapTools</b><br />
 
-            The simplest way to do it, is to define an id on the Timeline method constructor,
-            call the add function to register the timeline and create a reference to the add function
-            to remove it when the component is unmounted. Alternatively, there is other ways to do
-            it, <button onClick={this.showCode}>expand them</button>.</p>
+            The simplest way to do it is to define an id on the Timeline method constructor,
+            call the 'add' function to register the timeline, and create a reference to the add function
+            to remove it when the component is unmounted. Alternatively, there are other ways to do
+            it. <button onClick={this.showCode}>View them</button>.</p>
 
           </Copy>
 

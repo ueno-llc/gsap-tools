@@ -6,6 +6,9 @@
   opacity: 0;
 
   margin-bottom: (60/16) * 1em;
+
+  height: 0;
+
   line-height: (22 / 16);
 
   will-change: opacity;
@@ -13,5 +16,7 @@
 
   &--visible {
     opacity: 1;
+
+    height: auto;
   }
 }
