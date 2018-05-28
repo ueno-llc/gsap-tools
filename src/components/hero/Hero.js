@@ -38,7 +38,7 @@ export default class Hero extends PureComponent {
     mainTimeline
       .add(circlesTimeline, 'start')
       .add(logoTimeline, 'start')
-      .add(appleTimeline);
+      .add(appleTimeline, logoTimeline.duration());
     // .add(outroTimeline, '-=0.2');
 
     this.disposer1 = add(mainTimeline);
