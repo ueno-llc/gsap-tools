@@ -15,6 +15,6 @@ Row.propTypes = {
 
 Row.defaultProps = {
   children: undefined,
-}
+};
 
 export default Row;

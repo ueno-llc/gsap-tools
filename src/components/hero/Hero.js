@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { TimelineLite } from 'gsap';
-import { add } from 'gsap-tools';
+import { TimelineLite } from 'gsap'; // eslint-disable-line
+import { add } from 'gsap-tools'; // eslint-disable-line
 
 import Circles from './Circles';
 import Logo from './Logo';
@@ -39,7 +39,7 @@ export default class Hero extends PureComponent {
       .add(circlesTimeline, 'start')
       .add(logoTimeline, 'start')
       .add(appleTimeline);
-      // .add(outroTimeline, '-=0.2');
+    // .add(outroTimeline, '-=0.2');
 
     this.disposer1 = add(mainTimeline);
     this.disposer2 = add(circlesTimeline);
