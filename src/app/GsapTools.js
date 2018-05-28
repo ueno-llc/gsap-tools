@@ -326,25 +326,39 @@ export default class GsapTools extends PureComponent {
   }
 
   handleRange = (value) => {
+    const progress = (value / 100).toFixed(2);
+
     this.setState({ value });
-    this.master.progress((value / 100).toFixed(2));
+    this.master.progress(progress);
   }
 
   handleRangeStart = () => {
-    // Let's keep in memory if the master timeline was paused or not
-    // when we start dragging the handle
-    this.wasPlaying = !this.master.paused();
+    // Let's keep in memory if the master or inOutMaster timelines
+    // were paused or not when we start dragging the handle
+    this.masterWasPlaying = !this.master.paused();
 
-    if (this.wasPlaying) {
+    if (this.masterWasPlaying) {
       this.master.pause();
+    }
+
+    if (this.inOutMaster) {
+      this.inOutMasterWasPlaying = !this.inOutMaster.paused();
+
+      if (this.inOutMasterWasPlaying) {
+        this.inOutMaster.pause();
+      }
     }
   }
 
   handleRangeEnd = () => {
-    // After we release the handle, if the timeline was playing when
-    // we started dragging, we will just resume it
-    if (this.wasPlaying) {
+    // After we release the handle, if master or inOutMaster timelines
+    // was playing when we started dragging, we will just resume them
+    if (this.masterWasPlaying) {
       this.master.play();
+    }
+
+    if (this.inOutMaster && this.inOutMasterWasPlaying) {
+      this.inOutMaster.play();
     }
   }
 

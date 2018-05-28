@@ -142,7 +142,9 @@ export default class Range extends PureComponent {
    */
 
   getValueFromPosition = (pos) => {
-    return (clamp(pos, 0, this.widthWithoutHandle) / (this.widthWithoutHandle || 1)) * 100;
+    const val = clamp(pos, 0, this.widthWithoutHandle);
+
+    return (val / (this.widthWithoutHandle || 1)) * 100;
   }
 
   position = (e) => {
