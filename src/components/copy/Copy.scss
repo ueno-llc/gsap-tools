@@ -1,8 +1,10 @@
+/* stylelint-disable selector-max-type */
 @import '../../styles/config.scss';
 
 .copy {
-
-  p, ul, ol {
+  p,
+  ul,
+  ol {
     @include reset-all;
 
     margin-bottom: (40px/$font-size) * 1em;
@@ -10,5 +12,18 @@
 
   b {
     font-weight: 500;
+  }
+
+  button {
+    @include reset-button;
+    text-decoration: underline;
+
+    cursor: pointer;
+
+    @media (pointer: fine) {
+      &:hover {
+        text-decoration: none;
+      }
+    }
   }
 }

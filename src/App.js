@@ -9,6 +9,16 @@ import Copy from 'components/copy';
 
 export default class App extends PureComponent {
 
+  state = {
+    codeVisible: false,
+  }
+
+  showCode = () => {
+    this.setState({
+      codeVisible: !this.state.codeVisible,
+    });
+  }
+
   render() {
     return (
       <AppLayout>
@@ -52,8 +62,8 @@ export default class App extends PureComponent {
 
             The simplest way to do it, is to define an id on the Timeline method constructor,
             call the add function to register the timeline and create a reference to the add function
-            to remove it when the component is unmounted. Alternatively, there is other ways to do it,
-            expand them.</p>
+            to remove it when the component is unmounted. Alternatively, there is other ways to do
+            it, <button onClick={this.showCode}>expand them</button>.</p>
 
           </Copy>
 
@@ -70,6 +80,22 @@ export default class App extends PureComponent {
               this.disposer();
             }`}
           </Code>
+
+          <Code visible={this.state.codeVisible}>
+            {`import { add } from 'gsap-tools';
+
+            componentDidMount() {
+              this.t = new TimelineLite({ id: 'myTimeline' });
+
+              this.disposer = add(this.t);
+            }
+
+            componentWillUnmount() {
+              this.disposer();
+            }`}
+          </Code>
+
+
 
         </Content>
       </AppLayout>

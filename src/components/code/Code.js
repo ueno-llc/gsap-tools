@@ -11,13 +11,20 @@ export default class Code extends PureComponent {
 
   static propTypes = {
     children: PropTypes.node,
+    visible: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    visible: true,
   }
 
   render() {
-    const { children } = this.props;
+    const { children, visible } = this.props;
+
+    const className = visible ? "code code--visible" : "code";
 
     return (
-      <section className="code">
+      <section className={className}>
         <Highlighter
           language="javascript"
           style={style}

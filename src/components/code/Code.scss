@@ -3,6 +3,15 @@
 .code {
   @include responsive-font(14, 16);
 
+  opacity: 0;
+
   margin-bottom: (60/16) * 1em;
   line-height: (22 / 16);
+
+  will-change: opacity;
+  transition: opacity $transition-enter;
+
+  &--visible {
+    opacity: 1;
+  }
 }
