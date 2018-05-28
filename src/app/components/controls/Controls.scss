@@ -24,6 +24,12 @@
       fill: #cad5db;
     }
 
+    &:hover {
+      path { // stylelint-disable-line
+        fill: darken(#cad5db, 20%);
+      }
+    }
+
     .isActive & {
       pointer-events: all;
 
@@ -33,12 +39,6 @@
 
   &__rewind {
     margin-right: 40px;
-
-    &:hover {
-      path { // stylelint-disable-line
-        fill: darken(#cad5db, 20%);
-      }
-    }
   }
 
   &__playPause {
@@ -60,12 +60,6 @@
     .isActive.isLoop & {
       path { // stylelint-disable-line
         fill: #000;
-      }
-    }
-
-    &:hover {
-      path { // stylelint-disable-line
-        fill: darken(#cad5db, 20%);
       }
     }
   }
