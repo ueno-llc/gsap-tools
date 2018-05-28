@@ -15,7 +15,7 @@ const colors = {
 };
 
 export default {
-  'code[class*=\"language-\"]': {
+  'code[class*="language-"]': {
     'color': colors.white,
     'fontFamily': 'Inconsolata, Monaco, Consolas, Courier New, Courier, monospace',
     'direction': 'ltr',
@@ -32,7 +32,7 @@ export default {
     'msHyphens': 'none',
     'hyphens': 'none',
   },
-  'pre[class*=\"language-\"]': {
+  'pre[class*="language-"]': {
     'color': colors.white,
     'fontFamily': 'Inconsolata, Monaco, Consolas, Courier New, Courier, monospace',
     'direction': 'ltr',
@@ -53,7 +53,7 @@ export default {
     'borderRadius': '0.3em',
     'background': '#282c34',
   },
-  ':not(pre) > code[class*=\"language-\"]': {
+  ':not(pre) > code[class*="language-"]': {
     'background': '#282c34',
     'padding': '.1em',
     'borderRadius': '.3em',
