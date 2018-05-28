@@ -1,0 +1,21 @@
+{
+  "extends": "@ueno",
+  "rules": {
+    "react/no-array-index-key": 0
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".json",
+          ".scss"
+        ],
+        "moduleDirectory": [
+          "node_modules",
+          "src"
+        ]
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import GsapTools from 'gsap-tools';
+import GsapTools from 'gsap-tools'; // eslint-disable-line
 
 import GridOverlay from 'components/grid-overlay';
 

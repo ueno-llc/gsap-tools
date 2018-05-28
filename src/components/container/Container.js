@@ -15,6 +15,6 @@ Container.propTypes = {
 
 Container.defaultProps = {
   children: undefined,
-}
+};
 
 export default Container;

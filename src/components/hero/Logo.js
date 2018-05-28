@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { TimelineLite } from 'gsap';
+import { TimelineLite } from 'gsap'; // eslint-disable-line
 
 import './Logo.css';
 

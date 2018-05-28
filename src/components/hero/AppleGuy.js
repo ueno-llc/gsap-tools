@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { TimelineLite } from 'gsap';
+import { TimelineLite } from 'gsap'; // eslint-disable-line
 
 import './AppleGuy.css';
 
@@ -33,7 +33,7 @@ export default class AppleGuy extends PureComponent {
       .to(eyes, 0.15, { xPercent: 0, ease: 'Power2.easeOut' }, 'eyes+=1.3')
       .to(this.appleSvg, 1, { yPercent: 0, ease: 'Power4.easeInOut' }, 'eyes+=2.25')
       .add(wave, 'eyes+=2');
-      // .to(this.appleSvg, 0.75, { y: '125%', ease: 'Power4.easeOut' }, '+=0.5');
+    // .to(this.appleSvg, 0.75, { y: '125%', ease: 'Power4.easeOut' }, '+=0.5');
 
     return t;
   }
