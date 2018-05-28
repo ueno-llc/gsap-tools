@@ -327,7 +327,7 @@ export default class GsapTools extends PureComponent {
 
   handleRange = (value) => {
     this.setState({ value });
-    this.master.progress(value / 100);
+    this.master.progress((value / 100).toFixed(2));
   }
 
   handleRangeStart = () => {
