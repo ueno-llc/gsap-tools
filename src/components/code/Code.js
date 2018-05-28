@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import SyntaxHighlighter from 'react-syntax-highlighter/prism';
-import { atomDark } from 'react-syntax-highlighter/styles/prism';
+import Highlighter from 'react-syntax-highlighter/prism';
+
+import outdent from 'utils/outdent';
+import style from 'utils/highlighter';
 
 import './Code.css';
 
@@ -18,13 +20,14 @@ export default class Code extends PureComponent {
     return (
       <section className="code">
         <h2 className="code__heading">{title}</h2>
-        <SyntaxHighlighter
+
+        <Highlighter
           language="javascript"
-          style={atomDark}
+          style={style}
           className="code__inner"
         >
-          {children}
-        </SyntaxHighlighter>
+          {outdent(children)}
+        </Highlighter>
       </section>
     );
   }

@@ -20,17 +20,17 @@ export default class App extends PureComponent {
           to give away all our secrets. You must understand."
         >
 
-          <Code title="Installation">
-            {`npm install --save-dev gsap-tools`}
-          </Code>
+          <Code title="Installation">{`
+            npm install --save-dev gsap-tools
+          `}</Code>
 
           <h2>Features</h2>
 
-          <Code title="How to use it" text={`Add the GsapTools component globally to your app (just import it once in your app)`}>
-            {`import GsapTools from 'gsap-tools';
+          <Code title="How to use it" text={`Add the GsapTools component globally to your app (just import it once in your app)`}>{`
+            import GsapTools from 'gsap-tools';
 
-            <GsapTools />`}
-          </Code>
+            <GsapTools />
+          `}</Code>
 
           <p>Register your Gsap timeline to be controlled with GsapTools</p>
 
@@ -38,8 +38,8 @@ export default class App extends PureComponent {
           — You defined an id on the TimelineLite constructor
           — You create a reference to the add function to dispose of the timeline on the componentWillUnmount</p>
 
-          <Code>
-            {`import { add } from 'gsap-tools';
+          <Code>{`
+            import { add } from 'gsap-tools';
 
             componentDidMount() {
               this.t = new TimelineLite({ id: 'myTimeline' });
@@ -49,13 +49,13 @@ export default class App extends PureComponent {
 
             componentWillUnmount() {
               this.disposer();
-            }`}
-          </Code>
+            }
+          `}</Code>
 
           <p>Others ways:</p>
 
-          <Code>
-            {`componentDidMount() {
+          <Code>{`
+            componentDidMount() {
               this.t = new TimelineLite();
 
               // You can defined the id of the timeline on the 'add' function itself
@@ -75,8 +75,8 @@ export default class App extends PureComponent {
 
               // Remove the timeline by passing the id, without the timeline reference
               remove(null, 'myTimeline');
-            }`}
-          </Code>
+            }
+          `}</Code>
         </Content>
       </AppLayout>
     );
