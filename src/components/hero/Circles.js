@@ -26,7 +26,7 @@ export default class Circles extends PureComponent {
     t2.addLabel('start')
       .to(greyCircle, 0.3, { autoAlpha: 1, ease }, 'start')
       .to(greyCircle, 0.5, { scale: 1, ease }, 'start')
-      .to(greyCircle, 4, { y: '20%', ease: 'Power4.easeOut' }, 'start+=0.25')
+      .to(greyCircle, 4, { y: '10%', ease: 'Power4.easeOut' }, 'start+=0.25')
       .to(greyCircle, 0.25, { scale: 0.95, ease }, 'start+=0.5')
       .to(greyCircle, 0.5, { scale: 1 }, 'start+=0.75');
 
@@ -49,8 +49,9 @@ export default class Circles extends PureComponent {
     t1
       .addLabel('start')
       .to(greyCircle, 2, { autoAlpha: 0 })
-      .to(greyCircle[0], 2, { x: '200%', y: '-200%', autoAlpha: 0, ease }, 'start')
-      .to(greyCircle[2], 2, { x: '-200%', y: '-200%', autoAlpha: 0, ease }, 'start');
+      .to(greyCircle[0], 2, { x: '200%', y: '-250%', ease }, 'start')
+      .to(greyCircle[1], 2, { y: '100%', ease }, 'start')
+      .to(greyCircle[2], 2, { x: '-200%', y: '-200%', ease }, 'start');
 
     t2
       .addLabel('start')

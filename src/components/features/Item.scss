@@ -1,0 +1,31 @@
+@import '../../styles/config.scss';
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: $min-tablet) {
+    align-items: flex-start;
+  }
+
+  &__icon {
+    margin-bottom: 1em;
+    width: 42px;
+  }
+
+  &__heading {
+    @include reset-heading;
+
+    margin-bottom: (10px/$font-size) * 1em;
+
+    font-weight: 500;
+  }
+
+  &__copy {
+    @include reset-all;
+    @include responsive-font(15, 18);
+
+    max-width: (410/18) * 1em;
+  }
+}

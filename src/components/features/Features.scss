@@ -1,0 +1,36 @@
+@import '../../styles/config.scss';
+
+.features {
+  padding-top: percentage(60px/850px);
+  padding-bottom: percentage(100px/850px);
+
+  text-align: center;
+
+  @media (min-width: $min-tablet) {
+    text-align: left;
+  }
+
+  &__row {
+    @include reset-list;
+    @include grid-row;
+  }
+
+  &__item {
+    @include grid-col;
+    margin-bottom: (45/20) * 1em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (min-width: $min-tablet) {
+      margin-bottom: (60/20) * 1em;
+      width: 50%;
+
+      &:last-child,
+      &:nth-last-child(2) {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

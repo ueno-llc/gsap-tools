@@ -1,0 +1,32 @@
+@import '../../styles/config.scss';
+
+.icon {
+  position: relative;
+  width: 100%;
+
+  color: #fff;
+
+  border-radius: 12px;
+
+  &::before {
+    content: '';
+    display: block;
+    padding-bottom: 100%;
+  }
+
+  &__image {
+    @include fit;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: auto;
+
+    svg { // stylelint-disable-line
+      fill: currentColor;
+      stroke: currentColor;
+      stroke-width: 0;
+    }
+  }
+}
