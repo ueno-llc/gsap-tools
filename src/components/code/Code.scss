@@ -3,13 +3,6 @@
 .code {
   @include responsive-font(14, 16);
 
+  margin-bottom: (60/16) * 1em;
   line-height: (22 / 16);
-
-  &__heading {
-    @include h2;
-  }
-
-  &__inner {
-    line-height: (22 / 16);
-  }
 }

@@ -126,9 +126,9 @@
 
 @mixin h2() {
   @include reset-heading;
-  @include responsive-font(20, 26);
+  @include responsive-font(26, 32);
 
-  margin-bottom: (40/26) * 1em;
+  margin-bottom: (40/32) * 1em;
 
   font-family: $font-family;
   font-weight: 500;

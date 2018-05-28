@@ -9,15 +9,13 @@ export default class Code extends PureComponent {
 
   static propTypes = {
     children: PropTypes.node,
-    title: PropTypes.string,
   }
 
   render() {
-    const { children, title } = this.props;
+    const { children } = this.props;
 
     return (
       <section className="code">
-        <h2 className="code__heading">{title}</h2>
         <SyntaxHighlighter
           language="javascript"
           style={atomDark}

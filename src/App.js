@@ -4,6 +4,8 @@ import AppLayout from 'components/app-layout';
 import Hero from 'components/hero';
 import Content from 'components/content';
 import Code from 'components/code';
+import H2 from 'components/h2';
+import Copy from 'components/copy';
 
 export default class App extends PureComponent {
 
@@ -20,23 +22,40 @@ export default class App extends PureComponent {
           to give away all our secrets. You must understand."
         >
 
-          <Code title="Installation">
+          <H2>Installation</H2>
+
+          <Code>
             {`npm install --save-dev gsap-tools`}
           </Code>
 
-          <h2>Features</h2>
+          <H2>Features</H2>
 
-          <Code title="How to use it" text={`Add the GsapTools component globally to your app (just import it once in your app)`}>
+          <H2>How to use it</H2>
+
+          <Copy>
+
+            <p>
+              <b>Add GsapTools component globally to your application</b>
+              <br />You only need to add it once.
+            </p>
+
+          </Copy>
+
+          <Code>
             {`import GsapTools from 'gsap-tools';
 
             <GsapTools />`}
           </Code>
 
-          <p>Register your Gsap timeline to be controlled with GsapTools</p>
+          <Copy>
+            <p><b>Register your Gsap timeline to be controlled with GsapTools</b><br />
 
-          <p>The simple way to do it:
-          — You defined an id on the TimelineLite constructor
-          — You create a reference to the add function to dispose of the timeline on the componentWillUnmount</p>
+            The simplest way to do it, is to define an id on the Timeline method constructor,
+            call the add function to register the timeline and create a reference to the add function
+            to remove it when the component is unmounted. Alternatively, there is other ways to do it,
+            expand them.</p>
+
+          </Copy>
 
           <Code>
             {`import { add } from 'gsap-tools';
@@ -52,31 +71,6 @@ export default class App extends PureComponent {
             }`}
           </Code>
 
-          <p>Others ways:</p>
-
-          <Code>
-            {`componentDidMount() {
-              this.t = new TimelineLite();
-
-              // You can defined the id of the timeline on the 'add' function itself
-              add(this.t, 'myTimeline');
-
-              // or
-
-              // It will generated an id, if you don't specified any
-              add(this.t);
-            }
-
-            componentWillUnmount() {
-              // Remove the timeline just by passing the reference to the timeline
-              remove(this.t);
-
-              // or
-
-              // Remove the timeline by passing the id, without the timeline reference
-              remove(null, 'myTimeline');
-            }`}
-          </Code>
         </Content>
       </AppLayout>
     );

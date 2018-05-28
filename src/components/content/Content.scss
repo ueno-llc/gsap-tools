@@ -53,6 +53,10 @@
     padding: percentage(70px/$page-width) 0;
 
     @media (min-width: $min-desktop) {
+      padding: 70px calc(#{percentage(80/1100)} + #{$gutter});
+    }
+
+    @media (min-width: $page-limit) {
       padding: 70px 110px;
     }
   }
@@ -63,11 +67,23 @@
 
   &__subheading {
     @include subheading;
+
+    @media (min-width: $min-tablet) {
+      max-width: (410px/38px) * 1em;
+    }
   }
 
   &__copy {
     @include reset-all;
 
     margin-bottom: (100px / $font-size) * 1em;
+
+    @media (min-width: $min-tablet) {
+      max-width: (600px/$font-size) * 1em;
+    }
+
+    @media (min-width: $min-desktop) {
+      max-width: (410px/$font-size) * 1em;
+    }
   }
 }
