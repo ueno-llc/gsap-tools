@@ -53,7 +53,9 @@ export default class GsapTools extends PureComponent {
   }
 
   componentWillReceiveProps(props) {
-    this.setState({ isVisible: props.isVisible });
+    if (props.isVisible !== this.props.isVisible) {
+      this.setState({ isVisible: props.isVisible });
+    }
   }
 
   componentWillUnmount() {
