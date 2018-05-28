@@ -33,6 +33,7 @@ export default class GsapTools extends PureComponent {
     this.state = {
       isLoaded: false,
       isVisible: props.isVisible,
+      isExpand: false,
       playIcon: true,
       value: 0,
       isLoop: false,
@@ -277,6 +278,10 @@ export default class GsapTools extends PureComponent {
     storage.set('TIME_SCALE', value);
   }
 
+  handleExpand = () => {
+    this.setState({ isExpand: !this.state.isExpand });
+  }
+
   handleRewind = () => {
     if (this.inTime || this.outTime) {
       // If inTime or outTime are defined, we want to control the inOutTimeline
@@ -420,6 +425,7 @@ export default class GsapTools extends PureComponent {
 
     const {
       isVisible,
+      isExpand,
       isLoop,
       playIcon,
       value,
@@ -427,6 +433,8 @@ export default class GsapTools extends PureComponent {
       isLoaded,
       position: { x, y },
     } = this.state;
+
+    console.log('-isExpand', isExpand);
 
     return (
       <Draggable
@@ -436,7 +444,7 @@ export default class GsapTools extends PureComponent {
         position={{ x, y }}
       >
         <div
-          className={s(s.gsapTools, { [s.gsapToolsFixed]: isFixed })}
+          className={s(s.gsapTools, { [s.gsapToolsFixed]: isFixed, isExpand })}
           ref={(el) => { this.container = el; }}
         >
           <div className={s.gsapTools__container}>
@@ -453,6 +461,7 @@ export default class GsapTools extends PureComponent {
 
               <section className={s.gsapTools__inner}>
                 <Controls
+                  handleExpand={this.handleExpand}
                   handleRewind={this.handleRewind}
                   handlePlayPause={this.handlePlayPause}
                   handleLoop={this.handleLoop}

@@ -6,6 +6,7 @@ import s from './Controls.scss';
 export default class Controls extends PureComponent {
 
   static propTypes = {
+    handleExpand: PropTypes.func,
     handleRewind: PropTypes.func,
     handlePlayPause: PropTypes.func,
     handleLoop: PropTypes.func,
@@ -15,10 +16,19 @@ export default class Controls extends PureComponent {
   }
 
   render() {
-    const { handleRewind, handlePlayPause, handleLoop, isPause, isLoop, isActive } = this.props;
+    const { handleExpand, handleRewind, handlePlayPause, handleLoop, isPause, isLoop, isActive } = this.props;
 
     return (
       <div className={s(s.controls, { isLoop, isActive })}>
+        <button className={s.controls__expand} onClick={handleExpand}>
+          <svg width="21.2" height="14" viewBox="0 0 21.2 14">
+            <path d="M20.2,2H1C0.4,2,0,1.6,0,1s0.4-1,1-1h19.2c0.6,0,1,0.4,1,1S20.7,2,20.2,2z M9.2,7c0-0.6-0.4-1-1-1H1
+            C0.4,6,0,6.4,0,7s0.4,1,1,1h7.2C8.7,8,9.2,7.6,9.2,7z M21.2,7c0-0.6-0.4-1-1-1h-8c-0.6,0-1,0.4-1,1s0.4,1,1,1h8
+            C20.7,8,21.2,7.6,21.2,7z M14.2,13c0-0.6-0.4-1-1-1H1c-0.6,0-1,0.4-1,1s0.4,1,1,1h12.2C13.7,14,14.2,13.6,14.2,13z M21.2,13
+            c0-0.6-0.4-1-1-1h-3c-0.6,0-1,0.4-1,1s0.4,1,1,1h3C20.7,14,21.2,13.6,21.2,13z" />
+          </svg>
+        </button>
+
         <button className={s.controls__rewind} onClick={handleRewind}>
           <svg width="17.9" height="20.4" viewBox="0 0 17.9 20.4">
             <path d="M17.9,18.4c0,0.4-0.1,0.8-0.3,1.1c-0.6,0.9-1.9,1.2-2.8,0.5L2.5,11.8c-0.2-0.1-0.4-0.3-0.5-0.5v6.8c0,0.6-0.4,1-1,1s-1-0.4-1-1V1.7c0-0.6,0.4-1,1-1s1,0.4,1,1v7.3c0.1-0.2,0.3-0.4,0.5-0.5l12.2-8.2C15.1,0.1,15.5,0,15.9,0c1.1,0,2,0.9,2,2L17.9,18.4z" />

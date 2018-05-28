@@ -9,11 +9,17 @@
 
   box-sizing: border-box;
 
+  transition: width 240ms;
+
   &Fixed {
     position: fixed;
     right: 30px;
     bottom: 30px;
     z-index: 9999;
+  }
+
+  &.isExpand {
+    width: 960px;
   }
 
   *,
@@ -46,7 +52,7 @@
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.12);
 
     &.isLoaded {
-      transition: transform 180ms, opacity 180ms;
+      transition: transform 180ms, opacity 180ms, height 240ms;
       transform: scale(0.6);
       transform-origin: 100% 100%;
     }
@@ -61,6 +67,10 @@
       pointer-events: all;
 
       transform: scale(1);
+    }
+
+    .isExpand & {
+      height: 380px;
     }
   }
 

@@ -7,6 +7,7 @@
 
   margin-top: 30px;
 
+  &__expand,
   &__rewind,
   &__playPause,
   &__loop {
@@ -24,6 +25,12 @@
       fill: #cad5db;
     }
 
+    &:hover {
+      path { // stylelint-disable-line
+        fill: darken(#cad5db, 20%);
+      }
+    }
+
     .isActive & {
       pointer-events: all;
 
@@ -31,14 +38,13 @@
     }
   }
 
-  &__rewind {
-    margin-right: 40px;
+  &__expand {
+    margin-right: auto;
+  }
 
-    &:hover {
-      path { // stylelint-disable-line
-        fill: darken(#cad5db, 20%);
-      }
-    }
+  &__rewind {
+    margin-left: -22px;
+    margin-right: 40px;
   }
 
   &__playPause {
@@ -56,16 +62,11 @@
 
   &__loop {
     margin-left: 40px;
+    margin-right: auto;
 
     .isActive.isLoop & {
       path { // stylelint-disable-line
         fill: #000;
-      }
-    }
-
-    &:hover {
-      path { // stylelint-disable-line
-        fill: darken(#cad5db, 20%);
       }
     }
   }
