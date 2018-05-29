@@ -244,7 +244,8 @@ export default class GsapTools extends PureComponent {
     // Reset any markers if exists
     this.range.clear();
 
-    // We reset the previous timeline to initial state and clear it before adding the new one
+    // We reset the previous timeline to initial state and clear
+    // it before adding the new one
     this.master.progress(0, false);
     this.master.clear();
 
