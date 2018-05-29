@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Draggable from 'react-draggable';
-import { TimelineMax, TweenMax } from 'gsap';
+import { TimelineMax } from 'gsap';
 
 import storage from 'utils/storage';
 import { SPEEDS } from 'utils/constants';
