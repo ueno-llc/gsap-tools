@@ -26,8 +26,10 @@
   border-radius: 50%;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.12);
 
-  transition: transform 160ms, opacity 160ms;
-  transform: scale(1);
+  &.loaded {
+    transition: transform 160ms, opacity 160ms;
+    transform: scale(1);
+  }
 
   &.visible {
     z-index: 9997;

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import round from 'utils/round';
+import { SPEEDS } from 'utils/constants';
 
 import s from './Header.scss';
 
@@ -73,11 +74,7 @@ export default class Header extends PureComponent {
             onChange={handleTimeScale}
             value={Number(timeScale)}
           >
-            <option value="0.2">0.2x</option>
-            <option value="0.5">0.5x</option>
-            <option value="1">1x</option>
-            <option value="2">2x</option>
-            <option value="5">5x</option>
+            {SPEEDS.map(speed => <option key={speed} value={speed}>{speed}x</option>)}
           </select>
         )}
 

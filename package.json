@@ -7,9 +7,9 @@
   "scripts": {
     "analyze": "source-map-explorer dist/gsap-tools.*",
     "clean": "rimraf dist",
-    "watch": "webpack -w",
-    "build": "webpack -p",
-    "prepublish2": "npm run clean && npm run build",
+    "watch": "NODE_ENV=development webpack -w",
+    "build": "NODE_ENV=production webpack -p",
+    "prepublish": "npm run clean && npm run build",
     "lint": "npm run eslint && npm run stylelint",
     "eslint": "eslint src --report-unused-disable-directives",
     "stylelint": "stylelint \"src/**/*.scss\" --syntax scss"
@@ -23,6 +23,7 @@
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "classnames": "^2.2.5",
