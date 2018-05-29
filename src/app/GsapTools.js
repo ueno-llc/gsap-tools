@@ -102,11 +102,7 @@ export default class GsapTools extends PureComponent {
     // If on a previous page we waited until the end of the timeline
     // we need to restart it for the new one registered from the new page
     this.master.restart();
-
-    this.setState({
-      playIcon: false,
-      isLoaded: true,
-    });
+    this.setState({ playIcon: false });
   }
 
   initUI = () => {
@@ -136,6 +132,11 @@ export default class GsapTools extends PureComponent {
       this.outTime = this.master.totalDuration() * (outPercent / 100);
       this.initInOut({ inTime: this.inTime, outTime: this.outTime });
     }
+
+    // Wait few milliseconds to define the tool as loaded
+    setTimeout(() => {
+      this.setState({ isLoaded: true });
+    }, 300);
 
     // If isVisible props is defined by default on gsap-tools
     // component we set it on localStorage
@@ -479,6 +480,7 @@ export default class GsapTools extends PureComponent {
             <Button
               handleUIClose={this.handleUIClose}
               visible={isVisible}
+              loaded={isLoaded}
               onClick={onClick}
             />
           </div>

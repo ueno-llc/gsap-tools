@@ -8,11 +8,12 @@ export default class Button extends PureComponent {
   static propTypes = {
     visible: PropTypes.bool,
     onClick: PropTypes.func,
+    loaded: PropTypes.bool,
     handleUIClose: PropTypes.func,
   }
 
   render() {
-    const { visible, onClick, handleUIClose } = this.props;
+    const { visible, onClick, loaded, handleUIClose } = this.props;
 
     if (onClick) {
       return null;
@@ -20,7 +21,7 @@ export default class Button extends PureComponent {
 
     return (
       <button
-        className={s(s.button, { visible })}
+        className={s(s.button, { visible, loaded })}
         onClick={handleUIClose}
       >
         GSAP
