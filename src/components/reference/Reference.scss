@@ -1,0 +1,14 @@
+@import '../../styles/config.scss';
+
+.reference {
+  padding-top: percentage(40/850);
+
+  code { // stylelint-disable-line
+    font-size: 0.85em;
+    color: #cd0303;
+  }
+
+  p { // stylelint-disable-line
+    margin-bottom: ($gutter / $font-size) * 1em;
+  }
+}

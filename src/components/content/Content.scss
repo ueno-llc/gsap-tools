@@ -5,8 +5,6 @@
 
   overflow: hidden;
 
-  background: #f9f9f9;
-
   @media (min-width: $min-desktop) {
     background: #fff;
   }
@@ -14,35 +12,43 @@
   &__col {
     @include grid-col;
 
-    @media (min-width: $min-desktop) {
+    @media (min-width: $min-tablet) {
       position: relative;
 
       margin-left: percentage(1/12);
       width: percentage(10/12);
     }
 
+  }
 
-    &::before {
-      content: '';
+  &--hasBackground {
+    background: #f9f9f9;
 
-      display: none;
+    @media (min-width: $min-desktop) {
+      background: #fff;
+    }
+  }
 
-      position: absolute;
-      top: 0;
-      left: $gutter / 2;
-      bottom: 0;
-      z-index: 0;
+  &--hasBackground &__col::before {
+    content: '';
 
-      width: 100vw;
+    display: none;
 
-      pointer-events: none;
-      user-select: none;
+    position: absolute;
+    top: 0;
+    left: $gutter / 2;
+    bottom: 0;
+    z-index: 0;
 
-      background: #f9f9f9;
+    width: 100vw;
 
-      @media (min-width: $min-desktop) {
-        display: block;
-      }
+    pointer-events: none;
+    user-select: none;
+
+    background: #f9f9f9;
+
+    @media (min-width: $min-desktop) {
+      display: block;
     }
   }
 
@@ -50,14 +56,14 @@
     position: relative;
     z-index: 1;
 
-    padding: percentage(70px/$page-width) 0;
+    padding: percentage(100px/$page-width) 0;
 
     @media (min-width: $min-desktop) {
-      padding: 70px calc(#{percentage(80/1100)} + #{$gutter});
+      padding: 100px calc(#{percentage(80/1100)} + #{$gutter});
     }
 
     @media (min-width: $page-limit) {
-      padding: 70px 110px;
+      padding: 100px 110px;
     }
   }
 
@@ -85,5 +91,10 @@
     @media (min-width: $min-desktop) {
       max-width: (410px/$font-size) * 1em;
     }
+  }
+
+  > p { // stylelint-disable-line
+    margin-top: 0;
+    margin-bottom: (40px / $font-size) * 1em;
   }
 }

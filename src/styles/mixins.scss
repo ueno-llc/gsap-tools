@@ -133,7 +133,13 @@
   font-family: $font-family;
   font-weight: 500;
   line-height: 1.25;
+  color: #000;
 
+}
+
+@mixin h3() {
+  @include h2;
+  @include responsive-font(20, 26);
 }
 
 // html.js / html.no-js will not compile?!

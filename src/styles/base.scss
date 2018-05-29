@@ -65,7 +65,7 @@ body {
   font-family: $font-family;
   font-weight: 200;
   line-height: $line-height;
-  color: $color-font;
+  color: rgba($color-font, 0.8);
 
   // iOS on orientation change
   text-size-adjust: 100%;
@@ -93,4 +93,44 @@ select {
   &:-ms-input-placeholder {
     color: $color-placeholder;
   }
+}
+
+h1 {
+  @include heading;
+}
+
+h2 {
+  @include h2;
+}
+
+h3 {
+  @include h3;
+}
+
+dl,
+dt,
+dd {
+  @include reset-all;
+}
+
+dl {
+  margin-bottom: (($gutter * 2)/$font-size) * 1em;
+}
+
+dd {
+  margin-bottom: ($gutter/$font-size) * 1em;
+}
+
+p {
+  @include reset-all;
+  margin-bottom: (40px/$font-size) * 1em;
+}
+
+b {
+  font-weight: 500;
+}
+
+code {
+  font-family: $font-family-code;
+  letter-spacing: -0.015em;
 }

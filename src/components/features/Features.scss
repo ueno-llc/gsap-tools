@@ -4,12 +4,6 @@
   padding-top: percentage(60px/850px);
   padding-bottom: percentage(100px/850px);
 
-  text-align: center;
-
-  @media (min-width: $min-tablet) {
-    text-align: left;
-  }
-
   &__row {
     @include reset-list;
     @include grid-row;

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { TimelineLite } from 'gsap'; // eslint-disable-line
+import { TimelineLite, TimelineMax } from 'gsap'; // eslint-disable-line
 
 import './AppleGuy.css';
 
@@ -11,11 +11,13 @@ export default class AppleGuy extends PureComponent {
 
   get timelineEnter() {
     const t = new TimelineLite();
-    const wave = new TimelineLite();
+    const wave = new TimelineMax();
     const eyes = this.eyes.childNodes;
 
     wave
-      .to(this.arm, 1, { rotation: 0 })
+      .set(this.arm, { rotation: 0 })
+      .to(this.arm, 0.15, { rotation: -20 })
+      .to(this.arm, 0.15, { rotation: 0 })
       .to(this.arm, 0.15, { rotation: -20 })
       .to(this.arm, 0.15, { rotation: 0 })
       .to(this.arm, 0.15, { rotation: -20 })
@@ -32,7 +34,8 @@ export default class AppleGuy extends PureComponent {
       .to(eyes, 0.15, { xPercent: -110, ease: 'Power2.easeOut' }, 'eyes+=0.3')
       .to(eyes, 0.15, { xPercent: 0, ease: 'Power2.easeOut' }, 'eyes+=1.3')
       .to(this.appleSvg, 1, { yPercent: 0, ease: 'Power4.easeInOut' }, 'eyes+=2.25')
-      .add(wave, 'eyes+=2')
+      .add(wave, 'eyes+=3')
+      .set(this.appleGuy, { opacity: 1 }, '+=2'); // delay
     // .to(this.appleSvg, 0.75, { y: '125%', ease: 'Power4.easeOut' }, '+=0.5');
 
     return t;

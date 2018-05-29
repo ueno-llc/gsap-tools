@@ -5,11 +5,12 @@
 
   opacity: 0;
 
-  margin-bottom: (60/16) * 1em;
-
   height: 0;
 
   line-height: (22 / 16);
+
+  user-select: none;
+  pointer-events: none;
 
   will-change: opacity;
   transition: opacity $transition-enter;
@@ -17,6 +18,11 @@
   &--visible {
     opacity: 1;
 
+    margin-bottom: (60/16) * 1em;
+
     height: auto;
+
+    user-select: auto;
+    pointer-events: auto;
   }
 }
