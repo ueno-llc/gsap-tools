@@ -13,3 +13,5 @@ export const LOCAL_STORAGE = {
   IN_PERCENT: '_gsapToolsInPercent',
   OUT_PERCENT: '_gsapToolsOutPercent',
 };
+
+export const SPEEDS = [0.2, 0.5, 1, 2, 5];

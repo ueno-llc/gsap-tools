@@ -2,7 +2,9 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Draggable from 'react-draggable';
 import { TimelineMax } from 'gsap';
+
 import storage from 'utils/storage';
+import { SPEEDS } from 'utils/constants';
 
 import Header from 'components/header';
 import Controls from 'components/controls';
@@ -50,6 +52,9 @@ export default class GsapTools extends PureComponent {
 
     // Init controls from localstorage values
     this.initUI();
+
+    // Listen for keyboard shortcut
+    document.addEventListener('keydown', this.onKeyDown);
   }
 
   componentWillReceiveProps(props) {
@@ -61,6 +66,9 @@ export default class GsapTools extends PureComponent {
   componentWillUnmount() {
     // Remove the store's listener when unmouting the component
     store.removeListener('change', this.onStoreChange);
+
+    // Remove shortcut listener
+    document.removeEventListener('keydown', this.onKeyDown);
   }
 
   /*
@@ -76,6 +84,47 @@ export default class GsapTools extends PureComponent {
 
     // Re-render the UI box
     this.forceUpdate();
+  }
+
+  onKeyDown = (e) => {
+    const { timeScale } = this.state;
+    const currentIndex = SPEEDS.indexOf(timeScale);
+
+    if (e.keyCode === 32) {
+      e.preventDefault();
+
+      // Space bar
+      this.handlePlayPause();
+    } else if (e.keyCode === 76) {
+      // L char
+      this.handleLoop();
+    } else if (e.keyCode === 37) {
+      // Left arrow
+      this.handleRewind();
+    } else if (e.keyCode === 72) {
+      // H char
+      this.handleUIClose();
+    } else if (e.keyCode === 38) {
+      // Up arrow
+      e.preventDefault();
+
+      const length = SPEEDS.length - 1;
+
+      if (currentIndex === length) {
+        return;
+      }
+
+      this.handleTimeScale(SPEEDS[currentIndex + 1]);
+    } else if (e.keyCode === 40) {
+      // Down arrow
+      e.preventDefault();
+
+      if (currentIndex === 0) {
+        return;
+      }
+
+      this.handleTimeScale(SPEEDS[currentIndex - 1]);
+    }
   }
 
   handleStoreChange = () => {
@@ -261,8 +310,8 @@ export default class GsapTools extends PureComponent {
     });
   }
 
-  handleTimeScale = ({ currentTarget }) => {
-    const { value } = currentTarget;
+  handleTimeScale = (e) => {
+    const value = typeof e === 'number' ? e : e.currentTarget.value;
 
     // Change the timescale on the master timeline
     this.master.timeScale(value);
@@ -273,7 +322,7 @@ export default class GsapTools extends PureComponent {
     }
 
     // We set a state to send it to Header component
-    this.setState({ timeScale: value });
+    this.setState({ timeScale: Number(value) });
 
     // Set the timeScale value in localStorage to be pre-populated after reload
     storage.set('TIME_SCALE', value);
