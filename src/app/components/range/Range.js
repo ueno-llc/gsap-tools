@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import clamp from 'lodash/clamp';
-import TweenLite from 'gsap/TweenLite';
+import { TweenLite } from 'gsap';
 import { SIZES } from 'utils/constants';
 import storage from 'utils/storage';
 
