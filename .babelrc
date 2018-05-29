@@ -1,9 +1,8 @@
 {
   "presets": [
     ["env", {
-      "targets": {
-        "node": true
-      }
+      "es2015": { "modules": false },
+      "targets": { "node": true }
     }],
     "stage-0",
     "react"
