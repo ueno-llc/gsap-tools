@@ -9,7 +9,7 @@
     "clean": "rimraf dist",
     "watch": "webpack -w",
     "build": "webpack -p",
-    "prepublish2": "npm run clean && npm run build",
+    "prepublish": "npm run clean && npm run build",
     "lint": "npm run eslint && npm run stylelint",
     "eslint": "eslint src --report-unused-disable-directives",
     "stylelint": "stylelint \"src/**/*.scss\" --syntax scss"
