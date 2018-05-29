@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Draggable from 'react-draggable';
-import { TimelineMax } from 'gsap';
+import { TimelineMax, TweenMax } from 'gsap';
 
 import storage from 'utils/storage';
 import { SPEEDS } from 'utils/constants';
+import clearProps from 'utils/clearProps';
 
 import Header from 'components/header';
 import Controls from 'components/controls';
@@ -293,6 +294,9 @@ export default class GsapTools extends PureComponent {
 
     // Reset any markers if exists
     this.range.clear();
+
+    // Remove css properties from previous timeline
+    clearProps(active);
 
     // We reset the previous timeline to initial state and clear
     // it before adding the new one
