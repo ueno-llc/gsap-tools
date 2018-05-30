@@ -5,12 +5,9 @@ function clearProps(timeline) {
 
   timeline.kill();
 
-  targets.forEach(item => {
+  targets.forEach((item) => {
     if (item.target) {
-      console.log('-item.target', item.target);
-
-      return TweenMax.set('.appleGuy', { clearProps: 'opacity' });
-      // return TweenMax.set(item.target, { clearProps: 'opacity' });
+      TweenMax.set(item.target, { clearProps: 'all' });
     }
   });
 }

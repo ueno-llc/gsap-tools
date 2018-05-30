@@ -296,7 +296,7 @@ export default class GsapTools extends PureComponent {
     this.range.clear();
 
     // Remove css properties from previous timeline
-    clearProps(active);
+    clearProps(this.master);
 
     // We reset the previous timeline to initial state and clear
     // it before adding the new one
