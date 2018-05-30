@@ -92,19 +92,19 @@ export default class GsapTools extends PureComponent {
     const currentIndex = SPEEDS.indexOf(timeScale);
 
     if (e.keyCode === 32) {
+      // Space bar
       e.preventDefault();
 
-      // Space bar
       this.handlePlayPause();
     } else if (e.keyCode === 76) {
       // L char
       this.handleLoop();
-    } else if (e.keyCode === 37) {
-      // Left arrow
-      this.handleRewind();
     } else if (e.keyCode === 72) {
       // H char
       this.handleUIClose();
+    } else if (e.keyCode === 37) {
+      // Left arrow
+      this.handleRewind();
     } else if (e.keyCode === 38) {
       // Up arrow
       e.preventDefault();
