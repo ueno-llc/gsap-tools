@@ -37,9 +37,7 @@ export default class App extends PureComponent {
           <h2>Installation</h2>
 
           <Code>
-            {
-              'npm install --save-dev gsap-tools'
-            }
+            {'npm install --save-dev gsap-tools'}
           </Code>
 
           <Features
@@ -176,7 +174,7 @@ export default class App extends PureComponent {
           <Code>
             {`import GsapTools from 'gsap-tools';
 
-            <GsapTools />`}
+&lt;GsapTools /&gt;`}
           </Code>
 
           <Copy>
@@ -201,21 +199,21 @@ export default class App extends PureComponent {
 
             componentWillUnmount() {
               this.disposer();
-            }`}
+            }
+          `}
           </Code>
 
-          <Code visible={this.state.codeVisible}>
-            {`import { add } from 'gsap-tools';
+          <Code visible={this.state.isVisible}>{`import { add } from 'gsap-tools';
 
-            componentDidMount() {
-              this.t = new TimelineLite({ id: 'myTimeline' });
+componentDidMount() {
+  this.t = new TimelineLite({ id: 'myTimeline' });
 
-              this.disposer = add(this.t);
-            }
+  this.disposer = add(this.t);
+}
 
-            componentWillUnmount() {
-              this.disposer();
-            }`}
+componentWillUnmount() {
+  this.disposer();
+}`}
           </Code>
 
           <Reference>
@@ -253,14 +251,15 @@ export default class App extends PureComponent {
 
               <dt><b>id</b> (optional)</dt>
               <dd>Instead of passing the id to the timeline method constructor you can pass it on
-              the add() function itself. <code>add(this.timeline, ‘myId’);</code>
+              the <code>add()</code> function itself. <code>add(this.timeline, ‘myId’);</code>
               </dd>
             </dl>
 
             <h3>remove() function</h3>
 
             <p>This function is not required. It’s simpler through the disposer function
-            call via the reference to the add() function. However you can still use it if you want.
+            call via the reference to the <code>add()</code> function. However you can
+            still use it if you want.
             </p>
 
             <dl>
@@ -271,7 +270,7 @@ export default class App extends PureComponent {
 
               <dt><b>id</b> (optional)</dt>
               <dd>Instead of passing the id to the timeline method constructor you can pass it on
-              the add() function itself. <code>add(this.timeline, ‘myId’);</code>
+              the <code>add()</code> function itself. <code>add(this.timeline, ‘myId’);</code>
               </dd>
             </dl>
 

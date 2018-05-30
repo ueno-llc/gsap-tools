@@ -5,12 +5,23 @@
 
   opacity: 0;
 
+  padding: $gutter;
+
   height: 0;
 
   line-height: (22 / 16);
+  font-family: $font-family-code;
+  font-weight: 200;
+
+  white-space: pre;
+
+  color: #fff;
 
   user-select: none;
   pointer-events: none;
+
+  background: #282c34;
+  border-radius: 4px;
 
   will-change: opacity;
   transition: opacity $transition-enter;
@@ -24,5 +35,25 @@
 
     user-select: auto;
     pointer-events: auto;
+  }
+
+  &__pink {
+    color: #c5a5c5;
+  }
+
+  &__blue {
+    color: #79b6f2;
+  }
+
+  &__jade {
+    color: #5fb3b3;
+  }
+
+  &__yellow {
+    color: #c5a5c5;
+  }
+
+  &__green {
+    color: #8dc891;
   }
 }
