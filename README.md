@@ -79,6 +79,15 @@ componentWillUnmount() {
 }
 ```
 
+## Shortcuts
+
+- `space`: Play/pause
+- `L`: Toggle loop
+- `H`: Toggle UI
+- `←`: Rewind
+- `↑`: Speed up timescale
+- `↓`: Slow down timescale
+
 ## References
 
 ### `<GsapTools />` component

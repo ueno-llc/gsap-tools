@@ -5,6 +5,7 @@ import { TimelineMax } from 'gsap';
 
 import storage from 'utils/storage';
 import { SPEEDS } from 'utils/constants';
+import clearProps from 'utils/clearProps';
 
 import Header from 'components/header';
 import Controls from 'components/controls';
@@ -31,6 +32,7 @@ export default class GsapTools extends PureComponent {
     super(props);
 
     this.inTime = 0;
+    this.isDragging = false;
 
     this.state = {
       isLoaded: false,
@@ -92,19 +94,19 @@ export default class GsapTools extends PureComponent {
     const currentIndex = SPEEDS.indexOf(timeScale);
 
     if (e.keyCode === 32) {
+      // Space bar
       e.preventDefault();
 
-      // Space bar
       this.handlePlayPause();
     } else if (e.keyCode === 76) {
       // L char
       this.handleLoop();
-    } else if (e.keyCode === 37) {
-      // Left arrow
-      this.handleRewind();
     } else if (e.keyCode === 72) {
       // H char
       this.handleUIClose();
+    } else if (e.keyCode === 37) {
+      // Left arrow
+      this.handleRewind();
     } else if (e.keyCode === 38) {
       // Up arrow
       e.preventDefault();
@@ -194,6 +196,10 @@ export default class GsapTools extends PureComponent {
   }
 
   handleUIClose = () => {
+    if (this.isDragging && !this.state.isVisible) {
+      return;
+    }
+
     const { onClick, isVisible } = this.props;
 
     // If user choose his own way to display gsap-tools
@@ -212,7 +218,19 @@ export default class GsapTools extends PureComponent {
     storage.set('IS_VISIBLE', newState);
   }
 
+  handleDrag = () => {
+    this.isDragging = true;
+  }
+
   handleDragStop = (e, { x, y }) => {
+    if (this.isDragging) {
+      setTimeout(() => {
+        this.isDragging = false;
+      }, 200);
+    } else {
+      this.isDragging = false;
+    }
+
     this.setState({ position: { x, y } });
 
     // Saving the box UI position
@@ -294,6 +312,9 @@ export default class GsapTools extends PureComponent {
 
     // Reset any markers if exists
     this.range.clear();
+
+    // Remove css properties from previous timeline
+    clearProps(this.master);
 
     // We reset the previous timeline to initial state and clear
     // it before adding the new one
@@ -489,8 +510,9 @@ export default class GsapTools extends PureComponent {
 
     return (
       <Draggable
-        handle="header"
+        handle={isVisible ? 'header' : 'button'}
         bounds="parent"
+        onDrag={this.handleDrag}
         onStop={this.handleDragStop}
         position={{ x, y }}
       >
