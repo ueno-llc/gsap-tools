@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
 
-  margin-top: 30px;
+  margin-top: 40px;
 
   &__rewind,
   &__playPause,
@@ -44,8 +44,13 @@
   &__playPause {
     justify-content: center;
 
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
+
+    svg { // stylelint-disable-line
+      width: auto;
+      height: 39px;
+    }
 
     .isActive & {
       path { // stylelint-disable-line
