@@ -15,6 +15,6 @@ Copy.propTypes = {
 
 Copy.defaultProps = {
   children: undefined,
-}
+};
 
 export default Copy;

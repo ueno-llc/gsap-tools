@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { TimelineLite } from 'gsap'; // eslint-disable-line
+import { TimelineLite } from 'gsap';
 
 import './Logo.css';
 
@@ -52,7 +52,7 @@ export default class Logo extends PureComponent {
       .to(this.dot, 1.5, { x: '-50%', y: '-50%', left: offsetLeft, top: offsetTop, ease }, 'start')
       .to(this.dotInner, 1.5, { scale: 10, ease }, 'start')
       .to(this.dotSvg, 1.5, { fill: '#ab80ff' }, 'start')
-      .set(this.dotInner, { opacity: 0 });
+      .set(this.dotInner, { opacity: 0 });
 
     return t;
   }

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Highlighter from 'react-syntax-highlighter/prism';
+import classnames from 'classnames';
 
 import outdent from 'utils/outdent';
 import style from 'utils/highlighter';
@@ -21,10 +22,8 @@ export default class Code extends PureComponent {
   render() {
     const { children, visible } = this.props;
 
-    const className = visible ? "code code--visible" : "code";
-
     return (
-      <section className={className}>
+      <section className={classnames('code', { 'code--visible': visible })}>
         <Highlighter
           language="javascript"
           style={style}

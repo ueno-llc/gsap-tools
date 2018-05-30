@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { TimelineLite } from 'gsap'; // eslint-disable-line
-import { add } from 'gsap-tools'; // eslint-disable-line
+import { TimelineLite } from 'gsap';
+import { add } from 'gsap-tools';
 
 import Circles from './Circles';
 import Logo from './Logo';

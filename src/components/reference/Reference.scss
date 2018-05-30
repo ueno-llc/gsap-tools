@@ -4,11 +4,23 @@
   padding-top: percentage(40/850);
 
   code { // stylelint-disable-line
-    font-size: 0.85em;
+    padding: 2px 6px 3px;
+
+    font-size: 0.8em;
     color: #cd0303;
+
+    border: 1px solid #ececec;
+    background-color: #fff;
+    border-radius: 3px;
   }
 
   p { // stylelint-disable-line
     margin-bottom: ($gutter / $font-size) * 1em;
+  }
+
+  ul {
+    @include reset-list;
+
+    margin-bottom: 3em;
   }
 }
