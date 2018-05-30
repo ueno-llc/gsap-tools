@@ -32,6 +32,7 @@ export default class GsapTools extends PureComponent {
     super(props);
 
     this.inTime = 0;
+    this.isDragging = false;
 
     this.state = {
       isLoaded: false,
@@ -194,6 +195,10 @@ export default class GsapTools extends PureComponent {
   }
 
   handleUIClose = () => {
+    if (this.isDragging && !this.state.isVisible) {
+      return;
+    }
+
     const { onClick, isVisible } = this.props;
 
     // If user choose his own way to display gsap-tools
@@ -212,7 +217,19 @@ export default class GsapTools extends PureComponent {
     storage.set('IS_VISIBLE', newState);
   }
 
+  handleDrag = () => {
+    this.isDragging = true;
+  }
+
   handleDragStop = (e, { x, y }) => {
+    if (this.isDragging) {
+      setTimeout(() => {
+        this.isDragging = false;
+      }, 200);
+    } else {
+      this.isDragging = false;
+    }
+
     this.setState({ position: { x, y } });
 
     // Saving the box UI position
@@ -485,8 +502,9 @@ export default class GsapTools extends PureComponent {
 
     return (
       <Draggable
-        handle="header"
+        handle={isVisible ? 'header' : 'button'}
         bounds="parent"
+        onDrag={this.handleDrag}
         onStop={this.handleDragStop}
         position={{ x, y }}
       >
