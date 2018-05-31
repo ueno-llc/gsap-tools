@@ -13,6 +13,7 @@ export default class Range extends PureComponent {
   static propTypes = {
     value: PropTypes.number,
     isActive: PropTypes.bool,
+    isExpanded: PropTypes.bool,
     onDrag: PropTypes.func,
     onDragStart: PropTypes.func,
     onDragEnd: PropTypes.func,
@@ -37,6 +38,14 @@ export default class Range extends PureComponent {
   }
 
   componentWillReceiveProps(props) {
+    if (props.isExpanded !== this.props.isExpanded) {
+      // The timeout is equal to the css transition to expand the box
+      setTimeout(() => {
+        this.initRange();
+        this.handleProgress(props);
+      }, 240);
+    }
+
     // If the value of the range changes, let's update the
     // position of the handle and the progress bar
     if (props.value !== this.props.value) {
@@ -320,10 +329,10 @@ export default class Range extends PureComponent {
   }
 
   render() {
-    const { isActive, onDragMarkerIn, onDragMarkerOut } = this.props;
+    const { isActive, isExpanded, onDragMarkerIn, onDragMarkerOut } = this.props;
 
     return (
-      <div className={s(s.range, { isActive })}>
+      <div className={s(s.range, { isActive, isExpanded })}>
         <div className={s.range__container}>
           {(isActive && onDragMarkerIn) && (
             <button

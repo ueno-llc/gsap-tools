@@ -2,12 +2,21 @@
 
 .range {
   position: absolute;
+  right: 0;
   bottom: 0;
   z-index: 3;
 
   padding: 25px;
 
   width: 100%;
+
+  transition: width 240ms;
+
+  &.isExpanded {
+    padding-left: 0;
+
+    width: 80%;
+  }
 
   &__container {
     position: relative;

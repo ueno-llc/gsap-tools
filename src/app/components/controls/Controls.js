@@ -12,13 +12,22 @@ export default class Controls extends PureComponent {
     isPause: PropTypes.bool,
     isLoop: PropTypes.bool,
     isActive: PropTypes.bool,
+    isExpanded: PropTypes.bool,
   }
 
   render() {
-    const { handleRewind, handlePlayPause, handleLoop, isPause, isLoop, isActive } = this.props;
+    const {
+      handleRewind,
+      handlePlayPause,
+      handleLoop,
+      isPause,
+      isLoop,
+      isActive,
+      isExpanded,
+    } = this.props;
 
     return (
-      <div className={s(s.controls, { isLoop, isActive })}>
+      <div className={s(s.controls, { isLoop, isActive, isExpanded })}>
         <div className={s.controls__container}>
           <button className={s.controls__rewind} onClick={handleRewind}>
             <svg width="17.9" height="20.4" viewBox="0 0 17.9 20.4">

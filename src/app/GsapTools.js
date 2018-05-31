@@ -356,6 +356,9 @@ export default class GsapTools extends PureComponent {
   handleExpand = () => {
     const isExpanded = !this.state.isExpanded;
 
+    // Clear the range when we expand the ui
+    this.range.clear();
+
     this.setState({ isExpanded });
 
     // Set the isExpanded value in localStorage
@@ -546,20 +549,20 @@ export default class GsapTools extends PureComponent {
                 />
               )}
 
-              {!isExpanded && (
-                <Controls
-                  handleRewind={this.handleRewind}
-                  handlePlayPause={this.handlePlayPause}
-                  handleLoop={this.handleLoop}
-                  isPause={playIcon}
-                  isLoop={isLoop}
-                  isActive={isActive}
-                />
-              )}
+              <Controls
+                handleRewind={this.handleRewind}
+                handlePlayPause={this.handlePlayPause}
+                handleLoop={this.handleLoop}
+                isPause={playIcon}
+                isLoop={isLoop}
+                isActive={isActive}
+                isExpanded={isExpanded}
+              />
 
               <Range
                 value={value}
                 isActive={isActive}
+                isExpanded={isExpanded}
                 onDrag={this.handleRange}
                 onDragStart={this.handleRangeStart}
                 onDragEnd={this.handleRangeEnd}

@@ -7,10 +7,24 @@
 
   padding: 25px;
 
+  &.isExpanded {
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    z-index: 3;
+
+    width: 20%;
+  }
+
   &__container {
     display: flex;
+    align-items: center;
 
     margin-top: 30px;
+
+    .isExpanded & {
+      margin-top: 0;
+    }
   }
 
   &__rewind,
@@ -45,6 +59,12 @@
 
   &__rewind {
     margin-right: 40px;
+
+    .isExpanded & {
+      margin-right: 30px;
+
+      height: 18px;
+    }
   }
 
   &__playPause {
@@ -63,6 +83,15 @@
         fill: #000;
       }
     }
+
+    .isExpanded & {
+      width: 30px;
+      height: 30px;
+
+      svg { // stylelint-disable-line
+        height: 29px;
+      }
+    }
   }
 
   &__loop {
@@ -73,6 +102,12 @@
       path { // stylelint-disable-line
         fill: #000;
       }
+    }
+
+    .isExpanded & {
+      margin-left: 30px;
+
+      height: 18px;
     }
   }
 }
