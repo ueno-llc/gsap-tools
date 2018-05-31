@@ -21,51 +21,58 @@ export default class Code extends PureComponent {
     visible: true,
   }
 
-  extractString = (str) => {
-    const result = [];
+  componentDidMount() {
+    this.highlight();
+  }
 
-    if (/'/.test(str)) {
-      result.push(str.match(/'(.*?)'/g));
+  format = (t, array, color) => {
+    let text = t;
+
+    for (let i = 0; i < array.length; i++) {
+      text = text.split(array[i]).join(`<span class="code__${color}">${array[i]}</span>`);
     }
 
-    return result;
+    return text;
   }
 
   highlight = () => {
-    const strings = [];
 
-    let t = this.props.children.toString() || '';
-    const keywords = ['this', 'true', 'false', 'from', 'import', 'await', 'extends', 'break', 'let'];
-    const functions = ['componentDidMount(', 'disposer(', 'add(', 'componentWillUnmount('];
-    const symbols = ['{', '}', '(', ')', ' = '];
+    const keywords = ['this', 'true', 'false', 'from', 'import', 'extends', 'let'];
+    const functions = ['componentDidMount(', 'disposer(', 'add(', 'remove(', 'componentWillUnmount('];
+    const symbols = ['{', '}', '(', ')', ' = ', '&lt;', '/&gt;'];
+    const classes = ['TimelineLite', 'TimelineMax'];
+
+    let t = this.props.children.toString();
+
+    t = this.format(t, keywords, 'pink');
+    t = this.format(t, functions, 'blue');
+    t = this.format(t, symbols, 'jade');
+    t = this.format(t, classes, 'yellow');
+
+    // find single-quoted strings
+    let strings;
 
     if (/'/.test(t)) {
-      strings.push(t.match(/'(.*?)'/g));
+      strings = (t.match(/'(.*?)'/g));
     }
 
-    for (let i = 0; i < keywords.length; i++) {
-      t = t.split(keywords[i]).join(`<span class="code__yellow">${keywords[i]}</span>`);
+    if (strings) {
+      t = this.format(t, strings, 'green');
     }
 
-    for (let i = 0; i < functions.length; i++) {
-      t = t.split(functions[i]).join(`<span class="code__blue">${functions[i]}</span>`);
-    }
+    // wrap comment lines
+    const lines = t.split('\n');
 
-    for (let i = 0; i < symbols.length; i++) {
-      t = t.split(symbols[i]).join(`<span class="code__jade">${symbols[i]}</span>`);
-    }
+    for (let i = 0; i < lines.length; i++) {
+      const strip = (lines[i].replace(/\s/g, ''));
 
-    if (strings[0]) {
-      for (let i = 0; i < strings[0].length; i++) {
-        t = t.split(strings[0][i]).join(`<span class="code__green">${strings[0][i]}</span>`);
+      if (strip.substring(0, 2) === '//') {
+        lines[i] = `<span class="code__grey">${lines[i]}</span>`;
       }
     }
+    t = lines.join('\n');
 
     this.setState({ text: t });
-  }
-
-  componentDidMount() {
-    this.highlight();
   }
 
   render() {
@@ -77,7 +84,7 @@ export default class Code extends PureComponent {
       <pre className={className}>
         <code
           ref={(el) => { this.codeBlock = el; }}
-          dangerouslySetInnerHTML={{__html: this.state.text}}
+          dangerouslySetInnerHTML={{ __html: this.state.text }}
         />
       </pre>
     );

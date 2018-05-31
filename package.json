@@ -8,8 +8,7 @@
     "gsap": "https://github.com/JeremDsgn/GreenSock-JS",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
-    "react-dom": "^16.4.0",
-    "react-syntax-highlighter": "7.0.4"
+    "react-dom": "^16.4.0"
   },
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",

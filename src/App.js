@@ -188,22 +188,7 @@ export default class App extends PureComponent {
 
           </Copy>
 
-          <Code>
-            {`import { add } from 'gsap-tools';
-
-            componentDidMount() {
-              this.t = new TimelineLite({ id: 'myTimeline' });
-
-              this.disposer = add(this.t);
-            }
-
-            componentWillUnmount() {
-              this.disposer();
-            }
-          `}
-          </Code>
-
-          <Code visible={this.state.isVisible}>{`import { add } from 'gsap-tools';
+          <Code>{`import { add } from 'gsap-tools';
 
 componentDidMount() {
   this.t = new TimelineLite({ id: 'myTimeline' });
@@ -213,6 +198,30 @@ componentDidMount() {
 
 componentWillUnmount() {
   this.disposer();
+}
+`}
+          </Code>
+
+          <Code visible={this.state.codeVisible}>{`componentDidMount() {
+  this.t = new TimelineLite();
+
+  // You can define the id of the timeline on the add function itself
+  add(this.t, 'myTimeline');
+
+  // or
+
+  // It will generate an id if you don't specify any
+  add(this.t);
+}
+
+componentWillUnmount() {
+  // Remove the timeline just by passing the reference to the timeline
+  remove(this.t);
+
+  // or
+
+  // Remove the timeline by passing the id, without the timeline reference
+  remove(null, 'myTimeline');
 }`}
           </Code>
 

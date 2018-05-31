@@ -1,11 +1,10 @@
 @import '../../styles/config.scss';
 
 .code {
+  @include reset-all;
   @include responsive-font(14, 16);
 
   opacity: 0;
-
-  padding: $gutter;
 
   height: 0;
 
@@ -29,6 +28,7 @@
   &--visible {
     opacity: 1;
 
+    padding: $gutter;
     margin-bottom: (60/16) * 1em;
 
     height: auto;
@@ -50,10 +50,14 @@
   }
 
   &__yellow {
-    color: #c5a5c5;
+    color: #fac863;
   }
 
   &__green {
     color: #8dc891;
+  }
+
+  &__grey {
+    color: #999;
   }
 }
