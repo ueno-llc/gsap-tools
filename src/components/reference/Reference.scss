@@ -26,16 +26,18 @@
     }
 
     code {
-      display: flex;
-      align-items: center;
+      display: block;
 
       margin-right: 0.5em;
 
       padding: 0 0.5em;
       line-height: 1.25;
 
+      color: rgba(#000, 0.85);
+
       border: 1px solid rgba(#000, 0.1);
       border-radius: 3px;
+      background: #fff;
     }
   }
 }

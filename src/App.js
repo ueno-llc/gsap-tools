@@ -227,8 +227,8 @@ componentWillUnmount() {
               <li><code>L</code> Toggle loop</li>
               <li><code>H</code> Toggle UI</li>
               <li><code>←</code> Rewind</li>
-              <li><code>↑</code> Speed up timescale</li>
-              <li><code>↓</code> Slow down timescale</li>
+              <li><code>↑</code> Speed up</li>
+              <li><code>↓</code> Slow down</li>
             </ul>
 
             <h2>Reference</h2>
