@@ -5,7 +5,7 @@
   "private": true,
   "dependencies": {
     "classnames": "2.2.5",
-    "gsap": "https://github.com/JeremDsgn/GreenSock-JS",
+    "gsap": "^2.0.1",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
