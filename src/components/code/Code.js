@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import './Code.css';
 
@@ -11,9 +12,6 @@ export default class Code extends PureComponent {
 
   static propTypes = {
     children: PropTypes.node,
-  }
-
-  static propTypes = {
     visible: PropTypes.bool,
   }
 
@@ -36,10 +34,9 @@ export default class Code extends PureComponent {
   }
 
   highlight = () => {
-
     const keywords = ['this', 'true', 'false', 'from', 'import', 'extends', 'let'];
     const functions = ['componentDidMount(', 'disposer(', 'add(', 'remove(', 'componentWillUnmount('];
-    const symbols = ['{', '}', '(', ')', ' = ', '&lt;', '/&gt;'];
+    const symbols = ['{', '}', '(', ')', ' = ', '&lt;', '/&gt;', '-'];
     const classes = ['TimelineLite', 'TimelineMax'];
 
     let t = this.props.children.toString();
@@ -70,6 +67,7 @@ export default class Code extends PureComponent {
         lines[i] = `<span class="code__grey">${lines[i]}</span>`;
       }
     }
+
     t = lines.join('\n');
 
     this.setState({ text: t });
@@ -77,15 +75,11 @@ export default class Code extends PureComponent {
 
   render() {
     const { visible } = this.props;
-
-    const className = visible ? 'code code--visible' : 'code';
+    const { text } = this.state;
 
     return (
-      <pre className={className}>
-        <code
-          ref={(el) => { this.codeBlock = el; }}
-          dangerouslySetInnerHTML={{ __html: this.state.text }}
-        />
+      <pre className={classnames('code', { 'code--visible': visible })}>
+        <code dangerouslySetInnerHTML={{ __html: text }} />
       </pre>
     );
   }
