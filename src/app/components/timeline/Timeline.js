@@ -1,37 +1,70 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 
+import getChildren from 'utils/getChildren';
+
 import s from './Timeline.scss';
+
+const GRID_WIDTH = 754;
 
 export default class Timeline extends PureComponent {
 
   static propTypes = {
+    master: PropTypes.object,
     isExpanded: PropTypes.bool,
   }
 
+  get totalDuration() {
+    const { master } = this.props;
+
+    return master.totalDuration();
+  }
+
+  getStyle = ({ start, duration }) => {
+    const marginLeft = (GRID_WIDTH * start) / this.totalDuration;
+    const width = (GRID_WIDTH * duration) / this.totalDuration;
+
+    return {
+      marginLeft,
+      width,
+    };
+  }
+
   render() {
-    const { isExpanded } = this.props;
+    const { master, isExpanded } = this.props;
 
     return (
       <div className={s(s.timeline, { isExpanded })}>
         <ul className={s.timeline__list}>
-          {Array(10).fill(0).map(() => (
-            <li className={s.timeline__row}>
-              <p className={s.timeline__target}>.heading</p>
+          {getChildren(master).map((item, i) => (
+            <li
+              className={s.timeline__row}
+              key={i} // eslint-disable-line
+            >
+              {cloneElement(item.data.target, { className: s.timeline__target })}
 
-              <div className={s.timeline__item}>
+              <div
+                className={s.timeline__item}
+                style={{ marginLeft: this.getStyle(item.data).marginLeft }}
+              >
                 <div className={s.timeline__infos}>
-                  <p className={s.timeline__properties}>Opacity, scale</p>
-                  <p className={s.timeline__duration}>2s</p>
+                  <p className={s.timeline__properties}>{item.data.properties}</p>
+                  <p className={s.timeline__duration}>{item.data.duration}s</p>
                 </div>
 
-                <div className={s.timeline__bar} />
+                <div
+                  className={s.timeline__bar}
+                  style={{ width: this.getStyle(item.data).width }}
+                />
               </div>
             </li>
           ))}
         </ul>
 
-        <div className={s.timeline__grid} />
+        <div
+          className={s.timeline__grid}
+          ref={(el) => { this.grid = el; }}
+        />
       </div>
     );
   }

@@ -541,6 +541,7 @@ export default class GsapTools extends PureComponent {
 
               {isExpanded && (
                 <Timeline
+                  master={this.master}
                   isExpanded={isExpanded}
                 />
               )}
