@@ -1,14 +1,41 @@
+/* stylelint-disable selector-max-type */
 @import '../../styles/config.scss';
 
 .reference {
   padding-top: percentage(40/850);
 
-  code { // stylelint-disable-line
+  code {
     font-size: 0.85em;
     // color: #ad0303;
   }
 
-  p { // stylelint-disable-line
+  p {
     margin-bottom: ($gutter / $font-size) * 1em;
+  }
+
+  ul {
+    @include reset-list;
+
+    margin-bottom: 3em;
+
+    line-height: 2.5;
+
+    li {
+      display: flex;
+      align-items: center;
+    }
+
+    code {
+      display: flex;
+      align-items: center;
+
+      margin-right: 0.5em;
+
+      padding: 0 0.5em;
+      line-height: 1.25;
+
+      border: 1px solid rgba(#000, 0.1);
+      border-radius: 3px;
+    }
   }
 }

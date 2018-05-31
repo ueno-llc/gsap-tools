@@ -33,18 +33,13 @@ export default class App extends PureComponent {
           Except one. But we won’t tell you which one. Because we’re not about
           to give away all our secrets. You must understand."
         >
-
           <h2>Installation</h2>
 
           <Code>
             {'npm install --save-dev gsap-tools'}
           </Code>
 
-          <Features
-            heading={
-              <h2>Features</h2>
-            }
-          >
+          <Features heading={<h2>Features</h2>}>
             <FeaturesItem
               icon={
                 <Icon
@@ -84,7 +79,8 @@ export default class App extends PureComponent {
                       <path d="M11.1 11.4c0 .2-.1.5-.2.7-.4.6-1.2.7-1.7.3L1.5 7.3 1.2 7v4.2c0 .4-.2.6-.6.6s-.6-.2-.6-.6V1.1C0 .7.2.5.6.5s.6.2.6.6v4.5l.3-.3L9.1.2c.2-.1.5-.2.7-.2.7 0 1.2.6 1.2 1.2v10.2z" />
                     </svg>
                   }
-                />}
+                />
+              }
               title="Rewind"
               text="We all want to repeat good things, right? Press the rewind button then, yeah it looks nice!"
             />
@@ -98,7 +94,8 @@ export default class App extends PureComponent {
                       <path d="M4.6 13.8c-.3.3-.7.3-1 0L0 10.3V.8C0 .3.3 0 .8 0h6.4c.5 0 .8.3.8.8v9.6l-3.4 3.4z" />
                     </svg>
                   }
-                />}
+                />
+              }
               title="In/out markers"
               text="Want to repeat a specific part of timeline? Just define in/out markers and you’re good to go."
             />
@@ -114,7 +111,8 @@ export default class App extends PureComponent {
                       <path d="M16.6.3l8.7 5.8c.5.3.6.9.3 1.4l-.3.3-8.8 5.9c-.5.3-1.1.2-1.4-.3-.1-.2-.1-.4-.1-.6l.1-11.7c0-.6.5-1 1-1 .2.1.4.1.5.2z" />
                     </svg>
                   }
-                />}
+                />
+              }
               title="Timescale"
               text="Speed up, slow down, feel free to play with them as much as you want."
             />
@@ -157,18 +155,15 @@ export default class App extends PureComponent {
               title="TimelineLite and TimelineMax ready"
               text="We currently only support animations for these two GSAP functions."
             />
-
           </Features>
 
           <h2>How to use it</h2>
 
           <Copy>
-
             <p>
               <b>Add GsapTools component globally to your application</b>
               <br />You only need to add it once.
             </p>
-
           </Copy>
 
           <Code>
@@ -185,7 +180,6 @@ export default class App extends PureComponent {
             add function to remove it when the component is unmounted. Alternatively, there
             are other ways to do it. <button onClick={this.showCode}>View them</button>.
             </p>
-
           </Copy>
 
           <Code>{`import { add } from 'gsap-tools';
@@ -226,9 +220,20 @@ componentWillUnmount() {
           </Code>
 
           <Reference>
+            <h2>Shortcuts</h2>
+
+            <ul>
+              <li><code>space</code> Play/pause</li>
+              <li><code>L</code> Toggle loop</li>
+              <li><code>H</code> Toggle UI</li>
+              <li><code>←</code> Rewind</li>
+              <li><code>↑</code> Speed up timescale</li>
+              <li><code>↓</code> Slow down timescale</li>
+            </ul>
+
             <h2>Reference</h2>
 
-            <h3>GsapTools component</h3>
+            <h3><code>&lt;GsapTools /&gt;</code> component</h3>
 
             <dl>
               <dt><b>isVisible</b> (default = false)</dt>
@@ -247,10 +252,9 @@ componentWillUnmount() {
               the built-in function. It’s useful if you have a whole dev tools package
               and already have a way to enable specific tools.
               </dd>
-
             </dl>
 
-            <h3>add() function</h3>
+            <h3><code>add()</code> function</h3>
 
             <dl>
               <dt><b>Timeline</b> (required)</dt>
@@ -264,7 +268,7 @@ componentWillUnmount() {
               </dd>
             </dl>
 
-            <h3>remove() function</h3>
+            <h3><code>remove()</code> function</h3>
 
             <p>This function is not required. It’s simpler through the disposer function
             call via the reference to the <code>add()</code> function. However you can
@@ -282,16 +286,13 @@ componentWillUnmount() {
               the <code>add()</code> function itself. <code>add(this.timeline, ‘myId’);</code>
               </dd>
             </dl>
-
           </Reference>
-
         </Content>
 
         <Content
           title="Motivation"
           subheading="A quick, serious message"
         >
-
           <p>We love the work of the GSAP guys. We love it so much that we are using
           GSAP for animations on almost all of our projects.
           </p>
@@ -311,6 +312,15 @@ componentWillUnmount() {
           </p>
 
           <p>That’s why we decided to make our own tool to address these issues.</p>
+        </Content>
+
+        <Content
+          title="Help us"
+          subheading="Any ideas are welcome"
+        >
+          <p>If you noticied any issues, if you have any ideas, or if you want to help us and
+          open pull requests go checkout the github repository: <a href="https://github.com/ueno-llc/gsap-tools" target="_blank" rel="noopener noreferrer">github.com/ueno-llc/gsap-tools</a>
+          </p>
         </Content>
       </AppLayout>
     );

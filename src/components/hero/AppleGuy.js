@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { TimelineLite, TimelineMax } from 'gsap'; // eslint-disable-line
+import { TimelineLite, TimelineMax } from 'gsap';
 
 import './AppleGuy.css';
 

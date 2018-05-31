@@ -16,6 +16,7 @@
 
   button {
     @include reset-button;
+
     position: relative;
 
     cursor: pointer;
@@ -23,7 +24,7 @@
     &::after {
       content: '';
       position: absolute;
-      bottom: 0.3ex;
+      bottom: 0.4ex;
       left: 0;
       right: 0;
 

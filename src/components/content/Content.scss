@@ -5,8 +5,10 @@
 
   overflow: hidden;
 
-  @media (min-width: $min-desktop) {
-    background: #fff;
+  &:nth-child(4) {
+    .content__inner {
+      padding-top: 0;
+    }
   }
 
   &__col {
@@ -18,14 +20,19 @@
       margin-left: percentage(1/12);
       width: percentage(10/12);
     }
-
   }
 
   &--hasBackground {
     background: #f9f9f9;
 
+    @media (min-width: $min-tablet) {
+      margin-top: -80px;
+    }
+
     @media (min-width: $min-desktop) {
-      background: #fff;
+      margin-top: -200px;
+
+      background: transparent;
     }
   }
 
@@ -96,5 +103,31 @@
   > p { // stylelint-disable-line
     margin-top: 0;
     margin-bottom: (40px / $font-size) * 1em;
+  }
+
+  a { // stylelint-disable-line
+    @include reset-anchor;
+
+    position: relative;
+
+    color: #000;
+
+    &::after { // stylelint-disable-line
+      content: '';
+      position: absolute;
+      bottom: 0.3px;
+      left: 0;
+      right: 0;
+
+      height: 1px;
+
+      background: $color-font;
+    }
+
+    @media (pointer: fine) {
+      &:hover::after { // stylelint-disable-line
+        background: transparent;
+      }
+    }
   }
 }
