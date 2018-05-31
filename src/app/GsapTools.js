@@ -8,6 +8,7 @@ import { SPEEDS } from 'utils/constants';
 import clearProps from 'utils/clearProps';
 
 import Header from 'components/header';
+import Timeline from 'components/timeline';
 import Controls from 'components/controls';
 import Range from 'components/range';
 import Button from 'components/button';
@@ -37,7 +38,7 @@ export default class GsapTools extends PureComponent {
     this.state = {
       isLoaded: false,
       isVisible: props.isVisible,
-      isExpand: false,
+      isExpanded: false,
       playIcon: true,
       value: 0,
       isLoop: false,
@@ -160,16 +161,18 @@ export default class GsapTools extends PureComponent {
   initUI = () => {
     // Read values from props, localStorage and fallbacks
     const storageIsVisible = JSON.parse(storage.get('IS_VISIBLE'));
+    const isExpanded = JSON.parse(storage.get('IS_EXPANDED'));
     const isVisible = storageIsVisible === null ? this.props.isVisible : storageIsVisible;
     const timeScale = Number(storage.get('TIME_SCALE')) || 1;
     const isLoop = storage.get('LOOP') === 'true';
     const { x, y } = JSON.parse(storage.get('BOX_POSITION')) || { x: 0, y: 0 };
 
     this.setState({
-      position: { x, y },
       isVisible,
+      isExpanded,
       isLoop,
       timeScale,
+      position: { x, y },
     });
 
     this.master.timeScale(timeScale);
@@ -351,7 +354,12 @@ export default class GsapTools extends PureComponent {
   }
 
   handleExpand = () => {
-    this.setState({ isExpand: !this.state.isExpand });
+    const isExpanded = !this.state.isExpanded;
+
+    this.setState({ isExpanded });
+
+    // Set the isExpanded value in localStorage
+    storage.set('IS_EXPANDED', isExpanded);
   }
 
   handleRewind = () => {
@@ -497,7 +505,7 @@ export default class GsapTools extends PureComponent {
 
     const {
       isVisible,
-      isExpand,
+      isExpanded,
       isLoop,
       playIcon,
       value,
@@ -505,8 +513,6 @@ export default class GsapTools extends PureComponent {
       isLoaded,
       position: { x, y },
     } = this.state;
-
-    console.log('-isExpand', isExpand);
 
     return (
       <Draggable
@@ -517,7 +523,7 @@ export default class GsapTools extends PureComponent {
         position={{ x, y }}
       >
         <div
-          className={s(s.gsapTools, { [s.gsapToolsFixed]: isFixed, isExpand })}
+          className={s(s.gsapTools, { [s.gsapToolsFixed]: isFixed, isExpanded })}
           ref={(el) => { this.container = el; }}
         >
           <div className={s.gsapTools__container}>
@@ -527,14 +533,20 @@ export default class GsapTools extends PureComponent {
                 handleList={this.handleList}
                 handleTimeScale={this.handleTimeScale}
                 handleUIClose={this.handleUIClose}
+                handleExpand={this.handleExpand}
                 master={this.master}
                 timeScale={timeScale}
                 isActive={isActive}
               />
 
-              <section className={s.gsapTools__inner}>
+              {isExpanded && (
+                <Timeline
+                  isExpanded={isExpanded}
+                />
+              )}
+
+              {!isExpanded && (
                 <Controls
-                  handleExpand={this.handleExpand}
                   handleRewind={this.handleRewind}
                   handlePlayPause={this.handlePlayPause}
                   handleLoop={this.handleLoop}
@@ -542,19 +554,19 @@ export default class GsapTools extends PureComponent {
                   isLoop={isLoop}
                   isActive={isActive}
                 />
+              )}
 
-                <Range
-                  value={value}
-                  isActive={isActive}
-                  onDrag={this.handleRange}
-                  onDragStart={this.handleRangeStart}
-                  onDragEnd={this.handleRangeEnd}
-                  onDragMarkerIn={this.handleMarkerInRange}
-                  onDragMarkerOut={this.handleMarkerOutRange}
-                  onDragMarkerReset={this.handleMarkerReset}
-                  ref={(el) => { this.range = el; }}
-                />
-              </section>
+              <Range
+                value={value}
+                isActive={isActive}
+                onDrag={this.handleRange}
+                onDragStart={this.handleRangeStart}
+                onDragEnd={this.handleRangeEnd}
+                onDragMarkerIn={this.handleMarkerInRange}
+                onDragMarkerOut={this.handleMarkerOutRange}
+                onDragMarkerReset={this.handleMarkerReset}
+                ref={(el) => { this.range = el; }}
+              />
             </div>
 
             <Button

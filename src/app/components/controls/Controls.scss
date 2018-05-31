@@ -3,11 +3,16 @@
 .controls {
   display: flex;
   align-items: center;
-  justify-content: center;
+  flex-direction: column;
 
-  margin-top: 40px;
+  padding: 25px;
 
-  &__expand,
+  &__container {
+    display: flex;
+
+    margin-top: 30px;
+  }
+
   &__rewind,
   &__playPause,
   &__loop {
@@ -38,12 +43,7 @@
     }
   }
 
-  &__expand {
-    margin-right: auto;
-  }
-
   &__rewind {
-    margin-left: -22px;
     margin-right: 40px;
   }
 

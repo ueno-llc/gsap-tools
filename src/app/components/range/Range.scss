@@ -1,9 +1,19 @@
 @import '~styles/config';
 
 .range {
-  position: relative;
+  position: absolute;
+  bottom: 0;
+  z-index: 3;
 
-  margin-top: auto;
+  padding: 25px;
+
+  width: 100%;
+
+  &__container {
+    position: relative;
+
+    margin-top: auto;
+  }
 
   &__markers {
     @include reset-button;
@@ -85,7 +95,7 @@
     width: 0;
     height: 100%;
 
-    background-color: #3ec2f1;
+    background-color: $color-blue;
     border-radius: 10px;
 
     transition: opacity 240ms;

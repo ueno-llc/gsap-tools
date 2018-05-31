@@ -92,15 +92,35 @@
     border-radius: 2px;
   }
 
+  &__expand {
+    @include reset-button;
+
+    display: flex;
+
+    padding: 15px 10px 15px 15px;
+    margin-left: 5px;
+
+    cursor: pointer;
+
+    svg { // stylelint-disable-line
+      width: 14px;
+      height: 14px;
+    }
+  }
+
   &__cross {
     @include reset-button;
 
     display: flex;
 
-    padding: 15px;
-    margin-left: 5px;
+    padding: 15px 15px 15px 10px;
     margin-right: -15px;
 
     cursor: pointer;
+
+    svg { // stylelint-disable-line
+      width: 12px;
+      height: 12px;
+    }
   }
 }

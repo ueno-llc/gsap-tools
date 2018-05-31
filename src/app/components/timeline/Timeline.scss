@@ -1,0 +1,122 @@
+@import '~styles/config';
+
+.timeline {
+  width: 100%;
+  height: calc(100% - #{$gsap-header});
+
+  &::after {
+    content: '';
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+
+    width: 100%;
+    height: 125px;
+
+    background-image: linear-gradient(to bottom, rgba(#fff, 0), #fff 45%);
+  }
+
+  .isExpanded & {
+    opacity: 0;
+  }
+
+  &__elements {
+    position: relative;
+    z-index: 1;
+
+    height: 100%;
+  }
+
+  &__list {
+    @include reset-list;
+
+    position: relative;
+    z-index: 1;
+
+    padding: 35px 25px 25px;
+
+    height: 100%;
+
+    overflow-y: scroll;
+  }
+
+  &__row {
+    display: flex;
+
+    margin-bottom: 30px;
+  }
+
+  &__target {
+    @include reset-paragraph;
+
+    font-size: 14px;
+    color: $color-green;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+
+    position: absolute;
+    left: 175px;
+
+    margin-top: -8px;
+  }
+
+  &__infos {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 3px;
+  }
+
+  &__properties {
+    @include reset-paragraph;
+
+    padding-left: 4px;
+
+    font-size: 10px;
+    color: #000;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  &__duration {
+    @include reset-paragraph;
+
+    opacity: 0.6;
+
+    padding-right: 4px;
+
+    font-size: 10px;
+    color: #999;
+    text-align: right;
+  }
+
+  &__bar {
+    width: 200px;
+    height: 8px;
+
+    border-radius: 8px;
+    background-color: $color-green;
+  }
+
+  &__grid {
+    position: absolute;
+    top: $gsap-header;
+    right: 0;
+    bottom: 0;
+    left: 150px;
+
+    overflow: hidden;
+    pointer-events: none;
+
+    background-image:
+      linear-gradient(to right, rgba(#fff, 0) calc(100% - (1 / 25 * 100%)), #f7f9fa calc(100% - (1 / 25 * 100%))),
+      linear-gradient(to right, rgba(#fff, 0) calc(100% - (1 / 25 * 100%)), rgba(#fff, 0.15) calc(100% - (1 / 25 * 100%)));
+
+    background-size: 25px;
+  }
+}
