@@ -8,21 +8,21 @@ const getDom = (item) => {
 
   const targets = get(item, '_targets');
   const el = targets && targets.length === 1 ? targets[0] : get(item, 'target');
-  const isNode = el => NodeList.prototype.isPrototypeOf(el);
-  const tag = el => get(el, 'tagName');
+  const isNode = elm => NodeList.prototype.isPrototypeOf(elm); // eslint-disable-line
+  const tag = elm => get(elm, 'tagName');
 
   if (isNode(el)) {
-    const dom = Array.from(el).map(item => tag(item)).join(', ');
+    const dom = Array.from(el).map(elm => tag(elm)).join(', ');
 
     res = `[${dom}]`;
   } else if (isArray(el)) {
-    let dom = [];
+    const dom = [];
 
-    el.forEach(item => {
-      if (isNode(item)) {
-        dom.unshift(`NodeList(${item.length})`);
+    el.forEach((elm) => {
+      if (isNode(elm)) {
+        dom.unshift(`NodeList(${elm.length})`);
       } else {
-        dom.push(tag(item).toLowerCase());
+        dom.push(tag(elm).toLowerCase());
       }
     });
 
@@ -35,10 +35,7 @@ const getDom = (item) => {
 
   const id = get(el, 'id');
   const classes = get(el, 'className');
-
-  const tagName = res
-    ? res
-    : '';
+  const tagName = res || '';
 
   const idName = id
     ? `#${get(el, 'id')}`
