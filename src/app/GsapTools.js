@@ -149,12 +149,13 @@ export default class GsapTools extends PureComponent {
     // Add the active timeline to the master one
     this.master.add(active);
 
-    // If on a previous page we waited until the end of the timeline
-    // we need to restart it for the new one registered from the new page
-    this.master.restart();
+    // Check the status of the timeline to define the master one
+    const isPaused = active.paused();
+
+    this.master.paused(isPaused);
 
     this.setState({
-      playIcon: false,
+      playIcon: isPaused,
       active,
     });
   }
