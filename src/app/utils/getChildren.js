@@ -2,6 +2,7 @@ import React from 'react';
 import get from 'lodash/get';
 import isArray from 'lodash/isArray';
 import isElement from 'lodash/isElement';
+import isEmpty from 'lodash/isEmpty';
 
 const getDom = (item) => {
   let res = '';
@@ -69,6 +70,10 @@ const getStart = item => item.timeline.startTime();
 const getDuration = item => item.timeline.totalDuration();
 
 function getChildren(timeline) {
+  if (isEmpty(timeline)) {
+    return [];
+  }
+
   const rows = [];
 
   const createSegment = item => ({

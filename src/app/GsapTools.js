@@ -36,14 +36,15 @@ export default class GsapTools extends PureComponent {
     this.isDragging = false;
 
     this.state = {
+      value: 0,
+      active: {},
+      timeScale: 1,
+      playIcon: true,
+      position: { x: 0, y: 0 },
       isLoaded: false,
       isVisible: props.isVisible,
       isExpanded: false,
-      playIcon: true,
-      value: 0,
       isLoop: false,
-      timeScale: 1,
-      position: { x: 0, y: 0 },
     };
   }
 
@@ -151,7 +152,11 @@ export default class GsapTools extends PureComponent {
     // If on a previous page we waited until the end of the timeline
     // we need to restart it for the new one registered from the new page
     this.master.restart();
-    this.setState({ playIcon: false });
+
+    this.setState({
+      playIcon: false,
+      active,
+    });
   }
 
   initUI = () => {
@@ -328,6 +333,7 @@ export default class GsapTools extends PureComponent {
     this.setState({
       playIcon: false,
       value: 0,
+      active,
     });
   }
 
@@ -503,14 +509,15 @@ export default class GsapTools extends PureComponent {
     const isActive = store.timelines.size > 0;
 
     const {
+      value,
+      active,
+      playIcon,
+      timeScale,
+      position: { x, y },
       isVisible,
       isExpanded,
       isLoop,
-      playIcon,
-      value,
-      timeScale,
       isLoaded,
-      position: { x, y },
     } = this.state;
 
     return (
@@ -540,7 +547,7 @@ export default class GsapTools extends PureComponent {
 
               {isExpanded && (
                 <Timeline
-                  master={this.master}
+                  master={active}
                   isExpanded={isExpanded}
                 />
               )}
