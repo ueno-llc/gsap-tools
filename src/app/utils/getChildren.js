@@ -1,14 +1,42 @@
 import React from 'react';
 import get from 'lodash/get';
+import isArray from 'lodash/isArray';
+import isElement from 'lodash/isElement';
 
 const getDom = (item) => {
-  const el = get(item, '_targets[0]');
-  const tag = get(el, 'tagName');
+  let res = '';
+
+  const el = get(item, 'target');
+  const isNode = el => NodeList.prototype.isPrototypeOf(el);
+  const tag = el => get(el, 'tagName');
+
+  if (isNode(el)) {
+    const dom = Array.from(el).map(item => tag(item)).join(', ');
+
+    res = `[${dom}]`;
+  } else if (isArray(el)) {
+    let dom = [];
+
+    el.forEach(item => {
+      if (isNode(item)) {
+        dom.unshift(`NodeList(${item.length})`);
+      } else {
+        dom.push(tag(item).toLowerCase());
+      }
+    });
+
+    res = `[${dom.join(', ')}]`;
+  } else if (isElement(el)) {
+    res = tag(el).toLowerCase();
+  } else {
+    res = '';
+  }
+
   const id = get(el, 'id');
   const classes = get(el, 'className');
 
-  const tagName = tag
-    ? tag.toLowerCase()
+  const tagName = res
+    ? res
     : '';
 
   const idName = id
@@ -19,7 +47,7 @@ const getDom = (item) => {
     ? `.${classes.replace(' ', '.')}`
     : '';
 
-  return <p><span>{tagName}</span><span>{idName}</span><span>{className}</span></p>;
+  return <p>&nbsp;<span>{tagName}</span><span>{idName}</span><span>{className}</span></p>;
 };
 
 const getProperties = (item) => {

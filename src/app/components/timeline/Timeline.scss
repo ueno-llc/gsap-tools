@@ -53,6 +53,13 @@
   &__target {
     @include reset-paragraph;
 
+    max-width: 130px;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
     font-size: 14px;
     color: #000;
 
@@ -98,6 +105,7 @@
 
     opacity: 0.6;
 
+    padding-left: 8px;
     padding-right: 4px;
 
     font-size: 10px;
