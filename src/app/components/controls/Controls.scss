@@ -61,6 +61,9 @@
     margin-right: 40px;
 
     .isExpanded & {
+      position: relative;
+      left: -2px;
+
       margin-right: 20px;
 
       height: 16px;
