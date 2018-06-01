@@ -10,16 +10,13 @@ export default class Features extends PureComponent {
     children: PropTypes.node,
   }
 
-  static defaultProps = {
-    children: undefined,
-  }
-
   render() {
     const { heading, children } = this.props;
 
     return (
       <div className="features">
         {heading}
+
         <ul className="features__row">
           {Children.map(children, child => (
             <li className="features__item">

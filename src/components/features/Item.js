@@ -1,22 +1,28 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import './Item.css';
 
-const Item = ({ icon, title, text }) => (
-  <div className="item">
-    <div className="item__icon">
-      {icon}
-    </div>
-    <h3 className="item__heading">{title}</h3>
-    <p className="item__copy">{text}</p>
-  </div>
-);
+export default class Item extends PureComponent {
 
-Item.propTypes = {
-  icon: PropTypes.node,
-  title: PropTypes.string,
-  text: PropTypes.string,
-};
+  static propTypes = {
+    icon: PropTypes.node,
+    title: PropTypes.string,
+    text: PropTypes.string,
+  }
 
-export default Item;
+  render() {
+    const { icon, title, text } = this.props;
+
+    return (
+      <div className="item">
+        <div className="item__icon">
+          {icon}
+        </div>
+
+        <h3 className="item__heading">{title}</h3>
+        <p className="item__copy">{text}</p>
+      </div>
+    );
+  }
+}

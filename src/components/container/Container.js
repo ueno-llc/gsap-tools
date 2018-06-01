@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import './Container.css';
 
-const Container = ({ children }) => (
-  <div className="container">
-    {children}
-  </div>
-);
+export default class Container extends PureComponent {
 
-Container.propTypes = {
-  children: PropTypes.node,
-};
+  static propTypes = {
+    children: PropTypes.node,
+  }
 
-Container.defaultProps = {
-  children: undefined,
-};
+  render() {
+    const { children } = this.props;
 
-export default Container;
+    return (
+      <div className="container">
+        {children}
+      </div>
+    );
+  }
+}

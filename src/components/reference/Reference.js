@@ -9,10 +9,6 @@ export default class Reference extends PureComponent {
     children: PropTypes.node,
   }
 
-  static defaultProps = {
-    children: undefined,
-  }
-
   render() {
     const { children } = this.props;
 

@@ -15,9 +15,7 @@ export default class App extends PureComponent {
   }
 
   showCode = () => {
-    this.setState({
-      codeVisible: !this.state.codeVisible,
-    });
+    this.setState({ codeVisible: !this.state.codeVisible });
   }
 
   render() {

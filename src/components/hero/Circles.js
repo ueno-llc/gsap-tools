@@ -9,7 +9,6 @@ export default class Circles extends PureComponent {
     const t = new TimelineLite();
     const t1 = new TimelineLite();
     const t2 = new TimelineLite();
-
     const ease = 'Linear.easeNone';
     const circle = this.circles.childNodes;
     const greyCircle = this.secondaryCircles.childNodes;

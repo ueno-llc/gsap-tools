@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import './Copy.css';
 
-const Copy = ({ children }) => (
-  <div className="copy">
-    {children}
-  </div>
-);
+export default class Copy extends PureComponent {
 
-Copy.propTypes = {
-  children: PropTypes.node,
-};
+  static propTypes = {
+    children: PropTypes.node,
+  }
 
-Copy.defaultProps = {
-  children: undefined,
-};
+  render() {
+    const { children } = this.props;
 
-export default Copy;
+    return (
+      <div className="copy">
+        {children}
+      </div>
+    );
+  }
+}

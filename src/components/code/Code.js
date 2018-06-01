@@ -6,10 +6,6 @@ import './Code.css';
 
 export default class Code extends PureComponent {
 
-  state = {
-    text: this.props.children,
-  }
-
   static propTypes = {
     children: PropTypes.node,
     visible: PropTypes.bool,
@@ -17,6 +13,10 @@ export default class Code extends PureComponent {
 
   static defaultProps = {
     visible: true,
+  }
+
+  state = {
+    text: this.props.children,
   }
 
   componentDidMount() {
@@ -79,7 +79,10 @@ export default class Code extends PureComponent {
 
     return (
       <pre className={classnames('code', { 'code--visible': visible })}>
-        <code dangerouslySetInnerHTML={{ __html: text }} />
+        <code
+          // eslint-disable-next-line
+          dangerouslySetInnerHTML={{ __html: text }}
+        />
       </pre>
     );
   }

@@ -1,19 +1,22 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import './Icon.css';
 
-const Icon = ({ color, image }) => (
-  <div className="icon" style={{ backgroundColor: color }}>
-    { image && (
-      <span className="icon__image">{image}</span>
-    )}
-  </div>
-);
+export default class Icon extends PureComponent {
 
-Icon.propTypes = {
-  color: PropTypes.string,
-  image: PropTypes.node,
-};
+  static propTypes = {
+    color: PropTypes.string,
+    image: PropTypes.node,
+  }
 
-export default Icon;
+  render() {
+    const { color, image } = this.props;
+
+    return (
+      <div className="icon" style={{ backgroundColor: color }}>
+        {image && <span className="icon__image">{image}</span>}
+      </div>
+    );
+  }
+}

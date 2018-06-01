@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import './Row.css';
 
-const Row = ({ children }) => (
-  <div className="row">
-    {children}
-  </div>
-);
+export default class Row extends PureComponent {
 
-Row.propTypes = {
-  children: PropTypes.node,
-};
+  static propTypes = {
+    children: PropTypes.node,
+  }
 
-Row.defaultProps = {
-  children: undefined,
-};
+  render() {
+    const { children } = this.props;
 
-export default Row;
+    return (
+      <div className="row">
+        {children}
+      </div>
+    );
+  }
+}
