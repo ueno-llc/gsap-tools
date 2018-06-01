@@ -358,9 +358,6 @@ export default class GsapTools extends PureComponent {
   handleExpand = () => {
     const isExpanded = !this.state.isExpanded;
 
-    // Clear the range when we expand the ui
-    this.range.clear();
-
     this.setState({ isExpanded });
 
     // Set the isExpanded value in localStorage
