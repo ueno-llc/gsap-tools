@@ -529,13 +529,13 @@ export default class GsapTools extends PureComponent {
             <div className={s(s.gsapTools__box, { isLoaded, isVisible, onClick })}>
               <Header
                 keys={store.keys}
-                handleList={this.handleList}
-                handleTimeScale={this.handleTimeScale}
-                handleUIClose={this.handleUIClose}
-                handleExpand={this.handleExpand}
                 master={this.master}
                 timeScale={timeScale}
                 isActive={isActive}
+                onList={this.handleList}
+                onTimeScale={this.handleTimeScale}
+                onUIClose={this.handleUIClose}
+                onExpand={this.handleExpand}
               />
 
               {isExpanded && (
@@ -546,13 +546,13 @@ export default class GsapTools extends PureComponent {
               )}
 
               <Controls
-                handleRewind={this.handleRewind}
-                handlePlayPause={this.handlePlayPause}
-                handleLoop={this.handleLoop}
                 isPause={playIcon}
                 isLoop={isLoop}
                 isActive={isActive}
                 isExpanded={isExpanded}
+                onRewind={this.handleRewind}
+                onPlayPause={this.handlePlayPause}
+                onLoop={this.handleLoop}
               />
 
               <Range
@@ -570,9 +570,9 @@ export default class GsapTools extends PureComponent {
             </div>
 
             <Button
-              handleUIClose={this.handleUIClose}
-              visible={isVisible}
-              loaded={isLoaded}
+              isVisible={isVisible}
+              isLoaded={isLoaded}
+              onUIClose={this.handleUIClose}
               onClick={onClick}
             />
           </div>

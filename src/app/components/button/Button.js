@@ -6,14 +6,14 @@ import s from './Button.scss';
 export default class Button extends PureComponent {
 
   static propTypes = {
-    visible: PropTypes.bool,
+    isVisible: PropTypes.bool,
+    isLoaded: PropTypes.bool,
+    onUIClose: PropTypes.func,
     onClick: PropTypes.func,
-    loaded: PropTypes.bool,
-    handleUIClose: PropTypes.func,
   }
 
   render() {
-    const { visible, onClick, loaded, handleUIClose } = this.props;
+    const { isVisible, isLoaded, onUIClose, onClick } = this.props;
 
     if (onClick) {
       return null;
@@ -21,8 +21,8 @@ export default class Button extends PureComponent {
 
     return (
       <button
-        className={s(s.button, { visible, loaded })}
-        onClick={handleUIClose}
+        className={s(s.button, { isVisible, isLoaded })}
+        onClick={onUIClose}
       >
         GSAP
       </button>

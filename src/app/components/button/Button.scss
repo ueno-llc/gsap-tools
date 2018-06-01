@@ -26,12 +26,7 @@
   border-radius: 50%;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.12);
 
-  &.loaded {
-    transition: transform 160ms, opacity 160ms;
-    transform: scale(1);
-  }
-
-  &.visible {
+  &.isVisible {
     z-index: 9997;
 
     opacity: 0;
@@ -39,5 +34,10 @@
     pointer-events: none;
 
     transform: scale(0.6);
+  }
+
+  &.isLoaded {
+    transition: transform 160ms, opacity 160ms;
+    transform: scale(1);
   }
 }
