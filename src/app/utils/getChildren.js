@@ -6,7 +6,8 @@ import isElement from 'lodash/isElement';
 const getDom = (item) => {
   let res = '';
 
-  const el = get(item, 'target');
+  const targets = get(item, '_targets');
+  const el = targets && targets.length === 1 ? targets[0] : get(item, 'target');
   const isNode = el => NodeList.prototype.isPrototypeOf(el);
   const tag = el => get(el, 'tagName');
 
@@ -68,7 +69,6 @@ const getProperties = (item) => {
 };
 
 const getStart = item => item.timeline.startTime();
-const getEnd = item => item.timeline.endTime();
 const getDuration = item => item.timeline.totalDuration();
 
 function getChildren(timeline) {
@@ -77,7 +77,6 @@ function getChildren(timeline) {
   const createSegment = item => ({
     target: getDom(item),
     start: getStart(item),
-    end: getEnd(item),
     duration: getDuration(item),
     properties: getProperties(item),
   });

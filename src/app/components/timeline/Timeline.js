@@ -36,25 +36,27 @@ export default class Timeline extends PureComponent {
     return (
       <div className={s(s.timeline, { isExpanded })}>
         <ul className={s.timeline__list}>
-          {getChildren(master).map((item, i) => (
+          {getChildren(master).map(({ data }, i) => (
             <li
               className={s.timeline__row}
               key={i} // eslint-disable-line
             >
-              {cloneElement(item.data.target, { className: s.timeline__target })}
+              {cloneElement(data.target, {
+                className: s.timeline__target,
+              })}
 
               <div
                 className={s.timeline__item}
-                style={{ marginLeft: this.getStyle(item.data).marginLeft }}
+                style={{ marginLeft: this.getStyle(data).marginLeft }}
               >
                 <div className={s.timeline__infos}>
-                  <p className={s.timeline__properties}>{item.data.properties}</p>
-                  <p className={s.timeline__duration}>{item.data.duration}s</p>
+                  <p className={s.timeline__properties}>{data.properties}</p>
+                  <p className={s.timeline__duration}>{data.duration}s</p>
                 </div>
 
                 <div
                   className={s.timeline__bar}
-                  style={{ width: this.getStyle(item.data).width }}
+                  style={{ width: this.getStyle(data).width }}
                 />
               </div>
             </li>
