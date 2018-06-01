@@ -38,7 +38,7 @@ export default class Timeline extends PureComponent {
         <ul className={s.timeline__list}>
           {getChildren(master).map((data, i) => (
             <li
-              className={s.timeline__row}
+              className={s(s.timeline__row, { isSet: data.isSet })}
               key={i} // eslint-disable-line
             >
               {cloneElement(data.target, {
@@ -51,7 +51,10 @@ export default class Timeline extends PureComponent {
               >
                 <div className={s.timeline__infos}>
                   <p className={s.timeline__properties}>{data.properties}</p>
-                  <p className={s.timeline__duration}>{data.duration}s</p>
+
+                  <p className={s.timeline__duration}>
+                    {data.isSet ? 'SET' : `${data.duration}s`}
+                  </p>
                 </div>
 
                 <div

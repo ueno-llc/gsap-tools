@@ -80,6 +80,10 @@
     left: 175px;
 
     margin-top: -8px;
+
+    .isSet & {
+      opacity: 0.65;
+    }
   }
 
   &__infos {
@@ -118,6 +122,12 @@
 
     border-radius: 8px;
     background-color: $color-green;
+
+    .isSet & {
+      opacity: 0.65;
+
+      background-color: $color-grey;
+    }
   }
 
   &__grid {
@@ -130,10 +140,9 @@
     overflow: hidden;
     pointer-events: none;
 
+    background-size: 26px;
     background-image:
       linear-gradient(to right, rgba(#fff, 0) 98%, #f2f4f5 98%),
       linear-gradient(to right, rgba(#fff, 0) 98%, rgba(#fff, 0.15) 98%);
-
-    background-size: 26px;
   }
 }

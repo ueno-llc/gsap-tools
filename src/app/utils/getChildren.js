@@ -91,6 +91,7 @@ function getChildren(timeline) {
       start: getStart(tt, offset),
       duration: getDuration(tt),
       properties: getProperties(tt),
+      isSet: tt.duration() === 0,
     }));
   });
 

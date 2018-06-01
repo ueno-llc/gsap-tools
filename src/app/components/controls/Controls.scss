@@ -41,19 +41,19 @@
     path { // stylelint-disable-line
       transition: fill 240ms;
 
-      fill: #cad5db;
+      fill: $color-grey;
     }
 
     &:hover {
       path { // stylelint-disable-line
-        fill: darken(#cad5db, 20%);
+        fill: darken($color-grey, 20%);
       }
     }
 
     .isActive & {
       pointer-events: all;
 
-      fill: #cad5db;
+      fill: $color-grey;
     }
   }
 
