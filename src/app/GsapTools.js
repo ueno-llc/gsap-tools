@@ -81,35 +81,23 @@ export default class GsapTools extends PureComponent {
    * and init the saved preferences
    */
 
-  onStoreChange = () => {
-    // Register new timeline (We need a setTimeout to get the
-    // ref to `this.range` from <Range /> component available)
-    setTimeout(this.handleStoreChange);
-
-    // Re-render the UI box
-    this.forceUpdate();
-  }
-
   onKeyDown = (e) => {
     const { timeScale } = this.state;
     const currentIndex = SPEEDS.indexOf(timeScale);
 
-    if (e.keyCode === 32) {
-      // Space bar
+    if (e.keyCode === 32) { // Space bar
       e.preventDefault();
 
       this.handlePlayPause();
-    } else if (e.keyCode === 76) {
-      // L char
+    } else if (e.keyCode === 76) { // L char
       this.handleLoop();
-    } else if (e.keyCode === 72) {
-      // H char
+    } else if (e.keyCode === 72) { // H char
       this.handleUIClose();
-    } else if (e.keyCode === 37) {
-      // Left arrow
+    } else if (e.keyCode === 69) { // E char
+      this.handleExpand();
+    } else if (e.keyCode === 37) { // Left arrow
       this.handleRewind();
-    } else if (e.keyCode === 38) {
-      // Up arrow
+    } else if (e.keyCode === 38) { // Up arrow
       e.preventDefault();
 
       const length = SPEEDS.length - 1;
@@ -119,8 +107,7 @@ export default class GsapTools extends PureComponent {
       }
 
       this.handleTimeScale(SPEEDS[currentIndex + 1]);
-    } else if (e.keyCode === 40) {
-      // Down arrow
+    } else if (e.keyCode === 40) { // Down arrow
       e.preventDefault();
 
       if (currentIndex === 0) {
@@ -129,6 +116,15 @@ export default class GsapTools extends PureComponent {
 
       this.handleTimeScale(SPEEDS[currentIndex - 1]);
     }
+  }
+
+  onStoreChange = () => {
+    // Register new timeline (We need a setTimeout to get the
+    // ref to `this.range` from <Range /> component available)
+    setTimeout(this.handleStoreChange);
+
+    // Re-render the UI box
+    this.forceUpdate();
   }
 
   handleStoreChange = () => {
