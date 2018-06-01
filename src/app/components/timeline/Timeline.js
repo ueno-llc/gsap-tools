@@ -36,7 +36,7 @@ export default class Timeline extends PureComponent {
     return (
       <div className={s(s.timeline, { isExpanded })}>
         <ul className={s.timeline__list}>
-          {getChildren(master).map(({ data }, i) => (
+          {getChildren(master).map((data, i) => (
             <li
               className={s.timeline__row}
               key={i} // eslint-disable-line

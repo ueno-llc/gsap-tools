@@ -66,7 +66,12 @@ const getProperties = (item) => {
   return res;
 };
 
-const getStart = item => item.timeline.startTime();
+const getStart = (item, offset = 0) => {
+  const startTime = item.timeline.startTime();
+
+  return offset === startTime ? startTime : startTime + offset;
+};
+
 const getDuration = item => item.timeline.totalDuration();
 
 function getChildren(timeline) {
@@ -75,20 +80,19 @@ function getChildren(timeline) {
   }
 
   const rows = [];
+  const parent = timeline.getChildren(false, false, true);
 
-  const createSegment = item => ({
-    target: getDom(item),
-    start: getStart(item),
-    duration: getDuration(item),
-    properties: getProperties(item),
+  parent.forEach((t) => {
+    const offset = t.startTime();
+    const children = t.getChildren(true, true, false);
+
+    children.forEach(tt => rows.push({
+      target: getDom(tt),
+      start: getStart(tt, offset),
+      duration: getDuration(tt),
+      properties: getProperties(tt),
+    }));
   });
-
-  const items = timeline.getChildren(true, true, false);
-
-  items.forEach(item => rows.push({
-    index: rows.length,
-    data: createSegment(item),
-  }));
 
   return rows;
 }
