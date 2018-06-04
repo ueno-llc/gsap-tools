@@ -537,6 +537,7 @@ export default class GsapTools extends PureComponent {
                 master={this.master}
                 timeScale={timeScale}
                 isActive={isActive}
+                isExpanded={isExpanded}
                 onList={this.handleList}
                 onTimeScale={this.handleTimeScale}
                 onUIClose={this.handleUIClose}

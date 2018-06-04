@@ -132,7 +132,7 @@
 
   &__grid {
     position: absolute;
-    top: $gsap-header;
+    top: calc(#{$gsap-header} + 1px);
     right: 0;
     bottom: 0;
     left: 150px;

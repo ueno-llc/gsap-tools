@@ -13,6 +13,7 @@ export default class Header extends PureComponent {
     master: PropTypes.object,
     timeScale: PropTypes.number,
     isActive: PropTypes.bool,
+    isExpanded: PropTypes.bool,
     onList: PropTypes.func,
     onTimeScale: PropTypes.func,
     onUIClose: PropTypes.func,
@@ -25,6 +26,7 @@ export default class Header extends PureComponent {
       master,
       timeScale,
       isActive,
+      isExpanded,
       onList,
       onTimeScale,
       onUIClose,
@@ -32,7 +34,7 @@ export default class Header extends PureComponent {
     } = this.props;
 
     return (
-      <header className={s.header}>
+      <header className={s(s.header, { isExpanded })}>
         {isActive ? (
           <div className={s.header__list}>
             <select className={s.header__select} onChange={onList}>
@@ -73,9 +75,15 @@ export default class Header extends PureComponent {
         )}
 
         <button className={s.header__expand} onClick={onExpand}>
-          <svg viewBox="0 0 11.2 11.2">
-            <path fill="#fff" d="M4.9,6.3c0.2,0.2,0.2,0.5,0,0.7l-3.1,3.1l2.5,0.1c0.3,0,0.5,0.2,0.5,0.5s-0.2,0.5-0.5,0.5l-3.7-0.1c-0.3,0-0.5-0.2-0.5-0.5L0,6.9c0-0.3,0.2-0.5,0.5-0.5S1,6.6,1,6.9l0.1,2.5l3.1-3.1C4.4,6.1,4.7,6.1,4.9,6.3z M11.1,0.6c0-0.3-0.2-0.5-0.5-0.5L6.9,0C6.6,0,6.4,0.2,6.4,0.5S6.6,1,6.9,1l2.5,0.1L6.7,3.8C6.5,4,6.5,4.3,6.7,4.5c0.2,0.2,0.5,0.2,0.7,0l2.7-2.7l0.1,2.5c0,0.3,0.2,0.5,0.5,0.5s0.5-0.2,0.5-0.5L11.1,0.6z" />
-          </svg>
+          <div className={s.header__expandWrapper}>
+            <svg viewBox="0 0 5.1 5.1">
+              <path fill="#fff" d="M4.9,0.1c0.2,0.2,0.2,0.5,0,0.7L1.8,4l2.5,0.1c0.3,0,0.5,0.2,0.5,0.5c0,0.3-0.2,0.5-0.5,0.5c0,0,0,0,0,0L0.6,4.9c-0.3,0-0.5-0.2-0.5-0.5L0,0.8c0-0.3,0.2-0.5,0.5-0.5C0.8,0.3,1,0.5,1,0.7l0.1,2.5l3.1-3.1C4.4,0,4.7,0,4.9,0.1z" />
+            </svg>
+
+            <svg viewBox="0 0 5.1 5.1">
+              <path fill="#fff" d="M0.1,4.9C0,4.7,0,4.4,0.1,4.2l3.1-3.1L0.7,1C0.5,1,0.3,0.8,0.3,0.5C0.3,0.2,0.5,0,0.8,0c0,0,0,0,0,0l3.7,0.1c0.3,0,0.5,0.2,0.5,0.5l0.1,3.7c0,0.3-0.2,0.5-0.5,0.5c-0.3,0-0.5-0.2-0.5-0.5L4,1.8L0.9,4.9C0.7,5.1,0.3,5.1,0.1,4.9z" />
+            </svg>
+          </div>
         </button>
 
         <button className={s.header__cross} onClick={onUIClose}>
