@@ -5,14 +5,13 @@
 
   position: absolute;
   bottom: 12px;
-  z-index: 3;
+  z-index: 5;
   opacity: 0;
 
   padding: 4px 6px;
 
-  font-size: 10px;
+  font-size: 12px;
   color: #fff;
-  text-transform: uppercase;
   font-weight: 500;
 
   pointer-events: none;
@@ -92,10 +91,6 @@
       bottom: 14px;
 
       min-width: inherit;
-
-      font-size: 12px;
-
-      text-transform: initial; // stylelint-disable-line
     }
   }
 
