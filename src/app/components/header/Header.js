@@ -74,17 +74,19 @@ export default class Header extends PureComponent {
           </select>
         )}
 
-        <button className={s.header__expand} onClick={onExpand}>
-          <div className={s.header__expandWrapper}>
-            <svg viewBox="0 0 5.1 5.1">
-              <path fill="#fff" d="M4.9,0.1c0.2,0.2,0.2,0.5,0,0.7L1.8,4l2.5,0.1c0.3,0,0.5,0.2,0.5,0.5c0,0.3-0.2,0.5-0.5,0.5c0,0,0,0,0,0L0.6,4.9c-0.3,0-0.5-0.2-0.5-0.5L0,0.8c0-0.3,0.2-0.5,0.5-0.5C0.8,0.3,1,0.5,1,0.7l0.1,2.5l3.1-3.1C4.4,0,4.7,0,4.9,0.1z" />
-            </svg>
+        {isActive && (
+          <button className={s.header__expand} onClick={onExpand}>
+            <div className={s.header__expandWrapper}>
+              <svg viewBox="0 0 5.1 5.1">
+                <path fill="#fff" d="M4.9,0.1c0.2,0.2,0.2,0.5,0,0.7L1.8,4l2.5,0.1c0.3,0,0.5,0.2,0.5,0.5c0,0.3-0.2,0.5-0.5,0.5c0,0,0,0,0,0L0.6,4.9c-0.3,0-0.5-0.2-0.5-0.5L0,0.8c0-0.3,0.2-0.5,0.5-0.5C0.8,0.3,1,0.5,1,0.7l0.1,2.5l3.1-3.1C4.4,0,4.7,0,4.9,0.1z" />
+              </svg>
 
-            <svg viewBox="0 0 5.1 5.1">
-              <path fill="#fff" d="M0.1,4.9C0,4.7,0,4.4,0.1,4.2l3.1-3.1L0.7,1C0.5,1,0.3,0.8,0.3,0.5C0.3,0.2,0.5,0,0.8,0c0,0,0,0,0,0l3.7,0.1c0.3,0,0.5,0.2,0.5,0.5l0.1,3.7c0,0.3-0.2,0.5-0.5,0.5c-0.3,0-0.5-0.2-0.5-0.5L4,1.8L0.9,4.9C0.7,5.1,0.3,5.1,0.1,4.9z" />
-            </svg>
-          </div>
-        </button>
+              <svg viewBox="0 0 5.1 5.1">
+                <path fill="#fff" d="M0.1,4.9C0,4.7,0,4.4,0.1,4.2l3.1-3.1L0.7,1C0.5,1,0.3,0.8,0.3,0.5C0.3,0.2,0.5,0,0.8,0c0,0,0,0,0,0l3.7,0.1c0.3,0,0.5,0.2,0.5,0.5l0.1,3.7c0,0.3-0.2,0.5-0.5,0.5c-0.3,0-0.5-0.2-0.5-0.5L4,1.8L0.9,4.9C0.7,5.1,0.3,5.1,0.1,4.9z" />
+              </svg>
+            </div>
+          </button>
+        )}
 
         <button className={s.header__cross} onClick={onUIClose}>
           <svg viewBox="0 0 11 11">
