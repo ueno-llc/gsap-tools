@@ -109,30 +109,27 @@
       height: 14px;
     }
 
-    svg:first-child { // stylelint-disable-line
+    svg { // stylelint-disable-line
       position: absolute;
-      bottom: 0;
-      left: 0;
 
       width: 6px;
       height: 6px;
+
+      transition: transform 240ms;
 
       .isExpanded & { // stylelint-disable-line
         transform: rotate(180deg);
       }
     }
 
+    svg:first-child { // stylelint-disable-line
+      bottom: 0;
+      left: 0;
+    }
+
     svg:last-child { // stylelint-disable-line
-      position: absolute;
       top: 0;
       right: 0;
-
-      width: 6px;
-      height: 6px;
-
-      .isExpanded & { // stylelint-disable-line
-        transform: rotate(180deg);
-      }
     }
   }
 

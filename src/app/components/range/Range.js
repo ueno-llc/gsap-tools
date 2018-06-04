@@ -29,6 +29,7 @@ export default class Range extends PureComponent {
   markerIn = 0
   markerOut = 0
   widthWithoutHandle = 0
+  isExpanding = false
 
   componentDidMount() {
     this.initRange();
@@ -38,11 +39,16 @@ export default class Range extends PureComponent {
   }
 
   componentWillReceiveProps(props) {
+    this.isExpanding = false;
+
     if (props.isExpanded !== this.props.isExpanded) {
+      this.isExpanding = true;
+
       // The timeout is equal to the css transition to expand the box
       setTimeout(() => {
         this.initRange();
         this.handleProgress(props);
+        this.isExpanding = false;
       }, 240);
     }
 
@@ -330,9 +336,10 @@ export default class Range extends PureComponent {
 
   render() {
     const { isActive, isExpanded, onDragMarkerIn, onDragMarkerOut } = this.props;
+    const { isExpanding } = this;
 
     return (
-      <div className={s(s.range, { isActive, isExpanded })}>
+      <div className={s(s.range, { isActive, isExpanded, isExpanding })}>
         <div className={s.range__container}>
           {(isActive && onDragMarkerIn) && (
             <button

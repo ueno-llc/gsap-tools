@@ -73,6 +73,10 @@
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.22);
 
     transform: translate3d(-50%, -50%, 0);
+
+    .isExpanding & {
+      transition: left 240ms;
+    }
   }
 
   &__input {
@@ -108,6 +112,10 @@
     border-radius: 10px;
 
     transition: opacity 240ms;
+
+    .isExpanding & {
+      transition: width 240ms;
+    }
 
     .isActive & {
       opacity: 1;
