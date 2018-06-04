@@ -15,6 +15,20 @@ export default class Timeline extends PureComponent {
   static propTypes = {
     master: PropTypes.object,
     isExpanded: PropTypes.bool,
+    isTween: PropTypes.bool,
+    onExpand: PropTypes.func,
+  }
+
+  componentWillReceiveProps(props) {
+    if (
+      !isEmpty(props.master) &&
+      props.isTween !== this.props.isTween &&
+      props.isTween
+    ) {
+      // We will automatically close the expand interface
+      // if there is no timeline to show
+      this.props.onExpand();
+    }
   }
 
   get totalDuration() {
@@ -34,7 +48,11 @@ export default class Timeline extends PureComponent {
   }
 
   render() {
-    const { master, isExpanded } = this.props;
+    const { master, isExpanded, isTween } = this.props;
+
+    if (isTween) {
+      return null;
+    }
 
     return (
       <div className={s(s.timeline, { isExpanded })}>
@@ -86,7 +104,7 @@ export default class Timeline extends PureComponent {
 
                     <p
                       className={s.timeline__duration}
-                      style={{ left: this.getStyle(data).width + 6 }}
+                      style={{ left: this.getStyle(data).width + 4 }}
                     >
                       {data.isSet ? 'SET' : `${data.duration.toFixed(2)}s`}
                     </p>

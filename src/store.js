@@ -1,4 +1,5 @@
 import EventEmitter from 'events';
+import { TweenLite } from 'gsap';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 
@@ -42,6 +43,10 @@ class Store extends EventEmitter {
     if (!id) {
       id = `Timeline ${this.timelines.size + 1}`;
     }
+
+    // We store in the data object, if the animation
+    // is a timeline or just a tween
+    timeline.data = { isTween: timeline instanceof TweenLite };
 
     // As soon as we have the id, we check it doesn't already
     // exists and then we set the timeline in the map

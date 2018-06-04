@@ -102,6 +102,14 @@
 
     cursor: pointer;
 
+    transition: opacity 240ms;
+
+    .isTween & {
+      opacity: 0.6;
+
+      pointer-events: none;
+    }
+
     &Wrapper {
       position: relative;
 

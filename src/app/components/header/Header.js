@@ -14,6 +14,7 @@ export default class Header extends PureComponent {
     timeScale: PropTypes.number,
     isActive: PropTypes.bool,
     isExpanded: PropTypes.bool,
+    isTween: PropTypes.bool,
     onList: PropTypes.func,
     onTimeScale: PropTypes.func,
     onUIClose: PropTypes.func,
@@ -27,6 +28,7 @@ export default class Header extends PureComponent {
       timeScale,
       isActive,
       isExpanded,
+      isTween,
       onList,
       onTimeScale,
       onUIClose,
@@ -34,7 +36,7 @@ export default class Header extends PureComponent {
     } = this.props;
 
     return (
-      <header className={s(s.header, { isExpanded })}>
+      <header className={s(s.header, { isExpanded, isTween })}>
         {isActive ? (
           <div className={s.header__list}>
             <select className={s.header__select} onChange={onList}>

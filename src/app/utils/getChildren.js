@@ -83,26 +83,36 @@ const getStart = (item, offset = 0) => {
 
 const getDuration = item => item.timeline.totalDuration();
 
+const createRows = (arr, res, offset = 0) => arr
+  .forEach(t => res.push({
+    target: getSelector(t),
+    start: getStart(t, offset),
+    duration: getDuration(t),
+    properties: getProperties(t),
+    isSet: t.duration() === 0,
+  }));
+
 function getChildren(timeline) {
-  if (isEmpty(timeline)) {
+  if (!timeline || isEmpty(timeline) || timeline.data.isTween) {
     return [];
   }
 
   const rows = [];
   const parent = timeline.getChildren(false, false, true);
+  const hasParent = !isEmpty(parent);
 
-  parent.forEach((t) => {
-    const offset = t.startTime();
-    const children = t.getChildren(true, true, false);
+  if (hasParent) {
+    parent.forEach((t) => {
+      const offset = t.startTime();
+      const children = t.getChildren(true, true, false);
 
-    children.forEach(tt => rows.push({
-      target: getSelector(tt),
-      start: getStart(tt, offset),
-      duration: getDuration(tt),
-      properties: getProperties(tt),
-      isSet: tt.duration() === 0,
-    }));
-  });
+      createRows(children, rows, offset);
+    });
+  } else {
+    const items = timeline.getChildren(true, true, false);
+
+    createRows(items, rows);
+  }
 
   return rows;
 }

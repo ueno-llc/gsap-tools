@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Draggable from 'react-draggable';
+import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import { TimelineMax } from 'gsap';
 
@@ -526,6 +527,8 @@ export default class GsapTools extends PureComponent {
       isLoaded,
     } = this.state;
 
+    const isTween = get(active, 'data.isTween');
+
     return (
       <Draggable
         handle={isVisible ? 'header' : 'button'}
@@ -546,6 +549,7 @@ export default class GsapTools extends PureComponent {
                 timeScale={timeScale}
                 isActive={isActive}
                 isExpanded={isExpanded}
+                isTween={isTween}
                 onList={this.handleList}
                 onTimeScale={this.handleTimeScale}
                 onUIClose={this.handleUIClose}
@@ -556,6 +560,8 @@ export default class GsapTools extends PureComponent {
                 <Timeline
                   master={active}
                   isExpanded={isExpanded}
+                  isTween={isTween}
+                  onExpand={this.handleExpand}
                 />
               )}
 
