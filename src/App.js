@@ -154,14 +154,14 @@ export default class App extends PureComponent {
                 <Icon
                   color="#ab80ff"
                   image={
-                    <svg width="16.4" height="14.2">
-                      <path d="M16,0.2c-0.5-0.3-1.1-0.2-1.4,0.2L6.7,11.9L1.6,8C1.2,7.7,0.5,7.8,0.2,8.2C-0.1,8.6,0,9.3,0.4,9.6l5.9,4.5l0,0l0,0c0.1,0.1,0.1,0.1,0.2,0.1h0.1c0.1,0,0.2,0,0.3,0c0.2,0,0.3,0,0.4-0.1L7.4,14c0.1-0.1,0.2-0.1,0.2-0.2l0,0l0,0l8.5-12.3C16.6,1.2,16.5,0.5,16,0.2z" />
+                    <svg width="18" height="18">
+                      <path d="M7.9,10.1c0.3,0.3,0.3,0.8,0,1.1l-5,5l4,0.2c0.4,0,0.8,0.4,0.8,0.8c0,0.4-0.4,0.8-0.8,0.8c0,0,0,0,0,0L1,17.8c-0.4,0-0.8-0.4-0.8-0.8L0,11.1c0-0.4,0.3-0.8,0.8-0.8c0.4,0,0.8,0.3,0.8,0.8l0.2,4l5-5C7.1,9.8,7.6,9.8,7.9,10.1z M17.8,1c0-0.4-0.4-0.8-0.8-0.8L11.1,0c-0.5,0-0.8,0.3-0.8,0.8c0,0.4,0.3,0.8,0.8,0.8l4,0.2l-4.4,4.4c-0.3,0.3-0.3,0.8,0,1.1c0.2,0.2,0.4,0.2,0.6,0.2c0.2,0,0.4-0.1,0.6-0.2l4.4-4.4l0.2,4c0,0.4,0.4,0.8,0.8,0.8c0,0,0,0,0,0c0.4,0,0.8-0.4,0.8-0.8L17.8,1z" />
                     </svg>
                   }
                 />
               }
-              title="TimelineLite and TimelineMax ready"
-              text="We currently only support animations for these two GSAP functions."
+              title="Timeline's details"
+              text="Expand your timelines to see all the elements that's inside and the whole animation."
             />
           </Features>
 
