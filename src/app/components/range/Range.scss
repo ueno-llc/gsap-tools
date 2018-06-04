@@ -1,9 +1,28 @@
 @import '~styles/config';
 
 .range {
-  position: relative;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
 
-  margin-top: auto;
+  padding: 25px;
+
+  width: 100%;
+
+  transition: width 240ms;
+
+  &.isExpanded {
+    padding-left: 0;
+
+    width: 82.25%;
+  }
+
+  &__container {
+    position: relative;
+
+    margin-top: auto;
+  }
 
   &__markers {
     @include reset-button;
@@ -14,14 +33,14 @@
     cursor: pointer;
 
     path { // stylelint-disable-line
-      fill: #cad5db;
+      fill: $color-grey;
 
       transition: fill 240ms;
     }
 
     &:hover {
       path { // stylelint-disable-line
-        fill: darken(#cad5db, 20%);
+        fill: darken($color-grey, 20%);
       }
     }
 
@@ -54,6 +73,10 @@
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.22);
 
     transform: translate3d(-50%, -50%, 0);
+
+    .isExpanding & {
+      transition: left 240ms;
+    }
   }
 
   &__input {
@@ -85,10 +108,14 @@
     width: 0;
     height: 100%;
 
-    background-color: #3ec2f1;
+    background-color: $color-blue;
     border-radius: 10px;
 
     transition: opacity 240ms;
+
+    .isExpanding & {
+      transition: width 240ms;
+    }
 
     .isActive & {
       opacity: 1;

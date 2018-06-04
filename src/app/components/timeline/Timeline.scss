@@ -1,0 +1,217 @@
+@import '~styles/config';
+
+@mixin tooltip() {
+  @include reset-paragraph;
+
+  position: absolute;
+  bottom: 12px;
+  z-index: 3;
+  opacity: 0;
+
+  padding: 4px 6px;
+
+  min-width: 200px;
+
+  font-size: 10px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 500;
+
+  pointer-events: none;
+
+  background-color: rgba(#000, 0.8);
+  border-radius: 6px;
+
+  transition: transform 240ms;
+  transform: scale(0.9);
+}
+
+.timeline {
+  width: 100%;
+  height: calc(100% - #{$gsap-header});
+
+  &::after {
+    content: '';
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+
+    width: 100%;
+    height: 160px;
+
+    pointer-events: none;
+
+    background-image: linear-gradient(to bottom, rgba(#fff, 0), #fff 65%);
+  }
+
+  .isExpanded & {
+    opacity: 0;
+  }
+
+  &__elements {
+    position: relative;
+    z-index: 1;
+
+    height: 100%;
+  }
+
+  &__list {
+    @include reset-list;
+
+    position: relative;
+    z-index: 1;
+
+    padding: 35px 25px 80px;
+
+    height: 100%;
+
+    overflow-y: scroll;
+  }
+
+  &__row {
+    display: flex;
+
+    margin-bottom: 30px;
+  }
+
+  &__left {
+    position: relative;
+
+    &:hover {
+      .timeline__leftTooltip {
+        opacity: 1;
+
+        transform: scale(1);
+      }
+    }
+
+    &Tooltip {
+      @include tooltip();
+
+      bottom: 14px;
+
+      min-width: inherit;
+
+      font-size: 12px;
+
+      text-transform: initial; // stylelint-disable-line
+    }
+  }
+
+  &__target {
+    @include reset-paragraph;
+
+    max-width: 135px;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    font-size: 14px;
+    color: rgba(#000, 0.4);
+
+    span:nth-child(2) { // stylelint-disable-line
+      color: $color-red;
+    }
+
+    span:nth-child(3) { // stylelint-disable-line
+      color: #000;
+    }
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+
+    position: absolute;
+    left: 175px;
+
+    margin-top: -8px;
+
+    &:hover {
+      .timeline__itemTooltip {
+        opacity: 1;
+
+        transform: scale(1);
+      }
+    }
+
+    .isSet & {
+      opacity: 0.65;
+    }
+
+    &Tooltip {
+      @include tooltip();
+    }
+  }
+
+  &__infos {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 3px;
+  }
+
+  &__properties {
+    @include reset-paragraph;
+
+    padding-left: 2px;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    font-size: 10px;
+    color: #000;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  &__wrapper {
+    position: relative;
+  }
+
+  &__bar {
+    height: 8px;
+
+    border-radius: 8px;
+    background-color: $color-green;
+
+    .isSet & {
+      opacity: 0.65;
+
+      background-color: $color-grey;
+    }
+  }
+
+  &__duration {
+    @include reset-paragraph;
+
+    position: absolute;
+    bottom: -1.5px;
+    opacity: 0.6;
+
+    font-size: 10px;
+    color: #999;
+    text-align: right;
+  }
+
+
+  &__grid {
+    position: absolute;
+    top: calc(#{$gsap-header} + 1px);
+    right: 0;
+    bottom: 0;
+    left: 150px;
+
+    overflow: hidden;
+    pointer-events: none;
+
+    background-size: 26px;
+    background-image:
+      linear-gradient(to right, rgba(#fff, 0) 98%, #f2f4f5 98%),
+      linear-gradient(to right, rgba(#fff, 0) 98%, rgba(#fff, 0.15) 98%);
+  }
+}

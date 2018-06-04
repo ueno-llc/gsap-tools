@@ -17,6 +17,10 @@
   @include reset-all;
 }
 
+@mixin reset-paragraph {
+  @include reset-all;
+}
+
 @mixin reset-list {
   @include reset-all;
 

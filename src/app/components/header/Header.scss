@@ -92,15 +92,60 @@
     border-radius: 2px;
   }
 
+  &__expand {
+    @include reset-button;
+
+    display: flex;
+
+    padding: 15px 10px 15px 15px;
+    margin-left: 5px;
+
+    cursor: pointer;
+
+    &Wrapper {
+      position: relative;
+
+      width: 14px;
+      height: 14px;
+    }
+
+    svg { // stylelint-disable-line
+      position: absolute;
+
+      width: 6px;
+      height: 6px;
+
+      transition: transform 240ms;
+
+      .isExpanded & { // stylelint-disable-line
+        transform: rotate(180deg);
+      }
+    }
+
+    svg:first-child { // stylelint-disable-line
+      bottom: 0;
+      left: 0;
+    }
+
+    svg:last-child { // stylelint-disable-line
+      top: 0;
+      right: 0;
+    }
+  }
+
   &__cross {
     @include reset-button;
 
     display: flex;
 
-    padding: 15px;
-    margin-left: 5px;
+    padding: 15px 15px 15px 10px;
     margin-right: -15px;
 
     cursor: pointer;
+
+    svg { // stylelint-disable-line
+      width: 12px;
+      height: 12px;
+    }
   }
 }

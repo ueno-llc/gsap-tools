@@ -7,6 +7,7 @@ export const SIZES = {
 
 export const LOCAL_STORAGE = {
   IS_VISIBLE: '_gsapToolsIsVisible',
+  IS_EXPANDED: '_gsapToolsIsExpanded',
   BOX_POSITION: '_gsapToolsBoxPosition',
   LOOP: '_gsapToolsIsLoop',
   TIME_SCALE: '_gsapToolsTimeScale',

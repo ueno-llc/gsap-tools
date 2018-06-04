@@ -13,6 +13,7 @@ export default class Range extends PureComponent {
   static propTypes = {
     value: PropTypes.number,
     isActive: PropTypes.bool,
+    isExpanded: PropTypes.bool,
     onDrag: PropTypes.func,
     onDragStart: PropTypes.func,
     onDragEnd: PropTypes.func,
@@ -28,6 +29,7 @@ export default class Range extends PureComponent {
   markerIn = 0
   markerOut = 0
   widthWithoutHandle = 0
+  isExpanding = false
 
   componentDidMount() {
     this.initRange();
@@ -37,6 +39,19 @@ export default class Range extends PureComponent {
   }
 
   componentWillReceiveProps(props) {
+    this.isExpanding = false;
+
+    if (props.isExpanded !== this.props.isExpanded) {
+      this.isExpanding = true;
+
+      // The timeout is equal to the css transition to expand the box
+      setTimeout(() => {
+        this.initRange();
+        this.handleProgress(props);
+        this.isExpanding = false;
+      }, 240);
+    }
+
     // If the value of the range changes, let's update the
     // position of the handle and the progress bar
     if (props.value !== this.props.value) {
@@ -320,59 +335,62 @@ export default class Range extends PureComponent {
   }
 
   render() {
-    const { isActive, onDragMarkerIn, onDragMarkerOut } = this.props;
+    const { isActive, isExpanded, onDragMarkerIn, onDragMarkerOut } = this.props;
+    const { isExpanding } = this;
 
     return (
-      <div className={s(s.range, { isActive })}>
-        {(isActive && onDragMarkerIn) && (
-          <button
-            ref={(c) => { this.rangeIn = c; }}
-            className={s(s.range__markers, s.range__markersIn)}
-            onMouseDown={this.handleMarkerInDragStart}
-            onDoubleClick={this.handleMarkersDoubleClick}
-          >
-            <svg width="10" height="18" viewBox="0 0 10 18">
-              <path fille="#cad5db" d="M5.8,17.7c-0.4,0.4-0.9,0.4-1.3,0L0,13.3V1c0-0.6,0.4-1,1-1h8c0.6,0,1,0.4,1,1v12.3L5.8,17.7z" />
-            </svg>
-          </button>
-        )}
+      <div className={s(s.range, { isActive, isExpanded, isExpanding })}>
+        <div className={s.range__container}>
+          {(isActive && onDragMarkerIn) && (
+            <button
+              ref={(c) => { this.rangeIn = c; }}
+              className={s(s.range__markers, s.range__markersIn)}
+              onMouseDown={this.handleMarkerInDragStart}
+              onDoubleClick={this.handleMarkersDoubleClick}
+            >
+              <svg width="10" height="18" viewBox="0 0 10 18">
+                <path fille="#cad5db" d="M5.8,17.7c-0.4,0.4-0.9,0.4-1.3,0L0,13.3V1c0-0.6,0.4-1,1-1h8c0.6,0,1,0.4,1,1v12.3L5.8,17.7z" />
+              </svg>
+            </button>
+          )}
 
-        {(isActive && onDragMarkerOut) && (
-          <button
-            ref={(c) => { this.rangeOut = c; }}
-            className={s(s.range__markers, s.range__markersOut)}
-            onMouseDown={this.handleMarkerOutDragStart}
-            onDoubleClick={this.handleMarkersDoubleClick}
-          >
-            <svg width="10" height="18" viewBox="0 0 10 18">
-              <path fille="#cad5db" d="M5.8,17.7c-0.4,0.4-0.9,0.4-1.3,0L0,13.3V1c0-0.6,0.4-1,1-1h8c0.6,0,1,0.4,1,1v12.3L5.8,17.7z" />
-            </svg>
-          </button>
-        )}
+          {(isActive && onDragMarkerOut) && (
+            <button
+              ref={(c) => { this.rangeOut = c; }}
+              className={s(s.range__markers, s.range__markersOut)}
+              onMouseDown={this.handleMarkerOutDragStart}
+              onDoubleClick={this.handleMarkersDoubleClick}
+            >
+              <svg width="10" height="18" viewBox="0 0 10 18">
+                <path fille="#cad5db" d="M5.8,17.7c-0.4,0.4-0.9,0.4-1.3,0L0,13.3V1c0-0.6,0.4-1,1-1h8c0.6,0,1,0.4,1,1v12.3L5.8,17.7z" />
+              </svg>
+            </button>
+          )}
 
-        {isActive && (
-          <button
-            ref={(c) => { this.handle = c; }}
-            className={s.range__handle}
-            onMouseDown={this.handleStart}
-            onTouchMove={this.handleDrag}
+          {isActive && (
+            <button
+              ref={(c) => { this.handle = c; }}
+              className={s.range__handle}
+              onMouseDown={this.handleStart}
+              onTouchMove={this.handleDrag}
+              onTouchEnd={this.handleEnd}
+            />
+          )}
+
+          <div // eslint-disable-line
+            ref={(c) => { this.range = c; }}
+            className={s.range__input}
+            onMouseDown={this.handleDrag}
+            onMouseUp={this.handleEnd}
+            onTouchStart={this.handleStart}
             onTouchEnd={this.handleEnd}
-          />
-        )}
-
-        <div // eslint-disable-line
-          ref={(c) => { this.range = c; }}
-          className={s.range__input}
-          onMouseDown={this.handleDrag}
-          onMouseUp={this.handleEnd}
-          onTouchStart={this.handleStart}
-          onTouchEnd={this.handleEnd}
-          id="range"
-        >
-          <div
-            ref={(c) => { this.fill = c; }}
-            className={s.range__fill}
-          />
+            id="range"
+          >
+            <div
+              ref={(c) => { this.fill = c; }}
+              className={s.range__fill}
+            />
+          </div>
         </div>
       </div>
     );

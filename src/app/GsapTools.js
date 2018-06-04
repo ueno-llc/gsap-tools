@@ -8,6 +8,7 @@ import { SPEEDS } from 'utils/constants';
 import clearProps from 'utils/clearProps';
 
 import Header from 'components/header';
+import Timeline from 'components/timeline';
 import Controls from 'components/controls';
 import Range from 'components/range';
 import Button from 'components/button';
@@ -33,15 +34,18 @@ export default class GsapTools extends PureComponent {
 
     this.inTime = 0;
     this.isDragging = false;
+    this.isChanging = false;
 
     this.state = {
+      value: 0,
+      active: {},
+      timeScale: 1,
+      playIcon: true,
+      position: { x: 0, y: 0 },
       isLoaded: false,
       isVisible: props.isVisible,
-      playIcon: true,
-      value: 0,
+      isExpanded: false,
       isLoop: false,
-      timeScale: 1,
-      position: { x: 0, y: 0 },
     };
   }
 
@@ -79,35 +83,23 @@ export default class GsapTools extends PureComponent {
    * and init the saved preferences
    */
 
-  onStoreChange = () => {
-    // Register new timeline (We need a setTimeout to get the
-    // ref to `this.range` from <Range /> component available)
-    setTimeout(this.handleStoreChange);
-
-    // Re-render the UI box
-    this.forceUpdate();
-  }
-
   onKeyDown = (e) => {
     const { timeScale } = this.state;
     const currentIndex = SPEEDS.indexOf(timeScale);
 
-    if (e.keyCode === 32) {
-      // Space bar
+    if (e.keyCode === 32) { // Space bar
       e.preventDefault();
 
       this.handlePlayPause();
-    } else if (e.keyCode === 76) {
-      // L char
+    } else if (e.keyCode === 76) { // L char
       this.handleLoop();
-    } else if (e.keyCode === 72) {
-      // H char
+    } else if (e.keyCode === 72) { // H char
       this.handleUIClose();
-    } else if (e.keyCode === 37) {
-      // Left arrow
+    } else if (e.keyCode === 69) { // E char
+      this.handleExpand();
+    } else if (e.keyCode === 37) { // Left arrow
       this.handleRewind();
-    } else if (e.keyCode === 38) {
-      // Up arrow
+    } else if (e.keyCode === 38) { // Up arrow
       e.preventDefault();
 
       const length = SPEEDS.length - 1;
@@ -117,8 +109,7 @@ export default class GsapTools extends PureComponent {
       }
 
       this.handleTimeScale(SPEEDS[currentIndex + 1]);
-    } else if (e.keyCode === 40) {
-      // Down arrow
+    } else if (e.keyCode === 40) { // Down arrow
       e.preventDefault();
 
       if (currentIndex === 0) {
@@ -127,6 +118,15 @@ export default class GsapTools extends PureComponent {
 
       this.handleTimeScale(SPEEDS[currentIndex - 1]);
     }
+  }
+
+  onStoreChange = () => {
+    // Register new timeline (We need a setTimeout to get the
+    // ref to `this.range` from <Range /> component available)
+    setTimeout(this.handleStoreChange);
+
+    // Re-render the UI box
+    this.forceUpdate();
   }
 
   handleStoreChange = () => {
@@ -154,22 +154,28 @@ export default class GsapTools extends PureComponent {
     const isPaused = active.paused();
 
     this.master.paused(isPaused);
-    this.setState({ playIcon: isPaused });
+
+    this.setState({
+      playIcon: isPaused,
+      active,
+    });
   }
 
   initUI = () => {
     // Read values from props, localStorage and fallbacks
     const storageIsVisible = JSON.parse(storage.get('IS_VISIBLE'));
+    const isExpanded = JSON.parse(storage.get('IS_EXPANDED'));
     const isVisible = storageIsVisible === null ? this.props.isVisible : storageIsVisible;
     const timeScale = Number(storage.get('TIME_SCALE')) || 1;
     const isLoop = storage.get('LOOP') === 'true';
     const { x, y } = JSON.parse(storage.get('BOX_POSITION')) || { x: 0, y: 0 };
 
     this.setState({
-      position: { x, y },
       isVisible,
+      isExpanded,
       isLoop,
       timeScale,
+      position: { x, y },
     });
 
     this.master.timeScale(timeScale);
@@ -250,7 +256,7 @@ export default class GsapTools extends PureComponent {
         this.setState({ value: this.master.progress() * 100 });
       },
       onComplete: () => {
-        if (this.state.isLoop) {
+        if (this.state.isLoop && !this.isChanging) {
           this.master.restart();
           this.setState({ playIcon: false });
         } else if (this.master.totalProgress() === 1) {
@@ -329,6 +335,7 @@ export default class GsapTools extends PureComponent {
     this.setState({
       playIcon: false,
       value: 0,
+      active,
     });
   }
 
@@ -348,6 +355,15 @@ export default class GsapTools extends PureComponent {
 
     // Set the timeScale value in localStorage to be pre-populated after reload
     storage.set('TIME_SCALE', value);
+  }
+
+  handleExpand = () => {
+    const isExpanded = !this.state.isExpanded;
+
+    this.setState({ isExpanded });
+
+    // Set the isExpanded value in localStorage
+    storage.set('IS_EXPANDED', isExpanded);
   }
 
   handleRewind = () => {
@@ -401,6 +417,10 @@ export default class GsapTools extends PureComponent {
   }
 
   handleRange = (value) => {
+    // We use this flag to don't start the timeline from start
+    // if looped and we are dragging the handle until the end
+    this.isChanging = true;
+
     const progress = (value / 100).toFixed(2);
 
     this.setState({ value });
@@ -426,6 +446,8 @@ export default class GsapTools extends PureComponent {
   }
 
   handleRangeEnd = () => {
+    this.isChanging = false;
+
     // After we release the handle, if master or inOutMaster timelines
     // was playing when we started dragging, we will just resume them
     if (this.masterWasPlaying) {
@@ -492,13 +514,15 @@ export default class GsapTools extends PureComponent {
     const isActive = store.timelines.size > 0;
 
     const {
-      isVisible,
-      isLoop,
-      playIcon,
       value,
+      active,
+      playIcon,
       timeScale,
-      isLoaded,
       position: { x, y },
+      isVisible,
+      isExpanded,
+      isLoop,
+      isLoaded,
     } = this.state;
 
     return (
@@ -510,49 +534,58 @@ export default class GsapTools extends PureComponent {
         position={{ x, y }}
       >
         <div
-          className={s(s.gsapTools, { [s.gsapToolsFixed]: isFixed })}
+          className={s(s.gsapTools, { [s.gsapToolsFixed]: isFixed, isExpanded })}
           ref={(el) => { this.container = el; }}
         >
           <div className={s.gsapTools__container}>
             <div className={s(s.gsapTools__box, { isLoaded, isVisible, onClick })}>
               <Header
                 keys={store.keys}
-                handleList={this.handleList}
-                handleTimeScale={this.handleTimeScale}
-                handleUIClose={this.handleUIClose}
                 master={this.master}
                 timeScale={timeScale}
                 isActive={isActive}
+                isExpanded={isExpanded}
+                onList={this.handleList}
+                onTimeScale={this.handleTimeScale}
+                onUIClose={this.handleUIClose}
+                onExpand={this.handleExpand}
               />
 
-              <section className={s.gsapTools__inner}>
-                <Controls
-                  handleRewind={this.handleRewind}
-                  handlePlayPause={this.handlePlayPause}
-                  handleLoop={this.handleLoop}
-                  isPause={playIcon}
-                  isLoop={isLoop}
-                  isActive={isActive}
+              {isExpanded && (
+                <Timeline
+                  master={active}
+                  isExpanded={isExpanded}
                 />
+              )}
 
-                <Range
-                  value={value}
-                  isActive={isActive}
-                  onDrag={this.handleRange}
-                  onDragStart={this.handleRangeStart}
-                  onDragEnd={this.handleRangeEnd}
-                  onDragMarkerIn={this.handleMarkerInRange}
-                  onDragMarkerOut={this.handleMarkerOutRange}
-                  onDragMarkerReset={this.handleMarkerReset}
-                  ref={(el) => { this.range = el; }}
-                />
-              </section>
+              <Controls
+                isPause={playIcon}
+                isLoop={isLoop}
+                isActive={isActive}
+                isExpanded={isExpanded}
+                onRewind={this.handleRewind}
+                onPlayPause={this.handlePlayPause}
+                onLoop={this.handleLoop}
+              />
+
+              <Range
+                value={value}
+                isActive={isActive}
+                isExpanded={isExpanded}
+                onDrag={this.handleRange}
+                onDragStart={this.handleRangeStart}
+                onDragEnd={this.handleRangeEnd}
+                onDragMarkerIn={this.handleMarkerInRange}
+                onDragMarkerOut={this.handleMarkerOutRange}
+                onDragMarkerReset={this.handleMarkerReset}
+                ref={(el) => { this.range = el; }}
+              />
             </div>
 
             <Button
-              handleUIClose={this.handleUIClose}
-              visible={isVisible}
-              loaded={isLoaded}
+              isVisible={isVisible}
+              isLoaded={isLoaded}
+              onUIClose={this.handleUIClose}
               onClick={onClick}
             />
           </div>

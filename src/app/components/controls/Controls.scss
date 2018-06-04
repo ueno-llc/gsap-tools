@@ -3,9 +3,29 @@
 .controls {
   display: flex;
   align-items: center;
-  justify-content: center;
+  flex-direction: column;
 
-  margin-top: 40px;
+  padding: 25px;
+
+  &.isExpanded {
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    z-index: 3;
+
+    width: 17.75%;
+  }
+
+  &__container {
+    display: flex;
+    align-items: center;
+
+    margin-top: 30px;
+
+    .isExpanded & {
+      margin-top: 0;
+    }
+  }
 
   &__rewind,
   &__playPause,
@@ -21,24 +41,33 @@
     path { // stylelint-disable-line
       transition: fill 240ms;
 
-      fill: #cad5db;
+      fill: $color-grey;
     }
 
     &:hover {
       path { // stylelint-disable-line
-        fill: darken(#cad5db, 20%);
+        fill: darken($color-grey, 20%);
       }
     }
 
     .isActive & {
       pointer-events: all;
 
-      fill: #cad5db;
+      fill: $color-grey;
     }
   }
 
   &__rewind {
     margin-right: 40px;
+
+    .isExpanded & {
+      position: relative;
+      left: -2px;
+
+      margin-right: 20px;
+
+      height: 16px;
+    }
   }
 
   &__playPause {
@@ -57,15 +86,33 @@
         fill: #000;
       }
     }
+
+    .isExpanded & {
+      margin-top: 2px;
+
+      width: 28px;
+      height: 28px;
+
+      svg { // stylelint-disable-line
+        height: 27px;
+      }
+    }
   }
 
   &__loop {
     margin-left: 40px;
+    margin-right: auto;
 
     .isActive.isLoop & {
       path { // stylelint-disable-line
         fill: #000;
       }
+    }
+
+    .isExpanded & {
+      margin-left: 20px;
+
+      height: 16px;
     }
   }
 }
