@@ -34,6 +34,7 @@ export default class GsapTools extends PureComponent {
 
     this.inTime = 0;
     this.isDragging = false;
+    this.isChanging = false;
 
     this.state = {
       value: 0,
@@ -255,7 +256,7 @@ export default class GsapTools extends PureComponent {
         this.setState({ value: this.master.progress() * 100 });
       },
       onComplete: () => {
-        if (this.state.isLoop) {
+        if (this.state.isLoop && !this.isChanging) {
           this.master.restart();
           this.setState({ playIcon: false });
         } else if (this.master.totalProgress() === 1) {
@@ -416,6 +417,10 @@ export default class GsapTools extends PureComponent {
   }
 
   handleRange = (value) => {
+    // We use this flag to don't start the timeline from start
+    // if looped and we are dragging the handle until the end
+    this.isChanging = true;
+
     const progress = (value / 100).toFixed(2);
 
     this.setState({ value });
@@ -441,6 +446,8 @@ export default class GsapTools extends PureComponent {
   }
 
   handleRangeEnd = () => {
+    this.isChanging = false;
+
     // After we release the handle, if master or inOutMaster timelines
     // was playing when we started dragging, we will just resume them
     if (this.masterWasPlaying) {
