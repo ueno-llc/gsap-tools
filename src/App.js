@@ -27,9 +27,7 @@ export default class App extends PureComponent {
           hasBackground
           title="GsapTools"
           subheading="A simple way to debug GSAP's timelines"
-          text="The Ueno color palette is bright and fancy. And all the colors match.
-          Except one. But we won’t tell you which one. Because we’re not about
-          to give away all our secrets. You must understand."
+          text="Easily managing and debugging Tweens and Timelines through a simple interface. Expand the Timeline animation to see the detail of it."
         >
           <h2>Installation</h2>
 
@@ -267,7 +265,7 @@ componentWillUnmount() {
             <dl>
               <dt><b>Timeline</b> (required)</dt>
               <dd>The first argument to pass is the timeline from your animation.
-              It only works with TimelineLite and TimelineMax for the moment.
+              You can either pass Tween or Timeline instances.
               </dd>
 
               <dt><b>id</b> (optional)</dt>
