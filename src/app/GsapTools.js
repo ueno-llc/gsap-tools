@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Draggable from 'react-draggable';
+import isEmpty from 'lodash/isEmpty';
 import { TimelineMax } from 'gsap';
 
 import storage from 'utils/storage';
@@ -143,7 +144,7 @@ export default class GsapTools extends PureComponent {
     // Get active timeline from store
     const active = store.active();
 
-    if (!active) {
+    if (isEmpty(active)) {
       return;
     }
 

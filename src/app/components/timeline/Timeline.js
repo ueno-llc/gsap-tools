@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
 
 import getChildren from 'utils/getChildren';
 
@@ -41,7 +42,7 @@ export default class Timeline extends PureComponent {
           {getChildren(master).map((data, i) => {
             const { target } = data;
             const selector = target.join('');
-            const noTarget = target.length === 0;
+            const noTarget = isEmpty(target);
 
             return (
               <li
@@ -64,7 +65,9 @@ export default class Timeline extends PureComponent {
                   className={s.timeline__item}
                   style={{ marginLeft: this.getStyle(data).marginLeft }}
                 >
-                  <p className={s.timeline__itemTooltip}>{data.properties}</p>
+                  <p className={s.timeline__itemTooltip}>
+                    {data.properties}
+                  </p>
 
                   <div className={s.timeline__infos}>
                     <p
