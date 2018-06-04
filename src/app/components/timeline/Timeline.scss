@@ -1,5 +1,31 @@
 @import '~styles/config';
 
+@mixin tooltip() {
+  @include reset-paragraph;
+
+  position: absolute;
+  bottom: 12px;
+  z-index: 3;
+  opacity: 0;
+
+  padding: 4px 6px;
+
+  min-width: 200px;
+
+  font-size: 10px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 500;
+
+  pointer-events: none;
+
+  background-color: rgba(#000, 0.8);
+  border-radius: 6px;
+
+  transition: transform 240ms;
+  transform: scale(0.9);
+}
+
 .timeline {
   width: 100%;
   height: calc(100% - #{$gsap-header});
@@ -50,13 +76,36 @@
     margin-bottom: 30px;
   }
 
+  &__left {
+    position: relative;
+
+    &:hover {
+      .timeline__leftTooltip {
+        opacity: 1;
+
+        transform: scale(1);
+      }
+    }
+
+    &Tooltip {
+      @include tooltip();
+
+      bottom: 14px;
+
+      min-width: inherit;
+
+      font-size: 12px;
+
+      text-transform: initial; // stylelint-disable-line
+    }
+  }
+
   &__target {
     @include reset-paragraph;
 
-    max-width: 130px;
+    max-width: 135px;
 
     overflow: hidden;
-
     white-space: nowrap;
     text-overflow: ellipsis;
 
@@ -81,8 +130,20 @@
 
     margin-top: -8px;
 
+    &:hover {
+      .timeline__itemTooltip {
+        opacity: 1;
+
+        transform: scale(1);
+      }
+    }
+
     .isSet & {
       opacity: 0.65;
+    }
+
+    &Tooltip {
+      @include tooltip();
     }
   }
 
@@ -98,23 +159,18 @@
 
     padding-left: 2px;
 
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
     font-size: 10px;
     color: #000;
     text-transform: uppercase;
     font-weight: 500;
   }
 
-  &__duration {
-    @include reset-paragraph;
-
-    opacity: 0.6;
-
-    padding-left: 8px;
-    padding-right: 4px;
-
-    font-size: 10px;
-    color: #999;
-    text-align: right;
+  &__wrapper {
+    position: relative;
   }
 
   &__bar {
@@ -129,6 +185,19 @@
       background-color: $color-grey;
     }
   }
+
+  &__duration {
+    @include reset-paragraph;
+
+    position: absolute;
+    bottom: -1.5px;
+    opacity: 0.6;
+
+    font-size: 10px;
+    color: #999;
+    text-align: right;
+  }
+
 
   &__grid {
     position: absolute;
