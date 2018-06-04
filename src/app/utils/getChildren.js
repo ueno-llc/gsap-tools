@@ -1,10 +1,9 @@
-import React from 'react';
 import get from 'lodash/get';
 import isArray from 'lodash/isArray';
 import isElement from 'lodash/isElement';
 import isEmpty from 'lodash/isEmpty';
 
-const getDom = (item) => {
+const getSelector = (item) => {
   let res = '';
 
   const targets = get(item, '_targets');
@@ -22,14 +21,18 @@ const getDom = (item) => {
     el.forEach((elm) => {
       if (isNode(elm)) {
         dom.unshift(`NodeList(${elm.length})`);
-      } else {
+      } else if (tag(elm)) {
         dom.push(tag(elm).toLowerCase());
       }
     });
 
     res = `[${dom.join(', ')}]`;
   } else if (isElement(el)) {
-    res = tag(el).toLowerCase();
+    if (tag(el)) {
+      res = tag(el).toLowerCase();
+    } else {
+      res = '';
+    }
   } else {
     res = '';
   }
@@ -46,7 +49,13 @@ const getDom = (item) => {
     ? `.${classes.replace(' ', '.')}`
     : '';
 
-  return <p>&nbsp;<span>{tagName}</span><span>{idName}</span><span>{className}</span></p>;
+  const hasNoSelector = isEmpty(tagName) && isEmpty(idName) && isEmpty(classes);
+
+  if (hasNoSelector) {
+    return [];
+  }
+
+  return [tagName, idName, className];
 };
 
 const getProperties = (item) => {
@@ -87,7 +96,7 @@ function getChildren(timeline) {
     const children = t.getChildren(true, true, false);
 
     children.forEach(tt => rows.push({
-      target: getDom(tt),
+      target: getSelector(tt),
       start: getStart(tt, offset),
       duration: getDuration(tt),
       properties: getProperties(tt),

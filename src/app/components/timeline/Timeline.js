@@ -1,4 +1,6 @@
-import React, { PureComponent, cloneElement } from 'react';
+/* eslint-disable react/no-array-index-key */
+
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import getChildren from 'utils/getChildren';
@@ -36,34 +38,41 @@ export default class Timeline extends PureComponent {
     return (
       <div className={s(s.timeline, { isExpanded })}>
         <ul className={s.timeline__list}>
-          {getChildren(master).map((data, i) => (
-            <li
-              className={s(s.timeline__row, { isSet: data.isSet })}
-              key={i} // eslint-disable-line
-            >
-              {cloneElement(data.target, {
-                className: s.timeline__target,
-              })}
+          {getChildren(master).map((data, i) => {
+            const { target } = data;
+            const selector = target.join('');
 
-              <div
-                className={s.timeline__item}
-                style={{ marginLeft: this.getStyle(data).marginLeft }}
+            return (
+              <li
+                className={s(s.timeline__row, { isSet: data.isSet })}
+                key={i}
               >
-                <div className={s.timeline__infos}>
-                  <p className={s.timeline__properties}>{data.properties}</p>
-
-                  <p className={s.timeline__duration}>
-                    {data.isSet ? 'SET' : `${data.duration}s`}
-                  </p>
-                </div>
+                <p className={s.timeline__target} title={selector}>
+                  {target.length === 0
+                    ? '...'
+                    : target.map((d, ii) => <span key={ii}>{d}</span>)}
+                </p>
 
                 <div
-                  className={s.timeline__bar}
-                  style={{ width: this.getStyle(data).width }}
-                />
-              </div>
-            </li>
-          ))}
+                  className={s.timeline__item}
+                  style={{ marginLeft: this.getStyle(data).marginLeft }}
+                >
+                  <div className={s.timeline__infos}>
+                    <p className={s.timeline__properties}>{data.properties}</p>
+
+                    <p className={s.timeline__duration}>
+                      {data.isSet ? 'SET' : `${data.duration.toFixed(2)}s`}
+                    </p>
+                  </div>
+
+                  <div
+                    className={s.timeline__bar}
+                    style={{ width: this.getStyle(data).width }}
+                  />
+                </div>
+              </li>
+            );
+          })}
         </ul>
 
         <div

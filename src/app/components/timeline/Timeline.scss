@@ -61,14 +61,14 @@
     text-overflow: ellipsis;
 
     font-size: 14px;
-    color: #000;
-
-    span:nth-child(1) { // stylelint-disable-line
-      opacity: 0.4;
-    }
+    color: rgba(#000, 0.4);
 
     span:nth-child(2) { // stylelint-disable-line
       color: $color-red;
+    }
+
+    span:nth-child(3) { // stylelint-disable-line
+      color: #000;
     }
   }
 
