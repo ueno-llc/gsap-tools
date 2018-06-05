@@ -112,10 +112,12 @@
 
     color: #000;
 
+    white-space: nowrap;
+
     &::after { // stylelint-disable-line
       content: '';
       position: absolute;
-      bottom: 0.3px;
+      bottom: (0.3px / $font-size) * 1em;
       left: 0;
       right: 0;
 
