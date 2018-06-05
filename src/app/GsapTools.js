@@ -460,8 +460,8 @@ export default class GsapTools extends PureComponent {
   }
 
   handleRange = (value) => {
-    // We use this flag to don't start the timeline from start
-    // if looped and we are dragging the handle until the end
+    // We use this flag to not start the timeline from the beginning
+    // if it's looped and we are dragging the handle until the end
     this.isChanging = true;
 
     const progress = (value / 100).toFixed(2);
