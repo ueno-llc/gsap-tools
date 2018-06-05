@@ -52,7 +52,7 @@ export default class GsapTools extends PureComponent {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     // Add a store's listener for changes
     store.on('change', this.onStoreChange);
 
@@ -222,7 +222,10 @@ export default class GsapTools extends PureComponent {
       this.inTime = this.master.totalDuration() * (inPercent / 100);
       this.outTime = this.master.totalDuration() * (outPercent / 100);
       this.initInOut({ inTime: this.inTime, outTime: this.outTime });
-      this.inOutMaster.restart();
+
+      if (this.inOutMaster) {
+        this.inOutMaster.restart();
+      }
     }
   }
 
@@ -341,6 +344,9 @@ export default class GsapTools extends PureComponent {
     // We get the timeline from the store
     const active = store.active(currentTarget.value);
 
+    // Check status of new child
+    const isPaused = active.paused();
+
     // Reset any markers if exists
     this.range.clear();
 
@@ -354,6 +360,13 @@ export default class GsapTools extends PureComponent {
 
     // We add the new timeline, and restart
     this.master.add(active);
+
+    // We play the child timeline if it was paused
+    if (isPaused) {
+      active.restart();
+    }
+
+    // And we restart the master timeline
     this.master.restart();
 
     // We set the handle value at zero
