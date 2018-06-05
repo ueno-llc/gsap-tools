@@ -212,7 +212,9 @@ componentWillUnmount() {
             </p>
           </Copy>
 
-          <Code visible={this.state.codeVisible}>{`componentDidMount() {
+          <Code visible={this.state.codeVisible}>{`import { add, remove } from 'gsap-tools';
+
+componentDidMount() {
   this.t = new TimelineLite();
 
   // You can define the id of the timeline on the add function itself
