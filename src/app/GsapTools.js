@@ -149,7 +149,6 @@ export default class GsapTools extends PureComponent {
   }
 
   onResize = () => {
-    console.log('-onResize');
     this.setState({ isTablet: window.matchMedia('(max-width: 1020px)').matches });
   }
 
