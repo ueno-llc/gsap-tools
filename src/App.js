@@ -207,7 +207,7 @@ componentWillUnmount() {
           <Copy>
             <p>
               That’s the simpler version. <button onClick={this.showCode}>Click to
-              expand the complicated version.
+              show an alternative setup.
               </button>
             </p>
           </Copy>
@@ -312,7 +312,7 @@ componentWillUnmount() {
         >
           <p>We <span role="img" aria-label="heart">❤️ </span> GSAP.
           We <span role="img" aria-label="heart">❤️ </span> it so much that we
-          GSAP for animations on almost all
+          use GSAP for animations on almost all
           of <a target="_blank" rel="noopener noreferrer" href="http://ueno.co/work/">our projects</a>.
           </p>
 
