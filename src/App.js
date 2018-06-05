@@ -338,6 +338,8 @@ componentWillUnmount() {
         >
           <p>If you noticied any issues, have any ideas, or want to open pull requests, go checkout
           the <a href="https://github.com/ueno-llc/gsap-tools" target="_blank" rel="noopener noreferrer">github repository</a>.
+          And if you want to know more about who we are and what we
+          do, <a href="http://ueno.co" target="_blank" rel="noopener noreferrer">there’s a link for that</a>.
           </p>
         </Content>
       </AppLayout>
