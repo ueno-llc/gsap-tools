@@ -538,11 +538,11 @@ export default class GsapTools extends PureComponent {
         position={{ x, y }}
       >
         <div
-          className={s(s.gsapTools, { [s.gsapToolsFixed]: isFixed, isExpanded })}
+          className={s(s.gsapTools, { [s.gsapToolsFixed]: isFixed, isExpanded, isVisible })}
           ref={(el) => { this.container = el; }}
         >
           <div className={s.gsapTools__container}>
-            <div className={s(s.gsapTools__box, { isLoaded, isVisible, onClick })}>
+            <div className={s(s.gsapTools__box, { isLoaded, onClick })}>
               <Header
                 keys={store.keys}
                 master={this.master}
