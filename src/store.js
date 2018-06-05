@@ -38,15 +38,19 @@ class Store extends EventEmitter {
     // in the timeline constructor itself
     let id = timelineId || get(timeline, 'vars.id');
 
-    // Otherwise, let's generated an id based on the index of
-    // the actual timelines stored
-    if (!id) {
-      id = `Timeline ${this.timelines.size + 1}`;
-    }
+    const isTween = timeline instanceof TweenLite;
 
     // We store in the data object, if the animation
     // is a timeline or just a tween
-    timeline.data = { isTween: timeline instanceof TweenLite };
+    timeline.data = { ...timeline.data, isTween };
+
+    // Otherwise, let's generated an id based on the index of
+    // the actual timelines stored
+    if (!id) {
+      const name = isTween ? 'Tween' : 'Timeline';
+
+      id = `${name} ${this.timelines.size + 1}`;
+    }
 
     // As soon as we have the id, we check it doesn't already
     // exists and then we set the timeline in the map

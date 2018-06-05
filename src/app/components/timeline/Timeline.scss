@@ -61,6 +61,7 @@
     z-index: 1;
 
     padding: 35px 25px 80px;
+    margin-right: -15px;
 
     height: 100%;
 
@@ -191,13 +192,14 @@
     text-align: right;
   }
 
-
   &__grid {
     position: absolute;
     top: calc(#{$gsap-header} + 1px);
     right: 0;
     bottom: 0;
     left: 150px;
+
+    width: 82%;
 
     overflow: hidden;
     pointer-events: none;
