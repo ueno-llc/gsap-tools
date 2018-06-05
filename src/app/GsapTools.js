@@ -162,6 +162,11 @@ export default class GsapTools extends PureComponent {
   }
 
   handleStoreChange = () => {
+    // Clear master timeline between page navigation
+    if (this.master) {
+      this.master.clear();
+    }
+
     // Get active timeline from store
     const active = store.active();
 
