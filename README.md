@@ -1,9 +1,8 @@
-# GsapTools
+# GsapTools, by Ueno
 
-**A simple way to debug GSAP's timelines**
+**A simple tool to debug GSAP timelines**
 
-GsapTools is a simple interface to control all your timeline. Time saver to debug
-and be sure to make animations as precise as the one designers sent to you or as you want.
+Managing and debugging tweens and timelines in GSAP is a hassle, even with their new dev tools. So we created GsapTools, an extension that makes it all so much easier.
 
 ## Installation
 ```bash
@@ -19,13 +18,11 @@ npm install --save-dev gsap-tools
 - Timescale
 - Draggable UI
 - Updated timelines
-- TimelineLite and TimelineMax ready
+- Timelines details
 
 ## How to use it
 
-**Add GsapTools component globally to your application**
-
-You only need to add it once
+**First, add GsapTools component globally to your application.** You only need to do this once.
 
 ```js
 import GsapTools from 'gsap-tools';
@@ -33,11 +30,10 @@ import GsapTools from 'gsap-tools';
 <GsapTools />
 ```
 
-**Register your GSAP timeline to be manage by GsapTools**
+**Next, register your Gsap timeline to be controlled with GsapTools.**
 
-The simplest way to do it, is to define an id on the Timeline method constructor,
-call the add function to register the timeline and create a reference to the add
-function to remove it when the component is unmounted.
+Define an id on the timeline method constructor, call the add function to register the timeline,
+and create a reference to the add function to remove it when the component is unmounted.
 
 ```js
 import { add } from 'gsap-tools';
@@ -53,9 +49,11 @@ componentWillUnmount() {
 }
 ```
 
-Alternatively, there is other ways to do it:
+That’s the simpler version. Here is an alternative setup.
 
 ```js
+import { add, remove } from 'gsap-tools';
+
 componentDidMount() {
   this.t = new TimelineLite();
 
@@ -85,59 +83,61 @@ componentWillUnmount() {
 - `L`: Toggle loop
 - `H`: Toggle UI
 - `←`: Rewind
-- `↑`: Speed up timescale
-- `↓`: Slow down timescale
+- `↑`: Speed up
+- `↓`: Slow down
 
 ## References
 
 ### `<GsapTools />` component
 
-- **isVisible** (default = false): You can choose to show the GsapTools by default.
+- **isVisible** (default = false): Show GsapTools by default. Or not. It’s a free country.
 
-- **isFixed** (default = true): With the draggable feature, the GsapTools is on fixed position to be on top of everything.
-But you can decide to position it in another way by passing false to this props.
+- **isFixed** (default = true): With the draggable feature, GsapTools defaults to `position: fixed`
+on top of everything. But you can pass false to this prop to position the tool however you like.
 
-- **onClick** (default = undefined): The tool comes with a build-in button to toggle the component. But if you decide to have
-your own button to handle this, just pass an onClick props to the component and it will
-remove the build-in one. It’s usefull if you have a whole dev tools package and
-already have a way to enable one or another tool.
+- **onClick** (default = undefined): The tool comes with a built-in button to toggle the component.
+But if you decide to have your own button to handle this, just pass an `onClick prop to the component
+and it will override the built-in function. This is useful if you have a whole dev tools package
+and already have a way to enable specific tools.
 
 ### `add()` function
 
-- **timeline** (required): The first argument to pass is the timeline from your animation. It only works with
-`TimelineLite` and `TimelineMax` for the moment.
+- **Timeline/Tween** (required): The first argument to pass is the timeline from your animation.
+You can either pass Tween or Timeline instances.
 
-- **id** (optional): Instead of passing the id to the timeline method constructor you can pass it on
-the `add()` function itself `add(this.timeline, ‘myId’)`.
+- **id** (optional): Instead of passing the id to the timeline method constructor you can
+pass it on the `add()` function itself. `add(this.timeline, ‘myId’);`
 
 ### `remove()` function
 
-This function is not required. It’s simpler through the disposer function call
-via the reference to the `add()` function. However you can still use it if you want.
+This function is not required. It’s simpler to use the `disposer function call
+via the reference to the `add()` function. However, you can still use it if you want.
 
-- **timeline** (optional): The previous timeline you added. It can be the reference to it.
-`this.t = new TimelineLite()` then `remove(this.t)`.
+- **Timeline/Tween** (optional): The first argument to pass is the timeline from your animation.
+For the moment this only works with TimelineLite and TimelineMax.
 
-- **id** (optional): The id of the timeline if you defined one through the add function. In this case
-you have to pass the timeline argument as null `remove(null, ‘myId’)`.
+- **id** (optional): Instead of passing the id to the timeline method constructor you can pass
+it on the `add()` function itself. `add(this.timeline, ‘myId’);
 
-## Motivation
+## But, why?
 
-We love the work of the GSAP’s guys. We love it so much that we are using GSAP
-on almost every of our projects when it comes to animations.
+We ❤️ GSAP. We ❤️ it so much that we use GSAP for animations on almost all of <a href="http://ueno.co/work/">our projects</a>.
 
-One thing that were are struggling for a long time has been debugging big timelines.
-Most of the time, we reload, reload, reload, reload, reload, reload, reload, reload.
-Yupp, and it’s not even accurate to the number of reload we need to do to, to
-finish an animation from A to Z.
+But one thing were struggling with for a long time was debugging big timelines. Most of the time we reload,
+reload, reload, reload, reload, reload, reload, reload. You get where this is going.
 
-GSAP introduced a dev tools recently, and we tried it. But it wasn’t fitting our needs.
-It wasn’t possible to remove a timeline after being registered when we unmounted a
-component. Animations are only register if they are played 2 seconds after the
-pages is loaded, which is a problem when we have a lot of animation playing on
-users actions or some waypoint triggered.
+Recently GSAP introduced their dev tools. We tried them but found they didn’t really fit our needs: Setting
+the tools up with webpack, a real mess; when unmounting a component, removing its timeline after being
+registered is not possible; and finally, animations are only registered if they are played 2 seconds after
+the page is loaded, which is a problem if we have an animation playing based on user interaction, or
+when a waypoint is triggered.
 
-That’s why we decide to start our own tool to addresses all this issues.
+That’s why we decided to make our own tool to address these issues.
+
+## You to the rescue
+
+If you noticed any issues, have any ideas, or want to open pull requests, just do it.
+And if you want to know more about who we are and what we do, <a href="http://ueno.co/">there’s a link for that</a>.
 
 ## Development
 
