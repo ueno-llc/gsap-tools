@@ -242,10 +242,10 @@ componentWillUnmount() {
 
             <ul>
               <li><code>space</code> Play/pause</li>
-              <li><code>L</code> Toggle loop</li>
-              <li><code>H</code> Toggle UI</li>
               <li><code>←</code> Rewind</li>
+              <li><code>H</code> Toggle UI</li>
               <li><code>↑</code> Speed up</li>
+              <li><code>L</code> Toggle loop</li>
               <li><code>↓</code> Slow down</li>
             </ul>
 
@@ -261,7 +261,6 @@ componentWillUnmount() {
               <dd>With the draggable feature, GsapTools defaults
               to <code>position: fixed</code> on top of everything. But you can
               pass false to this prop to position the tool however you like.
-
               </dd>
 
               <dt><b>onClick</b> (default = undefined)</dt>
@@ -276,7 +275,7 @@ componentWillUnmount() {
             <h3><code>add()</code> function</h3>
 
             <dl>
-              <dt><b>Timeline</b> (required)</dt>
+              <dt><b>Timeline/Tween</b> (required)</dt>
               <dd>The first argument to pass is the timeline from your animation.
               You can either pass Tween or Timeline instances.
               </dd>
@@ -295,7 +294,7 @@ componentWillUnmount() {
             </p>
 
             <dl>
-              <dt><b>Timeline</b> (required)</dt>
+              <dt><b>Timeline/Tween</b> (required)</dt>
               <dd>The first argument to pass is the timeline from your animation. For the
               moment this only works with TimelineLite and TimelineMax.
               </dd>
