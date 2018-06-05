@@ -15,6 +15,7 @@ export default class Header extends PureComponent {
     isActive: PropTypes.bool,
     isExpanded: PropTypes.bool,
     isTween: PropTypes.bool,
+    isTablet: PropTypes.bool,
     onList: PropTypes.func,
     onTimeScale: PropTypes.func,
     onUIClose: PropTypes.func,
@@ -29,6 +30,7 @@ export default class Header extends PureComponent {
       isActive,
       isExpanded,
       isTween,
+      isTablet,
       onList,
       onTimeScale,
       onUIClose,
@@ -76,7 +78,7 @@ export default class Header extends PureComponent {
           </select>
         )}
 
-        {isActive && (
+        {(isActive && !isTablet) && (
           <button className={s.header__expand} onClick={onExpand}>
             <div className={s.header__expandWrapper}>
               <svg viewBox="0 0 5.1 5.1">

@@ -12,10 +12,15 @@
 
   transition: width 240ms;
 
-  &.isExpanded {
+  &.isExpanded,
+  &.isTablet {
     padding-left: 0;
 
     width: 82.25%;
+  }
+
+  &.isTablet {
+    width: 65%;
   }
 
   &__container {

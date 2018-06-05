@@ -7,13 +7,20 @@
 
   padding: 25px;
 
-  &.isExpanded {
+  &.isExpanded,
+  &.isTablet {
     position: absolute;
     bottom: -6px;
     left: 0;
     z-index: 3;
+  }
 
+  &.isExpanded {
     width: 17.75%;
+  }
+
+  &.isTablet {
+    width: inherit;
   }
 
   &__container {
@@ -22,7 +29,8 @@
 
     margin-top: 30px;
 
-    .isExpanded & {
+    .isExpanded &,
+    .isTablet & {
       margin-top: 0;
     }
   }
@@ -60,7 +68,8 @@
   &__rewind {
     margin-right: 40px;
 
-    .isExpanded & {
+    .isExpanded &,
+    .isTablet & {
       position: relative;
       left: -2px;
 
@@ -87,7 +96,8 @@
       }
     }
 
-    .isExpanded & {
+    .isExpanded &,
+    .isTablet & {
       margin-top: 2px;
 
       width: 28px;
@@ -109,7 +119,8 @@
       }
     }
 
-    .isExpanded & {
+    .isExpanded &,
+    .isTablet & {
       margin-left: 20px;
 
       height: 16px;

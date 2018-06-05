@@ -14,6 +14,7 @@ export default class Range extends PureComponent {
     value: PropTypes.number,
     isActive: PropTypes.bool,
     isExpanded: PropTypes.bool,
+    isTablet: PropTypes.bool,
     onDrag: PropTypes.func,
     onDragStart: PropTypes.func,
     onDragEnd: PropTypes.func,
@@ -43,6 +44,10 @@ export default class Range extends PureComponent {
       // Need the timeout to get the `this.range` component available
       setTimeout(this.initMarkers);
     }
+
+    // if (props.isTablet && props.isTablet !== this.props.isTablet) {
+    //   this.initRange();
+    // }
 
     if (props.isExpanded && props.isExpanded !== this.props.isExpanded) {
       this.isExpanding = true;
@@ -338,13 +343,13 @@ export default class Range extends PureComponent {
   }
 
   render() {
-    const { isActive, isExpanded, onDragMarkerIn, onDragMarkerOut } = this.props;
+    const { isActive, isExpanded, isTablet, onDragMarkerIn, onDragMarkerOut } = this.props;
     const { isExpanding } = this;
 
     return (
-      <div className={s(s.range, { isActive, isExpanded, isExpanding })}>
+      <div className={s(s.range, { isActive, isExpanded, isExpanding, isTablet })}>
         <div className={s.range__container}>
-          {(isActive && onDragMarkerIn) && (
+          {(isActive && onDragMarkerIn && !isTablet) && (
             <button
               ref={(c) => { this.rangeIn = c; }}
               className={s(s.range__markers, s.range__markersIn)}
@@ -357,7 +362,7 @@ export default class Range extends PureComponent {
             </button>
           )}
 
-          {(isActive && onDragMarkerOut) && (
+          {(isActive && onDragMarkerOut && !isTablet) && (
             <button
               ref={(c) => { this.rangeOut = c; }}
               className={s(s.range__markers, s.range__markersOut)}

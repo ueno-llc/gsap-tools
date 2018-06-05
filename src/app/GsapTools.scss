@@ -18,6 +18,13 @@
     right: 30px;
     bottom: 30px;
     z-index: 9999;
+
+    &.isTablet {
+      right: 0;
+      bottom: 0;
+
+      width: 100%;
+    }
   }
 
   &.isVisible {
@@ -26,6 +33,10 @@
 
   &.isExpanded {
     width: 960px;
+
+    &.isTablet {
+      width: 100%;
+    }
   }
 
   *,
@@ -78,14 +89,12 @@
     .isExpanded & {
       height: 420px;
     }
-  }
 
-  &__inner {
-    display: flex;
-    flex-direction: column;
+    .isTablet & {
+      height: 125px;
 
-    padding: 25px;
-
-    height: calc(100% - #{$gsap-header});
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
   }
 }

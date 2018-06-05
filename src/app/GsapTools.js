@@ -48,12 +48,16 @@ export default class GsapTools extends PureComponent {
       isVisible: props.isVisible,
       isExpanded: false,
       isLoop: false,
+      isTablet: false,
     };
   }
 
   componentDidMount() {
     // Add a store's listener for changes
     store.on('change', this.onStoreChange);
+
+    // Get screen size
+    this.onResize();
 
     // Init the master timeline which will contain timelines to debug
     this.initMaster();
@@ -63,6 +67,9 @@ export default class GsapTools extends PureComponent {
 
     // Listen for keyboard shortcut
     document.addEventListener('keydown', this.onKeyDown);
+
+    // Listen for document resize to enable mobile version
+    window.addEventListener('resize', this.onResize);
   }
 
   componentWillReceiveProps(props) {
@@ -93,6 +100,9 @@ export default class GsapTools extends PureComponent {
 
     // Remove shortcut listener
     document.removeEventListener('keydown', this.onKeyDown);
+
+    // Remove resize listener
+    window.removeEventListener('resize', this.onResize);
   }
 
   /*
@@ -136,6 +146,11 @@ export default class GsapTools extends PureComponent {
 
       this.handleTimeScale(SPEEDS[currentIndex - 1]);
     }
+  }
+
+  onResize = () => {
+    console.log('-onResize');
+    this.setState({ isTablet: window.matchMedia('(max-width: 1020px)').matches });
   }
 
   onStoreChange = () => {
@@ -534,6 +549,7 @@ export default class GsapTools extends PureComponent {
       isExpanded,
       isLoop,
       isLoaded,
+      isTablet,
     } = this.state;
 
     const isTween = get(active, 'data.isTween');
@@ -545,9 +561,15 @@ export default class GsapTools extends PureComponent {
         onDrag={this.handleDrag}
         onStop={this.handleDragStop}
         position={{ x, y }}
+        disabled={isTablet}
       >
         <div
-          className={s(s.gsapTools, { [s.gsapToolsFixed]: isFixed, isExpanded, isVisible })}
+          className={s(s.gsapTools, {
+            [s.gsapToolsFixed]: isFixed,
+            isTablet,
+            isExpanded,
+            isVisible,
+          })}
           ref={(el) => { this.container = el; }}
         >
           <div className={s.gsapTools__container}>
@@ -559,13 +581,14 @@ export default class GsapTools extends PureComponent {
                 isActive={isActive}
                 isExpanded={isExpanded}
                 isTween={isTween}
+                isTablet={isTablet}
                 onList={this.handleList}
                 onTimeScale={this.handleTimeScale}
                 onUIClose={this.handleUIClose}
                 onExpand={this.handleExpand}
               />
 
-              {isExpanded && (
+              {(isExpanded && !isTablet) && (
                 <Timeline
                   master={active}
                   isExpanded={isExpanded}
@@ -579,6 +602,7 @@ export default class GsapTools extends PureComponent {
                 isLoop={isLoop}
                 isActive={isActive}
                 isExpanded={isExpanded}
+                isTablet={isTablet}
                 onRewind={this.handleRewind}
                 onPlayPause={this.handlePlayPause}
                 onLoop={this.handleLoop}
@@ -588,6 +612,7 @@ export default class GsapTools extends PureComponent {
                 value={value}
                 isActive={isActive}
                 isExpanded={isExpanded}
+                isTablet={isTablet}
                 onDrag={this.handleRange}
                 onDragStart={this.handleRangeStart}
                 onDragEnd={this.handleRangeEnd}
