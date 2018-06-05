@@ -25,9 +25,11 @@ export default class App extends PureComponent {
 
         <Content
           hasBackground
-          title="GsapTools"
-          subheading="A simple way to debug GSAP's timelines"
-          text="Easily managing and debugging Tweens and Timelines through a simple interface. Expand the Timeline animation to see the detail of it."
+          title="GsapTools, by Ueno"
+          subheading="A simple tool to debug GSAP timelines"
+          text="Managing and debugging tweens and timelines in GSAP is a hassle, even with
+          their new dev tools. So we created GsapTools, an extension that makes it all so much
+          easier. Click on the GSAP button to see in in action, and scroll down to know more."
         >
           <h2>Installation</h2>
 
@@ -48,7 +50,7 @@ export default class App extends PureComponent {
                 />
               }
               title="Play/pause"
-              text="No more refreshing, just pause and play your timelines as much as you want."
+              text="No more refreshing. Pause and play your timelines as much as you want."
             />
 
             <FeaturesItem
@@ -63,7 +65,7 @@ export default class App extends PureComponent {
                 />
               }
               title="Loop"
-              text="Want to see your animations severals times? Just loop loop, that’s it."
+              text="Want to see your animations over and over? Now you can loop, loop, loop."
             />
 
             <FeaturesItem
@@ -78,7 +80,7 @@ export default class App extends PureComponent {
                 />
               }
               title="Rewind"
-              text="We all want to repeat good things, right? Press the rewind button then, yeah it looks nice!"
+              text="Be kind, rewind. With this fancy button you can do it again and again."
             />
 
             <FeaturesItem
@@ -110,7 +112,7 @@ export default class App extends PureComponent {
                 />
               }
               title="Timescale"
-              text="Speed up, slow down, feel free to play with them as much as you want."
+              text="Need for speed? Go faster. Take it slow? Go sloooower."
             />
 
             <FeaturesItem
@@ -128,8 +130,8 @@ export default class App extends PureComponent {
                   }
                 />
               }
-              title="Play/pause"
-              text="No more refreshing, just pause and play your timelines as much as you want."
+              title="Draggable UI"
+              text="“GRRR!! The box is right on top of my animation :(”. Well it isn't if you just drag it somewhere else."
             />
 
             <FeaturesItem
@@ -144,7 +146,7 @@ export default class App extends PureComponent {
                 />
               }
               title="Updated timelines"
-              text="You can navigate between pages and GsapTools will update with the active timelines."
+              text="Navigate between pages and GsapTools will automatically update with active timelines."
             />
 
             <FeaturesItem
@@ -158,8 +160,8 @@ export default class App extends PureComponent {
                   }
                 />
               }
-              title="Timeline's details"
-              text="Expand your timelines to see all the elements that's inside and the whole animation."
+              title="Timelines details"
+              text="Select 'expand' to view more granular details of the timeline."
             />
           </Features>
 
@@ -167,8 +169,9 @@ export default class App extends PureComponent {
 
           <Copy>
             <p>
-              <b>Add GsapTools component globally to your application</b>
-              <br />You only need to add it once.
+              <b>First, add GsapTools component globally to your application.</b> You
+              only need to do this once.
+
             </p>
           </Copy>
 
@@ -179,12 +182,11 @@ export default class App extends PureComponent {
           </Code>
 
           <Copy>
-            <p><b>Register your Gsap timeline to be controlled with GsapTools</b><br />
+            <p><b>Next, register your Gsap timeline to be controlled with GsapTools.</b><br />
 
-            The simplest way to do it is to define an id on the Timeline method constructor,
-            call the add function to register the timeline, and create a reference to the
-            add function to remove it when the component is unmounted. Alternatively, there
-            are other ways to do it. <button onClick={this.showCode}>View them</button>.
+            Define an id on the timeline method constructor, call the add function to register
+            the timeline, and create a reference to the add function to remove it when the
+            component is unmounted.
             </p>
           </Copy>
 
@@ -201,6 +203,14 @@ componentWillUnmount() {
 }
 `}
           </Code>
+
+          <Copy>
+            <p>
+              That’s the simpler version. <button onClick={this.showCode}>Click to
+              expand the complicated version.
+              </button>
+            </p>
+          </Copy>
 
           <Code visible={this.state.codeVisible}>{`componentDidMount() {
   this.t = new TimelineLite();
@@ -243,20 +253,21 @@ componentWillUnmount() {
 
             <dl>
               <dt><b>isVisible</b> (default = false)</dt>
-              <dd>You can choose to show GsapTools by default.</dd>
+              <dd>Show GsapTools by default. Or not. It’s a free country.</dd>
 
               <dt><b>isFixed</b> (default = true)</dt>
-              <dd>With the draggable feature, GsapTools is <code>position: fixed</code> to
-              be on top of everything. But you can choose to position the tool however you like
-              by passing <code>false</code> to this prop.
+              <dd>With the draggable feature, GsapTools defaults
+              to <code>position: fixed</code> on top of everything. But you can
+              pass false to this prop to position the tool however you like.
+
               </dd>
 
               <dt><b>onClick</b> (default = undefined)</dt>
-              <dd>The tool comes with a build-in button to toggle the component. But if
+              <dd>The tool comes with a built-in button to toggle the component. But if
               you decide to have your own button to handle this, just pass
-              an <code>onClick</code> prop to the component and it will override
-              the built-in function. It’s useful if you have a whole dev tools package
-              and already have a way to enable specific tools.
+              an <code>onClick</code> prop to the component and it will override the
+              built-in function. This is useful if you have a whole dev tools
+              package and already have a way to enable specific tools.
               </dd>
             </dl>
 
@@ -276,15 +287,15 @@ componentWillUnmount() {
 
             <h3><code>remove()</code> function</h3>
 
-            <p>This function is not required. It’s simpler through the disposer function
-            call via the reference to the <code>add()</code> function. However you can
-            still use it if you want.
+            <p>This function is not required. It’s simpler to use the <code>disposer</code> function
+            call via the reference to the <code>add()</code> function. However, you can still use
+            it if you want.
             </p>
 
             <dl>
               <dt><b>Timeline</b> (required)</dt>
-              <dd>The first argument to pass is the timeline from your animation.
-              It only works with TimelineLite and TimelineMax for the moment.
+              <dd>The first argument to pass is the timeline from your animation. For the
+              moment this only works with TimelineLite and TimelineMax.
               </dd>
 
               <dt><b>id</b> (optional)</dt>
@@ -296,36 +307,37 @@ componentWillUnmount() {
         </Content>
 
         <Content
-          title="Motivation"
-          subheading="A quick, serious message"
+          title="But, why?"
+          subheading="Your friends at Ueno explain."
         >
-          <p>We love the work of the GSAP guys. We love it so much that we are using
-          GSAP for animations on almost all of our projects.
+          <p>We <span role="img" aria-label="heart">❤️ </span> GSAP.
+          We <span role="img" aria-label="heart">❤️ </span> it so much that we
+          GSAP for animations on almost all
+          of <a target="_blank" rel="noopener noreferrer" href="http://ueno.co/work/">our projects</a>.
           </p>
 
-          <p>However, one thing that were struggling with for a long time was debugging
-          big timelines. Most of the time, we reload, reload, reload, reload, reload,
-          reload, reload, reload. Yupp, and that’s not even close to the number of
-          reloads we needed to do to in order to complete an animation.
+          <p>But one thing were struggling with for a long time was debugging big
+          timelines. Most of the time we reload, reload, reload, reload, reload,
+          reload, reload, reload. You get where this is going.
           </p>
 
-          <p>GSAP introduced their dev tools recently, and we tried it, but it didn’t really fit
-          our needs; settting the tools with webpack was a real mess, it wasn’t possible
-          to remove a timeline after being registered when we unmounted a component,
-          animations are only registered if they are played 2 seconds after the page
-          is loaded, which is a problem when we have a lot of animation playing on users
-          actions or some waypoint triggered.
+          <p>Recently GSAP introduced their dev tools. We tried them but found they didn’t really
+          fit our needs: Setting the tools up with webpack, a real mess; when unmounting a
+          component, removing its timeline after being registered is not possible; and finally,
+          animations are only registered if they are played 2 seconds after the page is
+          loaded, which is a problem if we have an animation playing based on user interaction, or
+          when a waypoint is triggered.
           </p>
 
           <p>That’s why we decided to make our own tool to address these issues.</p>
         </Content>
 
         <Content
-          title="Help us"
-          subheading="Any ideas are welcome"
+          title="You to the rescue"
+          subheading="Lend a helping hand?"
         >
-          <p>If you noticied any issues, if you have any ideas, or if you want to help us and
-          open pull requests go checkout the github repository: <a href="https://github.com/ueno-llc/gsap-tools" target="_blank" rel="noopener noreferrer">github.com/ueno-llc/gsap-tools</a>
+          <p>If you noticied any issues, have any ideas, or want to open pull requests, go checkout
+          the <a href="https://github.com/ueno-llc/gsap-tools" target="_blank" rel="noopener noreferrer">github repository</a>.
           </p>
         </Content>
       </AppLayout>
