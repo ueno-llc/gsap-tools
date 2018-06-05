@@ -50,7 +50,7 @@ export default class App extends PureComponent {
                 />
               }
               title="Play/pause"
-              text="No more refreshing. Pause and play your timelines as much as you want."
+              text="No more reloading. Pause and play your timelines as much as you want."
             />
 
             <FeaturesItem
