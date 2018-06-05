@@ -44,7 +44,7 @@ export default class Logo extends PureComponent {
       .to(logoPath[2], 1.5, { rotation: 700, x: '400%', y: -600, autoAlpha: 0, ease }, 'start')
       .to(logoPath[3], 1.5, { rotation: 700, x: '600%', y: 600, autoAlpha: 0, ease }, 'start')
       .to(this.dot, 1.5, { x: '-50%', y: '-50%', left: offsetLeft, top: offsetTop, ease }, 'start')
-      .to(this.dotInner, 1.5, { scale: 10, ease }, 'start')
+      .to(this.dotInner, 1.5, { scale: 10, ease, force3D: false }, 'start')
       .to(this.dotSvg, 1.5, { fill: '#ab80ff' }, 'start')
       .set(this.dotInner, { opacity: 0 });
 
