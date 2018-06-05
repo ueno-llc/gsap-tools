@@ -107,19 +107,6 @@
 
   a { // stylelint-disable-line
     @include reset-anchor;
-    display: inline;
-
-    color: #000;
-
-    background-image: linear-gradient(to right, currentColor, currentColor);
-    background-position: 0 percentage(19px/$font-size);
-    background-repeat: repeat-x;
-    background-size: 100% 1px;
-
-    @media (pointer: fine) {
-      &:hover::after { // stylelint-disable-line
-        background: transparent;
-      }
-    }
+    @include link;
   }
 }

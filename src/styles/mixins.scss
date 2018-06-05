@@ -84,7 +84,7 @@
 
   margin-bottom: (40/38) * 1em;
 
-  color: #9ea0a6;
+  color: $color-grey;
   font-weight: 100;
 }
 
@@ -103,6 +103,26 @@
 @mixin h3() {
   @include h2;
   @include responsive-font(20, 26);
+}
+
+@mixin link() {
+  display: inline;
+  color: #000;
+
+  cursor: pointer;
+
+  background-image: linear-gradient(to right, currentColor, currentColor);
+  background-position: 0 percentage(18px/$font-size);
+  background-repeat: repeat-x;
+  background-size: 100% 1px;
+
+  @media (pointer: fine) {
+    &:hover {
+      color: $color-grey;
+      // force redraw in chome for currentColor
+      -webkit-margin-start: 0.1px; // stylelint-disable-line
+    }
+  }
 }
 
 // html.js / html.no-js will not compile?!

@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-closing-tag-location */
+
 import React, { PureComponent } from 'react';
 
 import AppLayout from 'components/app-layout';
@@ -171,7 +173,6 @@ export default class App extends PureComponent {
             <p>
               <b>First, add GsapTools component globally to your application.</b> You
               only need to do this once.
-
             </p>
           </Copy>
 
@@ -182,11 +183,11 @@ export default class App extends PureComponent {
           </Code>
 
           <Copy>
-            <p><b>Next, register your Gsap timeline to be controlled with GsapTools.</b><br />
-
-            Define an id on the timeline method constructor, call the add function to register
-            the timeline, and create a reference to the add function to remove it when the
-            component is unmounted.
+            <p>
+              <b>Next, register your Gsap timeline to be controlled with GsapTools.</b><br />
+              Define an id on the timeline method constructor, call the add function to register
+              the timeline, and create a reference to the add function to remove it when the
+              component is unmounted.
             </p>
           </Copy>
 
@@ -206,9 +207,8 @@ componentWillUnmount() {
 
           <Copy>
             <p>
-              That’s the simpler version. <button onClick={this.showCode}>Click to
-              show an alternative setup.
-              </button>
+              That’s the simpler version. <button onClick={this.showCode}>Click to show
+              an alternative setup.</button>
             </p>
           </Copy>
 
