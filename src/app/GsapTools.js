@@ -71,6 +71,22 @@ export default class GsapTools extends PureComponent {
     }
   }
 
+  componentWillUpdate() {
+    // When a page navigation happens and there is no more element
+    // in the store let's clear both master and range elements
+    if (store.timelines.size <= 0) {
+      // Clear master
+      if (this.master) {
+        this.master.clear();
+      }
+
+      // Clear range
+      if (this.range) {
+        this.range.clear();
+      }
+    }
+  }
+
   componentWillUnmount() {
     // Remove the store's listener when unmouting the component
     store.removeListener('change', this.onStoreChange);
@@ -132,16 +148,6 @@ export default class GsapTools extends PureComponent {
   }
 
   handleStoreChange = () => {
-    // Clear master timeline between page navigation
-    if (this.master) {
-      this.master.clear();
-    }
-
-    // Clear in/out markers between page navigation
-    if (this.range) {
-      this.range.clear();
-    }
-
     // Get active timeline from store
     const active = store.active();
 
@@ -161,6 +167,8 @@ export default class GsapTools extends PureComponent {
       playIcon: isPaused,
       active,
     });
+
+    this.initInOutWithStorage();
   }
 
   initUI = () => {
@@ -182,17 +190,6 @@ export default class GsapTools extends PureComponent {
 
     this.master.timeScale(timeScale);
 
-    const inPercent = Number(storage.get('IN_PERCENT')) || 0;
-    const outPercent = Number(storage.get('OUT_PERCENT')) || 100;
-
-    // If inPercent and outPercent are defined it means we want
-    // an inOutMaster timeline so we have to init it
-    if (inPercent > 0 || outPercent < 100) {
-      this.inTime = this.master.totalDuration() * (inPercent / 100);
-      this.outTime = this.master.totalDuration() * (outPercent / 100);
-      this.initInOut({ inTime: this.inTime, outTime: this.outTime });
-    }
-
     // Wait few milliseconds to define the tool as loaded
     setTimeout(() => {
       this.setState({ isLoaded: true });
@@ -201,6 +198,18 @@ export default class GsapTools extends PureComponent {
     // If isVisible props is defined by default on gsap-tools
     // component we set it on localStorage
     storage.set('IS_VISIBLE', isVisible);
+  }
+
+  initInOutWithStorage = () => {
+    const inPercent = Number(storage.get('IN_PERCENT')) || 0.01;
+    const outPercent = Number(storage.get('OUT_PERCENT')) || 100;
+
+    if (inPercent > 0 || outPercent < 100) {
+      this.inTime = this.master.totalDuration() * (inPercent / 100);
+      this.outTime = this.master.totalDuration() * (outPercent / 100);
+      this.initInOut({ inTime: this.inTime, outTime: this.outTime });
+      this.inOutMaster.restart();
+    }
   }
 
   handleUIClose = () => {

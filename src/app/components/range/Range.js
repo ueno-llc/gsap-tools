@@ -33,15 +33,18 @@ export default class Range extends PureComponent {
 
   componentDidMount() {
     this.initRange();
-
-    // We need a setTimeout to get the ref to `this.range` available
-    // setTimeout(this.initMarkers);
   }
 
   componentWillReceiveProps(props) {
     this.isExpanding = false;
 
-    if (props.isExpanded !== this.props.isExpanded) {
+    // We init markers if we had any on localstorage
+    if (props.isActive && props.isActive !== this.props.isActive) {
+      // Need the timeout to get the `this.range` component available
+      setTimeout(this.initMarkers);
+    }
+
+    if (props.isExpanded && props.isExpanded !== this.props.isExpanded) {
       this.isExpanding = true;
 
       // The timeout is equal to the css transition to expand the box
@@ -80,7 +83,7 @@ export default class Range extends PureComponent {
   }
 
   initMarkers = () => {
-    const inPercent = Number(storage.get('IN_PERCENT')) || 0;
+    const inPercent = Number(storage.get('IN_PERCENT')) || 0.01;
     const outPercent = Number(storage.get('OUT_PERCENT')) || 100;
 
     // There is nothing to init if markers are
