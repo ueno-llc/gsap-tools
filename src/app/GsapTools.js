@@ -316,6 +316,8 @@ export default class GsapTools extends PureComponent {
         this.inOutMaster.restart();
         this.setState({ playIcon: false });
       } else if (this.inOutMaster.paused()) {
+        this.master.seek(this.progressTime);
+        this.inOutMaster.seek(this.progressTime);
         this.inOutMaster.play();
         this.setState({ playIcon: false });
       } else {
@@ -468,6 +470,11 @@ export default class GsapTools extends PureComponent {
 
     this.setState({ value });
     this.master.progress(progress);
+    this.progressTime = this.master.time();
+
+    if (this.inOutMaster) {
+      this.inOutMaster.seek(this.progressTime);
+    }
   }
 
   handleRangeStart = () => {
