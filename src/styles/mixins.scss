@@ -84,7 +84,7 @@
 
   margin-bottom: (40/38) * 1em;
 
-  color: #9ea0a6;
+  color: $color-grey;
   font-weight: 100;
 }
 
@@ -103,6 +103,19 @@
 @mixin h3() {
   @include h2;
   @include responsive-font(20, 26);
+}
+
+@mixin link() {
+  cursor: pointer;
+
+  color: #000;
+  text-decoration: underline;
+
+  transition: color 300ms ease-out;
+
+  &:hover {
+    color: $color-grey;
+  }
 }
 
 // html.js / html.no-js will not compile?!

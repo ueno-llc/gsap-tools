@@ -107,29 +107,6 @@
 
   a { // stylelint-disable-line
     @include reset-anchor;
-
-    position: relative;
-
-    color: #000;
-
-    white-space: nowrap;
-
-    &::after { // stylelint-disable-line
-      content: '';
-      position: absolute;
-      bottom: (0.3px / $font-size) * 1em;
-      left: 0;
-      right: 0;
-
-      height: 1px;
-
-      background: $color-font;
-    }
-
-    @media (pointer: fine) {
-      &:hover::after { // stylelint-disable-line
-        background: transparent;
-      }
-    }
+    @include link;
   }
 }
