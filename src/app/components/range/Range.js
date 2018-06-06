@@ -89,6 +89,8 @@ export default class Range extends PureComponent {
   }
 
   initMarkers = () => {
+    // If we only set a outPercent value, inPercent needs to be superior
+    // to 0, to avoid dividing by 0
     const inPercent = Number(storage.get('IN_PERCENT')) || 0.01;
     const outPercent = Number(storage.get('OUT_PERCENT')) || 100;
 
@@ -105,6 +107,7 @@ export default class Range extends PureComponent {
     const w = rw - SIZES.MARKER_WIDTH;
     const val = (inPercent * w) / 100;
 
+    // We set the markerIn and markerOut values
     this.markerIn = inPercent ? val : w;
     this.markerOut = outPercent ? (outPercent * w) / 100 : w;
 
@@ -192,12 +195,12 @@ export default class Range extends PureComponent {
 
   handleDrag = (e) => {
     const { onDrag, onDragStart } = this.props;
-    const { currentTarget } = e;
 
     if (!onDrag) {
       return;
     }
 
+    const { currentTarget } = e;
     const pos = this.position(e);
     const value = this.getValueFromPosition(pos);
 
@@ -207,9 +210,13 @@ export default class Range extends PureComponent {
 
     onDrag(value);
 
+    // If we start dragging on the range component, we add a listenner
+    // on the dragging event itself as well
     if (currentTarget.id === 'range') {
       document.addEventListener('mousemove', this.handleDrag);
       document.addEventListener('mouseup', this.handleEnd);
+      document.addEventListener('touchMove', this.handleDrag);
+      document.addEventListener('touchEnd', this.handleEnd);
 
       if (onDragStart) {
         onDragStart();
@@ -220,10 +227,13 @@ export default class Range extends PureComponent {
   handleEnd = () => {
     const { onDragEnd } = this.props;
 
+    // We remove all listeners as soon as we stop dragging
     document.removeEventListener('mousemove', this.handleDrag);
     document.removeEventListener('mousemove', this.handleMarkerInDrag);
     document.removeEventListener('mousemove', this.handleMarkerDragOut);
     document.removeEventListener('mouseup', this.handleEnd);
+    document.removeEventListener('touchMove', this.handleDrag);
+    document.removeEventListener('touchEnd', this.handleEnd);
 
     if (onDragEnd) {
       onDragEnd();
