@@ -2,7 +2,7 @@
 
 **A simple tool to debug GSAP animations**
 
-Managing and debugging tweens and timelines in GSAP is a hassle, even with their new dev tools. So we created GsapTools, an extension that makes it all so much easier.
+Managing and debugging Tween and Timeline in GSAP is a hassle, even with the official dev tools. So we created GsapTools, an extension that makes it all so much easier. Click on the GSAP button to see in in action, and scroll down to know more.
 
 ## Installation
 ```bash
@@ -17,8 +17,8 @@ npm install --save-dev gsap-tools
 - In/out markers
 - Timescale
 - Draggable UI
-- Updated timelines
-- Timelines details
+- Updated animations
+- Timeline details
 
 ## How to use it
 
@@ -30,10 +30,9 @@ import GsapTools from 'gsap-tools';
 <GsapTools />
 ```
 
-**Next, register your Gsap timeline to be controlled with GsapTools.**
+**Next, register your GSAP animation to be controlled with GsapTools.**
 
-Define an id on the timeline method constructor, call the add function to register the timeline,
-and create a reference to the add function to remove it when the component is unmounted.
+Define an id on the Timeline constructor or on the Tween vars object, call the add function to register the timeline, and create a reference to the add function to remove it when the component is unmounted.
 
 ```js
 import { add } from 'gsap-tools';
@@ -54,26 +53,50 @@ That’s the simpler version. Here is an alternative setup.
 ```js
 import { add, remove } from 'gsap-tools';
 
+/*
+ * With Timeline
+ */
+
 componentDidMount() {
-  this.t = new TimelineLite();
+  // You can define an id on the Timeline's constructor
+  this.timeline = new TimelineLite({ id: 'myTimeline' });
 
-  // You can defined the id of the timeline on the `add` function itself
-  add(this.t, 'myTimeline');
+  // Or you can also define an id on the add function itself
+  add(this.timeline, 'myTimeline');
 
-  // or
-
-  // It will generated an id, if you don't specified any
-  add(this.t);
+  // Or it will generate an id if you don't specify any
+  add(this.timeline);
 }
 
 componentWillUnmount() {
-  // Remove the timeline just by passing the reference to the timeline
-  remove(this.t);
+  // Remove the Timeline just by passing the reference to it
+  remove(this.timeline);
 
-  // or
-
-  // Remove the timeline by passing the id, without the timeline reference
+  // Remove the Timeline by passing his id, without the reference
   remove(null, 'myTimeline');
+}
+
+/*
+ * With Tween
+ */
+
+componentDidMount() {
+  // You can define an id within the vars object
+  this.tween = TweenLite.to(this.el, 1, { x: 50, id: 'myTween' });
+
+  // Or you can define an id on the add function itself
+  add(this.tween, 'myTween');
+
+  // Or it will generate an id if you don't specify any
+  add(this.tween);
+}
+
+componentWillUnmount() {
+  // Remove the Tween just by passing the reference to it
+  remove(this.tween);
+
+  // Remove the Tween by passing his id, without the reference
+  remove(null, 'myTween');
 }
 ```
 
@@ -90,34 +113,29 @@ componentWillUnmount() {
 
 ### `<GsapTools />` component
 
-- **isVisible** (default = false): Show GsapTools by default. Or not. It’s a free country.
+- **isVisible** (default = false) Show GsapTools by default. Or not. It’s a free country.
 
-- **isFixed** (default = true): With the draggable feature, GsapTools defaults to `position: fixed`
-on top of everything. But you can pass false to this prop to position the tool however you like.
+- **isFixed** (default = true) With the draggable feature, GsapTools defaults to `position: fixed`
+on top of everything. But you can pass `false` to this prop to position the tool however you like.
 
-- **onClick** (default = undefined): The tool comes with a built-in button to toggle the component.
-But if you decide to have your own button to handle this, just pass an `onClick prop to the component
+- **onClick** (default = undefined) The tool comes with a built-in button to toggle the component.
+But if you decide to have your own button to handle this, just pass an `onClick` prop to the component
 and it will override the built-in function. This is useful if you have a whole dev tools package
 and already have a way to enable specific tools.
 
 ### `add()` function
 
-- **Timeline/Tween** (required): The first argument to pass is the timeline from your animation.
-You can either pass Tween or Timeline instances.
+- **Timeline/Tween** (required): The first argument to pass is the animation object. It can be either Tween or Timeline instances.
 
-- **id** (optional): Instead of passing the id to the timeline method constructor you can
-pass it on the `add()` function itself. `add(this.timeline, ‘myId’);`
+- **id** (optional) Instead of passing the id to the timeline method constructor you can pass it on the `add()` function itself.
 
 ### `remove()` function
 
-This function is not required. It’s simpler to use the `disposer function call
-via the reference to the `add()` function. However, you can still use it if you want.
+This function is not required. It’s simpler to use the disposer function call via the reference to the `add()` function. However, you can still use it if you want.
 
-- **Timeline/Tween** (optional): The first argument to pass is the timeline from your animation.
-For the moment this only works with TimelineLite and TimelineMax.
+- **Timeline/Tween** (optional) The first argument to pass is the animation object. It can be either Tween or Timeline instances.
 
-- **id** (optional): Instead of passing the id to the timeline method constructor you can pass
-it on the `add()` function itself. `add(this.timeline, ‘myId’);
+- **id** (optional) The id of the animation if you defined one through the `add()` function. In this case you have to pass the animation object argument as null.
 
 ## But, why?
 
@@ -137,7 +155,7 @@ That’s why we decided to make our own tool to address these issues.
 ## You to the rescue
 
 If you noticed any issues, have any ideas, or want to open pull requests, just do it.
-And if you want to know more about who we are and what we do, <a href="http://ueno.co/">there’s a link for that</a>.
+And if you want to know more about who we are and what we do, <a href="http://ueno.co/">here’s a link for that</a>.
 
 ## Development
 
