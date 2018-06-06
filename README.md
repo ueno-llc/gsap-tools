@@ -1,6 +1,6 @@
 # GsapTools, by Ueno
 
-**A simple tool to debug GSAP timelines**
+**A simple tool to debug GSAP animations**
 
 Managing and debugging tweens and timelines in GSAP is a hassle, even with their new dev tools. So we created GsapTools, an extension that makes it all so much easier.
 

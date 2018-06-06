@@ -1,5 +1,6 @@
 {
   "name": "gsap-tools",
+  "description": "A simple tool to debug GSAP animations",
   "version": "1.0.0",
   "main": "dist/gsap-tools.js",
   "author": "Ueno.",
