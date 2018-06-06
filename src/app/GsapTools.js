@@ -348,6 +348,7 @@ export default class GsapTools extends PureComponent {
         if (this.state.isLoop) {
           this.inOutMaster.restart();
         } else {
+          this.inOutMaster.pause();
           this.setState({ playIcon: true });
         }
       },
@@ -523,11 +524,18 @@ export default class GsapTools extends PureComponent {
 
     this.master.pause();
     this.setState({ playIcon: true });
-    this.inTime = this.master.totalDuration() * (value / 100);
-    this.master.seek(this.inTime);
-    this.initInOut({ inTime: this.inTime });
 
-    storage.set('IN_PERCENT', value);
+    if (value === 0) {
+      this.inTime = 0;
+
+      storage.remove('IN_PERCENT');
+    } else {
+      this.inTime = this.master.totalDuration() * (value / 100);
+      this.master.seek(this.inTime);
+      this.initInOut({ inTime: this.inTime });
+
+      storage.set('IN_PERCENT', value);
+    }
   }
 
   handleMarkerOutRange = (value) => {
@@ -537,10 +545,17 @@ export default class GsapTools extends PureComponent {
 
     this.master.pause();
     this.setState({ playIcon: true });
-    this.outTime = this.master.totalDuration() * (value / 100);
-    this.initInOut({ outTime: this.outTime });
 
-    storage.set('OUT_PERCENT', value);
+    if (value === 100) {
+      this.outTime = undefined;
+
+      storage.remove('OUT_PERCENT');
+    } else {
+      this.outTime = this.master.totalDuration() * (value / 100);
+      this.initInOut({ outTime: this.outTime });
+
+      storage.set('OUT_PERCENT', value);
+    }
   }
 
   handleMarkerReset = () => {

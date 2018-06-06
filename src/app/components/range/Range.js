@@ -95,7 +95,7 @@ export default class Range extends PureComponent {
     // There is nothing to init if markers are
     // to theirs initials values
     if (
-      (inPercent <= 0 && outPercent >= 100) ||
+      (inPercent <= 0 && outPercent === 100) ||
       !this.rangeIn || !this.rangeOut
     ) {
       return;
