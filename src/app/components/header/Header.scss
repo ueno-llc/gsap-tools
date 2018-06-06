@@ -80,6 +80,11 @@
     span:last-of-type { // stylelint-disable-line
       margin-left: 3px;
     }
+
+    svg { // stylelint-disable-line
+      position: relative;
+      top: 1px;
+    }
   }
 
   &__scale {

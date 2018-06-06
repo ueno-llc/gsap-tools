@@ -160,22 +160,33 @@ export default class GsapTools extends PureComponent {
       this.master.clear();
     }
 
-    // Get active timeline from store
+    // Get active animation from store
     const active = store.active();
 
     if (isEmpty(active)) {
       return;
     }
 
-    // Add the active timeline to the master one
+    // Add the active animation to the master timeline
     this.master.add(active);
 
-    // Check the status of the timeline to define the master one
+    // Check the status of the animation to define the master timeline
     const isPaused = active.paused();
+
+    // Check if it's an infinite animation
+    this.isInfinite = active.totalDuration() === 999999999999;
+
+    if (this.isInfinite) {
+      const duration = active.duration();
+
+      active.repeat(0);
+      active.totalDuration(duration);
+    }
 
     this.master.paused(isPaused);
 
     this.setState({
+      isLoop: this.isInfinite,
       playIcon: isPaused,
       active,
     });
@@ -615,6 +626,7 @@ export default class GsapTools extends PureComponent {
                 isExpanded={isExpanded}
                 isTween={isTween}
                 isTablet={isTablet}
+                isInfinite={this.isInfinite}
                 onList={this.handleList}
                 onTimeScale={this.handleTimeScale}
                 onUIClose={this.handleUIClose}
