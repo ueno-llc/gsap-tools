@@ -268,10 +268,12 @@ componentWillUnmount() {
 
             <ul>
               <li><code>space</code> Play/pause</li>
-              <li><code>←</code> Rewind</li>
+              <li><code>R</code> Reset in/out markers</li>
               <li><code>H</code> Toggle UI</li>
-              <li><code>↑</code> Speed up</li>
+              <li><code>←</code> Rewind</li>
               <li><code>L</code> Toggle loop</li>
+              <li><code>↑</code> Speed up</li>
+              <li><code>E</code> Expand Timeline</li>
               <li><code>↓</code> Slow down</li>
             </ul>
 
