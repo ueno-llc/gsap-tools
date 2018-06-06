@@ -29,8 +29,8 @@ export default class App extends PureComponent {
           hasBackground
           title="GsapTools, by Ueno"
           subheading="A simple tool to debug GSAP animations"
-          text="Managing and debugging tweens and timelines in GSAP is a hassle, even with
-          their new dev tools. So we created GsapTools, an extension that makes it all so much
+          text="Managing and debugging Tween and Timeline in GSAP is a hassle, even with
+          the official dev tools. So we created GsapTools, an extension that makes it all so much
           easier. Click on the GSAP button to see in in action, and scroll down to know more."
         >
           <h2>Installation</h2>
@@ -149,7 +149,7 @@ export default class App extends PureComponent {
                   }
                 />
               }
-              title="Updated timelines"
+              title="Updated animations"
               text="GsapTools automatically updates active animations when you navigate between pages."
             />
 
@@ -165,7 +165,7 @@ export default class App extends PureComponent {
                 />
               }
               title="Timeline details"
-              text="Select 'expand' to view more granular details of the timeline."
+              text="Select 'expand' to view more granular details of the Timeline."
             />
           </Features>
 
@@ -186,10 +186,10 @@ export default class App extends PureComponent {
 
           <Copy>
             <p>
-              <b>Next, register your Gsap timeline to be controlled with GsapTools.</b><br />
-              Define an id on the timeline method constructor, call the add function to register
-              the timeline, and create a reference to the add function to remove it when the
-              component is unmounted.
+              <b>Next, register your Gsap animation to be controlled with GsapTools.</b><br />
+              Define an id on the Timeline constructor or on the Tween vars object, call
+              the add function to register the timeline, and create a reference to the
+              add function to remove it when the component is unmounted.
             </p>
           </Copy>
 
@@ -216,26 +216,50 @@ componentWillUnmount() {
 
           <Code visible={this.state.codeVisible}>{`import { add, remove } from 'gsap-tools';
 
+/*
+ * With Timeline
+ */
+
 componentDidMount() {
-  this.t = new TimelineLite();
+  // You can define an id on the Timeline's constructor
+  this.timeline = new TimelineLite({ id: 'myTimeline' });
 
-  // You can define the id of the timeline on the add function itself
-  add(this.t, 'myTimeline');
+  // Or you can also define an id on the add function itself
+  add(this.timeline, 'myTimeline');
 
-  // or
-
-  // It will generate an id if you don't specify any
-  add(this.t);
+  // Or it will generate an id if you don't specify any
+  add(this.timeline);
 }
 
 componentWillUnmount() {
-  // Remove the timeline just by passing the reference to the timeline
-  remove(this.t);
+  // Remove the Timeline just by passing the reference to it
+  remove(this.timeline);
 
-  // or
-
-  // Remove the timeline by passing the id, without the timeline reference
+  // Remove the Timeline by passing his id, without the reference
   remove(null, 'myTimeline');
+}
+
+/*
+ * With Tween
+ */
+
+componentDidMount() {
+  // You can define an id within the vars object
+  this.tween = TweenLite.to(this.el, 1, { x: 50, id: 'myTween' });
+
+  // Or you can define an id on the add function itself
+  add(this.tween, 'myTween');
+
+  // Or it will generate an id if you don't specify any
+  add(this.tween);
+}
+
+componentWillUnmount() {
+  // Remove the Tween just by passing the reference to it
+  remove(this.tween);
+
+  // Remove the Tween by passing his id, without the reference
+  remove(null, 'myTween');
 }`}
           </Code>
 
@@ -278,13 +302,13 @@ componentWillUnmount() {
 
             <dl>
               <dt><b>Timeline/Tween</b> (required)</dt>
-              <dd>The first argument to pass is the timeline from your animation.
-              You can either pass Tween or Timeline instances.
+              <dd>The first argument to pass is the animation object. It can be either
+              Tween or Timeline instances.
               </dd>
 
               <dt><b>id</b> (optional)</dt>
               <dd>Instead of passing the id to the timeline method constructor you can pass it on
-              the <code>add()</code> function itself. <code>add(this.timeline, ‘myId’);</code>
+              the <code>add()</code> function itself.
               </dd>
             </dl>
 
@@ -297,12 +321,13 @@ componentWillUnmount() {
 
             <dl>
               <dt><b>Timeline/Tween</b> (required)</dt>
-              <dd>The first argument to pass is the timeline from your animation.
+              <dd>The first argument to pass is the animation object. It can be either Tween
+              or Timeline instances.
               </dd>
 
               <dt><b>id</b> (optional)</dt>
-              <dd>Instead of passing the id to the timeline method constructor you can pass it on
-              the <code>add()</code> function itself. <code>add(this.timeline, ‘myId’);</code>
+              <dd>The id of the animation if you defined one through the `add() function.
+              In this case you have to pass the animation object argument as null.
               </dd>
             </dl>
           </Reference>

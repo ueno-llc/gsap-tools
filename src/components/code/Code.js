@@ -38,6 +38,7 @@ export default class Code extends PureComponent {
     const functions = ['componentDidMount(', 'disposer(', 'add(', 'remove(', 'componentWillUnmount('];
     const symbols = ['{', '}', '(', ')', ' = ', '&lt;', '/&gt;', '-'];
     const classes = ['TimelineLite', 'TimelineMax'];
+    const numbers = [1, 50];
 
     let t = this.props.children.toString();
 
@@ -45,6 +46,7 @@ export default class Code extends PureComponent {
     t = this.format(t, functions, 'blue');
     t = this.format(t, symbols, 'jade');
     t = this.format(t, classes, 'yellow');
+    t = this.format(t, numbers, 'red');
 
     // find single-quoted strings
     let strings;
@@ -62,8 +64,9 @@ export default class Code extends PureComponent {
 
     for (let i = 0; i < lines.length; i++) {
       const strip = (lines[i].replace(/\s/g, ''));
+      const sub = strip.substring(0, 2);
 
-      if (strip.substring(0, 2) === '//') {
+      if (sub === '//' || sub.includes('*')) {
         lines[i] = `<span class="code__grey">${lines[i]}</span>`;
       }
     }
