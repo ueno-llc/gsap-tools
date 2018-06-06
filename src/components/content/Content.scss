@@ -63,7 +63,7 @@
     position: relative;
     z-index: 1;
 
-    padding: percentage(100px/$page-width) 0;
+    padding: percentage(200px/$page-width) 0;
 
     @media (min-width: $min-desktop) {
       padding: 100px calc(#{percentage(80/1100)} + #{$gutter});
@@ -89,7 +89,7 @@
   &__copy {
     @include reset-all;
 
-    margin-bottom: (100px / $font-size) * 1em;
+    margin-bottom: (60px / $font-size) * 1em;
 
     @media (min-width: $min-tablet) {
       max-width: (600px/$font-size) * 1em;
