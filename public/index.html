@@ -2,39 +2,49 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <!--
-      manifest.json provides metadata used when your web app is added to the
-      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A simple tool to debug GSAP animations">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="msapplication-TileColor" content="#fafafa">
+    <meta name="msapplication-TileImage" content="%PUBLIC_URL%/favicons/mstile-150x150.png">
+    <meta name="msapplication-square70x70logo" content="%PUBLIC_URL%/favicons/mstile-70x70.png">
+    <meta name="msapplication-square150x150logo" content="%PUBLIC_URL%/favicons/mstile-150x150.png">
+    <meta name="msapplication-wide310x150logo" content="%PUBLIC_URL%/favicons/mstile-310x150.png">
+    <meta name="msapplication-square310x310logo" content="%PUBLIC_URL%/favicons/mstile-310x310.png">
+    <meta name="theme-color" content="#fafafa">
+    <meta property="og:image" content="%PUBLIC_URL%/share.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="%PUBLIC_URL%/share.png">
+    <meta name="twitter:site" content="@uenodotco">
+    <meta name="twitter:creator" content="@uenodotco">
+    <meta name="twitter:description" content="A simple tool to debug GSAP animations">
+    <meta name="twitter:title" content="GsapTools, by Ueno">
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>GsapTools, a simple way to debug GSAP's timelines</title>
+    <title>GsapTools, by Ueno</title>
+
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="%PUBLIC_URL%/favicons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="%PUBLIC_URL%/favicons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="%PUBLIC_URL%/favicons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="%PUBLIC_URL%/favicons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="%PUBLIC_URL%/favicons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="%PUBLIC_URL%/favicons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="%PUBLIC_URL%/favicons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="%PUBLIC_URL%/favicons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/favicons/apple-touch-icon-180x180.png">
+    <link rel="mask-icon" href="%PUBLIC_URL%/favicons/safari-pinned-tab.svg', color: '#00a9d9">
+    <link rel="icon" type="image/png" href="%PUBLIC_URL%/favicons/favicon-196x196.png" sizes="196x196">
+    <link rel="icon" type="image/png" href="%PUBLIC_URL%/favicons/favicon-128.png" sizes="128x128">
+    <link rel="icon" type="image/png" href="%PUBLIC_URL%/favicons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="%PUBLIC_URL%/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" sizes="16x16 32x32" href="%PUBLIC_URL%/favicon.ico">
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
   </head>
+
   <body>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
+
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>

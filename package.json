@@ -1,5 +1,6 @@
 {
   "name": "gsap-tools-gh-pages",
+  "description": "A simple tool to debug GSAP animations",
   "version": "0.1.0",
   "homepage": "http://ueno-llc.github.io/gsap-tools",
   "private": true,

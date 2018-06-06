@@ -28,7 +28,7 @@ export default class App extends PureComponent {
         <Content
           hasBackground
           title="GsapTools, by Ueno"
-          subheading="A simple tool to debug GSAP timelines"
+          subheading="A simple tool to debug GSAP animations"
           text="Managing and debugging tweens and timelines in GSAP is a hassle, even with
           their new dev tools. So we created GsapTools, an extension that makes it all so much
           easier. Click on the GSAP button to see in in action, and scroll down to know more."
