@@ -56,6 +56,7 @@ export default class Range extends PureComponent {
       // The timeout is equal to the css transition to expand the box
       setTimeout(() => {
         this.initRange();
+        this.initMarkers();
         this.handleProgress(props);
         this.isExpanding = false;
       }, 240);

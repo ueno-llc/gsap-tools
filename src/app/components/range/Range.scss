@@ -51,10 +51,18 @@
 
     &In {
       left: 0;
+
+      .isExpanding & {
+        transition: left 120ms;
+      }
     }
 
     &Out {
       right: 0;
+
+      .isExpanding & {
+        transition: right 120ms;
+      }
     }
   }
 
@@ -80,7 +88,7 @@
     transform: translate3d(-50%, -50%, 0);
 
     .isExpanding & {
-      transition: left 240ms;
+      transition: left 120ms;
     }
   }
 
@@ -119,7 +127,7 @@
     transition: opacity 240ms;
 
     .isExpanding & {
-      transition: width 240ms;
+      transition: width 120ms;
     }
 
     .isActive & {
