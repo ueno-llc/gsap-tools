@@ -52,7 +52,7 @@ export default class App extends PureComponent {
                 />
               }
               title="Play/pause"
-              text="No more reloading. Pause and play your timelines as much as you want."
+              text="No more reloading. Pause and play your animations as much as you want."
             />
 
             <FeaturesItem
@@ -97,7 +97,7 @@ export default class App extends PureComponent {
                 />
               }
               title="In/out markers"
-              text="Want to repeat a specific part of timeline? Just define in/out markers and you’re good to go."
+              text="Want to repeat a specific part of an animation? Just define in/out markers and you’re good to go."
             />
 
             <FeaturesItem
@@ -150,7 +150,7 @@ export default class App extends PureComponent {
                 />
               }
               title="Updated timelines"
-              text="GsapTools automatically updates active timelines when you navigate between pages."
+              text="GsapTools automatically updates active animations when you navigate between pages."
             />
 
             <FeaturesItem
@@ -164,7 +164,7 @@ export default class App extends PureComponent {
                   }
                 />
               }
-              title="Timelines details"
+              title="Timeline details"
               text="Select 'expand' to view more granular details of the timeline."
             />
           </Features>
@@ -297,8 +297,7 @@ componentWillUnmount() {
 
             <dl>
               <dt><b>Timeline/Tween</b> (required)</dt>
-              <dd>The first argument to pass is the timeline from your animation. For the
-              moment this only works with TimelineLite and TimelineMax.
+              <dd>The first argument to pass is the timeline from your animation.
               </dd>
 
               <dt><b>id</b> (optional)</dt>
@@ -325,11 +324,11 @@ componentWillUnmount() {
           </p>
 
           <p>Recently GSAP introduced their dev tools. We tried them but found they didn’t really
-          fit our needs: Setting the tools up with webpack, a real mess; when unmounting a
+          fit our needs: Setting the tools up with webpack was a real mess; when unmounting a
           component, removing its timeline after being registered is not possible; and finally,
           animations are only registered if they are played 2 seconds after the page is
-          loaded, which is a problem if we have an animation playing based on user interaction, or
-          when a waypoint is triggered.
+          loaded, which is a problem if - for example - we have an animation playing based
+          on user interaction, or when a waypoint is triggered.
           </p>
 
           <p>That’s why we decided to make our own tool to address these issues.</p>
