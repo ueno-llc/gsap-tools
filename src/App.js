@@ -186,7 +186,7 @@ export default class App extends PureComponent {
 
           <Copy>
             <p>
-              <b>Next, register your Gsap animation to be controlled with GsapTools.</b><br />
+              <b>Next, register your GSAP animation to be controlled with GsapTools.</b><br />
               Define an id on the Timeline constructor or on the Tween vars object, call
               the add function to register the timeline, and create a reference to the
               add function to remove it when the component is unmounted.
