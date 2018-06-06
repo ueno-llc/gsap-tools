@@ -104,9 +104,9 @@ export default class Timeline extends PureComponent {
 
                     <p
                       className={s.timeline__duration}
-                      style={{ left: this.getStyle(data).width + 4 }}
+                      style={{ left: this.getStyle(data).width + 2 }}
                     >
-                      {data.isSet ? 'SET' : `${data.duration.toFixed(2)}s`}
+                      {data.isSet ? 'SET' : `${data.duration.toFixed(1)}s`}
                     </p>
                   </div>
                 </div>
