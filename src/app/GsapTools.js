@@ -149,7 +149,16 @@ export default class GsapTools extends PureComponent {
   }
 
   onResize = () => {
-    this.setState({ isTablet: window.matchMedia('(max-width: 1020px)').matches });
+    const isTablet = window.matchMedia('(max-width: 1020px)').matches;
+
+    if (isTablet !== this.isTablet) {
+      this.isTablet = isTablet;
+      this.setState({ isTablet });
+
+      if (this.isTablet) {
+        storage.remove('BOX_POSITION');
+      }
+    }
   }
 
   onStoreChange = () => {
