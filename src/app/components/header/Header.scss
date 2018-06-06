@@ -71,8 +71,14 @@
 
     white-space: nowrap;
 
-    span { // stylelint-disable-line
+    span:first-of-type { // stylelint-disable-line
       opacity: 0.6;
+
+      margin-right: 3px;
+    }
+
+    span:last-of-type { // stylelint-disable-line
+      margin-left: 3px;
     }
   }
 
