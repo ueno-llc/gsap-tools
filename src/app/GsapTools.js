@@ -78,22 +78,6 @@ export default class GsapTools extends PureComponent {
     }
   }
 
-  componentWillUpdate() {
-    // When a page navigation happens and there is no more element
-    // in the store let's clear both master and range elements
-    if (store.timelines.size <= 0) {
-      // Clear master
-      if (this.master) {
-        this.master.clear();
-      }
-
-      // Clear range
-      if (this.range) {
-        this.range.clear();
-      }
-    }
-  }
-
   componentWillUnmount() {
     // Remove the store's listener when unmouting the component
     store.removeListener('change', this.onStoreChange);
@@ -162,6 +146,20 @@ export default class GsapTools extends PureComponent {
   }
 
   onStoreChange = () => {
+    // When a page navigation happens and there is no more element
+    // in the store let's clear both master and range elements
+    if (store.isEmpty) {
+      // Clear master
+      if (this.master) {
+        this.master.clear();
+      }
+
+      // Clear range
+      if (this.range) {
+        this.range.clear();
+      }
+    }
+
     // Register new timeline (We need a setTimeout to get the
     // ref to `this.range` from <Range /> component available)
     setTimeout(this.handleStoreChange);
