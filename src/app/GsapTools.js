@@ -109,6 +109,8 @@ export default class GsapTools extends PureComponent {
       this.handleUIClose();
     } else if (e.keyCode === 69) { // E char
       this.handleExpand();
+    } else if (e.keyCode === 82) { // R char
+      this.range.clear();
     } else if (e.keyCode === 37) { // Left arrow
       this.handleRewind();
     } else if (e.keyCode === 38) { // Up arrow

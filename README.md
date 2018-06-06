@@ -105,6 +105,8 @@ componentWillUnmount() {
 - `space`: Play/pause
 - `L`: Toggle loop
 - `H`: Toggle UI
+- `E`: Expand Timeline
+- `R`: Reset in/out markers
 - `←`: Rewind
 - `↑`: Speed up
 - `↓`: Slow down
