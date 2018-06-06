@@ -33,10 +33,13 @@ export default class Range extends PureComponent {
   isExpanding = false
 
   componentDidMount() {
+    // Calculate size of the range element
     this.initRange();
   }
 
   componentWillReceiveProps(props) {
+    // Flag to toggle css transition on the handle and
+    // markers when we expand and minimize the view
     this.isExpanding = false;
 
     // Let's calculate the size of the range if we change screen size
@@ -50,6 +53,8 @@ export default class Range extends PureComponent {
       setTimeout(this.initMarkers);
     }
 
+    // If isExpanded changed, we need to calculate size of the
+    // range element and to change position of markers again
     if (props.isExpanded !== this.props.isExpanded) {
       this.isExpanding = true;
 
@@ -85,7 +90,11 @@ export default class Range extends PureComponent {
 
     const { offsetWidth: rw } = this.range;
 
+    // Width of the range element without the handle width
     this.widthWithoutHandle = rw - SIZES.HANDLE_WIDTH;
+
+    // The markerOut position is equal to the
+    // handle width, without his own width
     this.markerOut = rw - SIZES.MARKER_WIDTH;
   }
 
@@ -148,6 +157,7 @@ export default class Range extends PureComponent {
     const { offsetWidth: rw } = this.range;
     const val = (value * (rw - SIZES.MARKER_MEDIAN_WIDTH)) / 100;
 
+    // We check if markerIn or markerOut are not dragging on top of each other
     if (val < this.markerIn || val > (this.markerOut + 7.5)) {
       return;
     }
@@ -318,10 +328,6 @@ export default class Range extends PureComponent {
   }
 
   clear = () => {
-    this.handleMarkersDoubleClick();
-  }
-
-  handleMarkersDoubleClick = () => {
     const { onDragMarkerReset } = this.props;
 
     if (!this.rangeIn || !this.rangeOut || !this.fill) {
@@ -366,7 +372,7 @@ export default class Range extends PureComponent {
               ref={(c) => { this.rangeIn = c; }}
               className={s(s.range__markers, s.range__markersIn)}
               onMouseDown={this.handleMarkerInDragStart}
-              onDoubleClick={this.handleMarkersDoubleClick}
+              onDoubleClick={this.clear}
             >
               <svg width="10" height="18" viewBox="0 0 10 18">
                 <path fille="#cad5db" d="M5.8,17.7c-0.4,0.4-0.9,0.4-1.3,0L0,13.3V1c0-0.6,0.4-1,1-1h8c0.6,0,1,0.4,1,1v12.3L5.8,17.7z" />
@@ -379,7 +385,7 @@ export default class Range extends PureComponent {
               ref={(c) => { this.rangeOut = c; }}
               className={s(s.range__markers, s.range__markersOut)}
               onMouseDown={this.handleMarkerOutDragStart}
-              onDoubleClick={this.handleMarkersDoubleClick}
+              onDoubleClick={this.clear}
             >
               <svg width="10" height="18" viewBox="0 0 10 18">
                 <path fille="#cad5db" d="M5.8,17.7c-0.4,0.4-0.9,0.4-1.3,0L0,13.3V1c0-0.6,0.4-1,1-1h8c0.6,0,1,0.4,1,1v12.3L5.8,17.7z" />

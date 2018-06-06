@@ -15,6 +15,8 @@ export default class Button extends PureComponent {
   render() {
     const { isVisible, isLoaded, onUIClose, onClick } = this.props;
 
+    // We don't want to show the default build-in button, if user
+    // chose to pass his own inClick function
     if (onClick) {
       return null;
     }
