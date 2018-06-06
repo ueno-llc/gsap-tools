@@ -81,7 +81,11 @@
     }
 
     .isTablet & {
+      top: 2px;
+
       margin-right: 12px;
+
+      transform: scale(0.9);
     }
   }
 
@@ -132,7 +136,12 @@
     }
 
     .isTablet & {
+      position: relative;
+      top: 2px;
+
       margin-left: 12px;
+
+      transform: scale(0.9);
     }
   }
 }
