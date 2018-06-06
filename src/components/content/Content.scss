@@ -82,7 +82,7 @@
     @include subheading;
 
     @media (min-width: $min-tablet) {
-      max-width: (410px/38px) * 1em;
+      max-width: (438px/38px) * 1em; // haha. line-breaks first subheading, doesnt break second. "perfect"
     }
   }
 

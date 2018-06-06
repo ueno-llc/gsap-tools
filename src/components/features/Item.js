@@ -8,7 +8,7 @@ export default class Item extends PureComponent {
   static propTypes = {
     icon: PropTypes.node,
     title: PropTypes.string,
-    text: PropTypes.string,
+    text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   }
 
   render() {

@@ -133,7 +133,9 @@ export default class App extends PureComponent {
                 />
               }
               title="Draggable UI"
-              text="“GRRR!! The box is right on top of my animation :(”. Well it isn't if you just drag it somewhere else."
+              text={(<span>“GRRR!! The box is right on top of my
+              animation <span style={{ whiteSpace: 'nowrap' }}>:( </span>”.
+                Well it isn’t if you just drag it somewhere else.</span>)}
             />
 
             <FeaturesItem
@@ -148,7 +150,7 @@ export default class App extends PureComponent {
                 />
               }
               title="Updated timelines"
-              text="Navigate between pages and GsapTools will automatically update with active timelines."
+              text="GsapTools automatically updates active timelines when you navigate between pages."
             />
 
             <FeaturesItem
@@ -260,7 +262,7 @@ componentWillUnmount() {
               <dt><b>isFixed</b> (default = true)</dt>
               <dd>With the draggable feature, GsapTools defaults
               to <code>position: fixed</code> on top of everything. But you can
-              pass false to this prop to position the tool however you like.
+              pass <code>false</code> to this prop to position the tool however you like.
               </dd>
 
               <dt><b>onClick</b> (default = undefined)</dt>
@@ -309,7 +311,7 @@ componentWillUnmount() {
 
         <Content
           title="But, why?"
-          subheading="Your friends at Ueno explain."
+          subheading="Your friends at Ueno explain"
         >
           <p>We <span role="img" aria-label="heart">❤️ </span> GSAP.
           We <span role="img" aria-label="heart">❤️ </span> it so much that we
@@ -337,10 +339,10 @@ componentWillUnmount() {
           title="You to the rescue"
           subheading="Lend a helping hand?"
         >
-          <p>If you noticied any issues, have any ideas, or want to open pull requests, go checkout
+          <p>If you noticied any issues, have any ideas, or want to open pull requests, go check out
           the <a href="https://github.com/ueno-llc/gsap-tools" target="_blank" rel="noopener noreferrer">github repository</a>.
           And if you want to know more about who we are and what we
-          do, <a href="http://ueno.co" target="_blank" rel="noopener noreferrer">there’s a link for that</a>.
+          do, <a href="http://ueno.co" target="_blank" rel="noopener noreferrer">here’s a link for that</a>.
           </p>
         </Content>
       </AppLayout>

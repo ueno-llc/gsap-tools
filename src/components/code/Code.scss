@@ -2,11 +2,14 @@
 
 .code {
   @include reset-all;
-  @include responsive-font(14, 16);
+  @include responsive-font(13, 16);
 
   opacity: 0;
 
   height: 0;
+
+  overflow-x: auto;
+  overflow-y: hidden;
 
   white-space: pre;
 
