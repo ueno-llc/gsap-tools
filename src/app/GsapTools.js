@@ -229,7 +229,7 @@ export default class GsapTools extends PureComponent {
   }
 
   initInOutWithStorage = () => {
-    const inPercent = Number(storage.get('IN_PERCENT')) || 0;
+    const inPercent = Number(storage.get('IN_PERCENT')) || 0.01;
     const outPercent = Number(storage.get('OUT_PERCENT')) || 100;
 
     if (inPercent > 0 || outPercent < 100) {
