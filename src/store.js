@@ -5,7 +5,6 @@ import isEqual from 'lodash/isEqual';
 
 class Store extends EventEmitter {
 
-  isEmpty = false
   timelines = new Map()
 
   // Return timelines IDs
@@ -35,12 +34,6 @@ class Store extends EventEmitter {
   }
 
   add(timeline, timelineId) {
-    this.isEmpty = false;
-
-    if (this.timelines.size <= 0) {
-      this.isEmpty = true;
-    }
-
     // If an id is specified on the `add` function, or
     // in the timeline constructor itself
     let id = timelineId || get(timeline, 'vars.id');

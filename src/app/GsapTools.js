@@ -59,10 +59,10 @@ export default class GsapTools extends PureComponent {
     // Get screen size
     this.onResize();
 
-    // Init the master timeline which will contain timelines to debug
+    // Init the master timeline which will contain animations to debug
     this.initMaster();
 
-    // Init controls from localstorage values
+    // Init controls from local storage values
     this.initUI();
 
     // Listen for keyboard shortcut
@@ -135,13 +135,21 @@ export default class GsapTools extends PureComponent {
   }
 
   onResize = () => {
+    const { isTablet: sIsTablet, isExpanded } = this.state;
     const isTablet = window.matchMedia('(max-width: 1020px)').matches;
 
-    if (isTablet !== this.isTablet) {
-      this.isTablet = isTablet;
+    if (isTablet !== sIsTablet) {
       this.setState({ isTablet });
 
-      if (this.isTablet) {
+      // If we are in tablet version, we need to remove the box position
+      // value to avoid any issue while displaying the box
+      if (sIsTablet) {
+        // If the tool was expanded after switching
+        // to tablet view, we minimize it again
+        if (isExpanded) {
+          this.handleExpand();
+        }
+
         if (this.container) {
           this.container.style.removeProperty('transform');
         }
@@ -152,14 +160,8 @@ export default class GsapTools extends PureComponent {
   }
 
   onStoreChange = () => {
-    // When a page navigation happens and the store is
-    // empty, let's clear existing in/out markers
-    // if (store.isEmpty && this.range) {
-    //   this.range.clear();
-    // }
-
-    // Clear master timeline to avoid concatenating
-    // timelines and tweens on master
+    // Clear master timeline to avoid
+    // concatenating animations on master
     if (this.master) {
       this.master.clear();
     }
@@ -202,7 +204,7 @@ export default class GsapTools extends PureComponent {
   }
 
   initUI = () => {
-    // Read values from props, localStorage and fallbacks
+    // Read values from props and local storage and add fallbacks otherwise
     const storageIsVisible = JSON.parse(storage.get('IS_VISIBLE'));
     const isExpanded = JSON.parse(storage.get('IS_EXPANDED'));
     const isVisible = storageIsVisible === null ? this.props.isVisible : storageIsVisible;
@@ -225,12 +227,14 @@ export default class GsapTools extends PureComponent {
       this.setState({ isLoaded: true });
     }, 300);
 
-    // If isVisible props is defined by default on gsap-tools
-    // component we set it on localStorage
+    // If isVisible props is defined by default on
+    // GsapTools component we set it on local storage
     storage.set('IS_VISIBLE', isVisible);
   }
 
   initInOutWithStorage = () => {
+    // We retrieve data from local storage and enable a inOutMaster timeline if we have
+    // any in/outs markers in local storage, we also avoid to divide by zero
     const inPercent = Number(storage.get('IN_PERCENT')) || 0.01;
     const outPercent = Number(storage.get('OUT_PERCENT')) || 100;
 
@@ -252,7 +256,7 @@ export default class GsapTools extends PureComponent {
 
     const { onClick, isVisible } = this.props;
 
-    // If user choose his own way to display gsap-tools
+    // If user choose his own way to display GsapTools
     if (onClick) {
       this.setState({ isVisible });
 
@@ -261,10 +265,10 @@ export default class GsapTools extends PureComponent {
 
     const newState = !this.state.isVisible;
 
-    // Build-in toggle for gsap-tools
+    // Build-in toggle for GsapTools
     this.setState({ isVisible: newState });
 
-    // Set the isVisible value in localStorage
+    // Set the isVisible value in local storage
     storage.set('IS_VISIBLE', newState);
   }
 
@@ -294,7 +298,7 @@ export default class GsapTools extends PureComponent {
    */
 
   initMaster = () => {
-    // Init a master timeline to wrap the child timeline to control it
+    // Init a master timeline to wrap the child animation and be able to control it
     this.master = new TimelineMax({
       onUpdate: () => {
         this.setState({ value: this.master.progress() * 100 });
@@ -314,14 +318,14 @@ export default class GsapTools extends PureComponent {
   }
 
   initInOut = ({ inTime, outTime } = {}) => {
-    // If we reset the inTime to zero we don't want to play the timeline
+    // If we reset the inTime to zero we don't want to play the inOutMaster timeline
     if (inTime <= 0) {
       return;
     }
 
     // If inTime or outTime params are undefined, it means we just want to play/pause
-    // the timeline. We check the current status and toggle play/pause on both
-    // timeline and button…
+    // the inOutMaster timeline. We check the current status and toggle play/pause on both
+    // inOutMaster timeline and buttons…
     if (!inTime && !outTime && this.inOutMaster) {
       if (this.inOutMasterComplete) {
         this.inOutMaster.restart();
@@ -358,7 +362,7 @@ export default class GsapTools extends PureComponent {
   }
 
   handleList = ({ currentTarget }) => {
-    // We get the timeline from the store
+    // We get the animation from the store
     const active = store.active(currentTarget.value);
 
     // Check status of new child
@@ -367,18 +371,18 @@ export default class GsapTools extends PureComponent {
     // Reset any markers if exists
     this.range.clear();
 
-    // Remove css properties from previous timeline
+    // Remove css properties from previous animation
     clearProps(this.master);
 
-    // We reset the previous timeline to initial state and clear
-    // it before adding the new one
+    // We reset the previous animation to initial state
+    // and clear it before adding the new one
     this.master.progress(0, false);
     this.master.clear();
 
-    // We add the new timeline, and restart
+    // We add the new animation, and restart
     this.master.add(active);
 
-    // We play the child timeline if it was paused
+    // We play the animation if it was paused
     if (isPaused) {
       active.restart();
     }
@@ -400,7 +404,7 @@ export default class GsapTools extends PureComponent {
     // Change the timescale on the master timeline
     this.master.timeScale(value);
 
-    // Also change it on the inOutMaster timeline if initialized
+    // Also change it on the inOutMaster timeline if it's initialized
     if (this.inOutMaster) {
       this.inOutMaster.timeScale(value);
     }
@@ -408,7 +412,7 @@ export default class GsapTools extends PureComponent {
     // We set a state to send it to Header component
     this.setState({ timeScale: Number(value) });
 
-    // Set the timeScale value in localStorage to be pre-populated after reload
+    // Set the timeScale value in local storage to be pre-populated after reload
     storage.set('TIME_SCALE', value);
   }
 
@@ -417,15 +421,14 @@ export default class GsapTools extends PureComponent {
 
     this.setState({ isExpanded });
 
-    // Set the isExpanded value in localStorage
+    // Set the isExpanded value in local storage
     storage.set('IS_EXPANDED', isExpanded);
   }
 
   handleRewind = () => {
     if (this.inTime || this.outTime) {
-      // If inTime or outTime are defined, we want to control the inOutTimeline
-      // In this case, we check either if the inOutMaster timeline is paused or not
-
+      // If inTime or outTime are defined, we want to control the inOutMaster timeline
+      // In this case, we check either if the inOutMaster timeline is paused or not…
       if (this.inOutMaster.paused()) {
         this.inOutMaster.restart();
         this.inOutMaster.pause();
@@ -435,14 +438,12 @@ export default class GsapTools extends PureComponent {
         this.setState({ playIcon: false });
       }
     } else if (this.master.paused()) {
-      // Otherwise, it means we want to control the default master timeline
+      // … otherwise, it means we want to control the default master timeline
       // We do the same by checking if the master timeline is paused or not
-
       this.master.seek(0);
       this.setState({ value: 0, playIcon: true });
     } else {
-      // And if the master is not paused, we just restart it
-
+      // And if the master timeline is not paused, we just restart it
       this.master.restart();
       this.setState({ playIcon: false });
     }
@@ -450,8 +451,12 @@ export default class GsapTools extends PureComponent {
 
   handlePlayPause = () => {
     if (this.inTime || this.outTime) {
+      // If inTime or outTime are defined we will handle the
+      // play/pause state on the inOutMaster function
       this.initInOut();
     } else if (this.master.totalProgress() === 1) {
+      // … otherwise, we check the status of the
+      // master timeline to know how to handle it
       this.master.restart();
       this.setState({ playIcon: false });
     } else if (this.master.paused()) {
@@ -472,8 +477,8 @@ export default class GsapTools extends PureComponent {
   }
 
   handleRange = (value) => {
-    // We use this flag to not start the timeline from the beginning
-    // if it's looped and we are dragging the handle until the end
+    // We use the isChanging flag to not start the master timeline from the
+    // beginning if it's looped and we are dragging the handle until the end
     this.isChanging = true;
 
     const progress = (value / 100).toFixed(2);
@@ -520,6 +525,7 @@ export default class GsapTools extends PureComponent {
   }
 
   handleMarkerInRange = (value) => {
+    // We pause the inOutMaster timeline if one is defined
     if (this.inOutMaster) {
       this.inOutMaster.pause();
     }
@@ -541,6 +547,7 @@ export default class GsapTools extends PureComponent {
   }
 
   handleMarkerOutRange = (value) => {
+    // We pause the inOutMaster timeline if one is defined
     if (this.inOutMaster) {
       this.inOutMaster.pause();
     }
