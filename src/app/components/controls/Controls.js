@@ -10,7 +10,6 @@ export default class Controls extends PureComponent {
     isLoop: PropTypes.bool,
     isActive: PropTypes.bool,
     isExpanded: PropTypes.bool,
-    isTablet: PropTypes.bool,
     onRewind: PropTypes.func,
     onPlayPause: PropTypes.func,
     onLoop: PropTypes.func,
@@ -22,14 +21,13 @@ export default class Controls extends PureComponent {
       isLoop,
       isActive,
       isExpanded,
-      isTablet,
       onRewind,
       onPlayPause,
       onLoop,
     } = this.props;
 
     return (
-      <div className={s(s.controls, { isLoop, isActive, isExpanded, isTablet })}>
+      <div className={s(s.controls, { isLoop, isActive, isExpanded })}>
         <div className={s.controls__container}>
           <button className={s.controls__rewind} onClick={onRewind}>
             <svg width="17.9" height="20.4" viewBox="0 0 17.9 20.4">

@@ -12,15 +12,16 @@
 
   transition: width 240ms;
 
-  &.isExpanded,
-  &.isTablet {
+  &.isExpanded {
     padding-left: 0;
 
     width: 82.25%;
   }
 
-  &.isTablet {
-    width: 65%;
+  @media (max-width: $breakpoint) {
+    position: relative;
+
+    padding: 0 25px 0 12.5px;
   }
 
   &__container {

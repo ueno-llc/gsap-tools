@@ -7,20 +7,17 @@
 
   padding: 25px;
 
-  &.isExpanded,
-  &.isTablet {
+  &.isExpanded {
     position: absolute;
     bottom: -6px;
     left: 0;
     z-index: 3;
-  }
 
-  &.isExpanded {
     width: 17.75%;
   }
 
-  &.isTablet {
-    width: inherit;
+  @media (max-width: $breakpoint) {
+    padding: 0 12.5px 0 25px;
   }
 
   &__container {
@@ -29,8 +26,11 @@
 
     margin-top: 30px;
 
-    .isExpanded &,
-    .isTablet & {
+    .isExpanded & {
+      margin-top: 0;
+    }
+
+    @media (max-width: $breakpoint) {
       margin-top: 0;
     }
   }
@@ -68,20 +68,19 @@
   &__rewind {
     margin-right: 40px;
 
-    .isExpanded &,
-    .isTablet & {
+    .isExpanded & {
       position: relative;
       left: -2px;
 
       margin-right: 20px;
-    }
 
-    .isExpanded & {
       height: 16px;
     }
 
-    .isTablet & {
+    @media (max-width: $breakpoint) {
+      position: relative;
       top: 2px;
+      left: -2px;
 
       margin-right: 12px;
 
@@ -106,8 +105,18 @@
       }
     }
 
-    .isExpanded &,
-    .isTablet & {
+    .isExpanded & {
+      margin-top: 2px;
+
+      width: 30px;
+      height: 30px;
+
+      svg { // stylelint-disable-line
+        height: 29px;
+      }
+    }
+
+    @media (max-width: $breakpoint) {
       margin-top: 2px;
 
       width: 30px;
@@ -135,7 +144,7 @@
       height: 16px;
     }
 
-    .isTablet & {
+    @media (max-width: $breakpoint) {
       position: relative;
       top: 2px;
 

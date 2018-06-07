@@ -109,7 +109,7 @@ export default class GsapTools extends PureComponent {
       this.handleUIClose();
     } else if (e.keyCode === 69) { // E char
       this.handleExpand();
-    } else if (e.keyCode === 82) { // R char
+    } else if (e.keyCode === 82 && !(e.metaKey || e.ctrlKey)) { // R char
       this.range.clear();
     } else if (e.keyCode === 37) { // Left arrow
       this.handleRewind();
@@ -142,6 +142,10 @@ export default class GsapTools extends PureComponent {
       this.setState({ isTablet });
 
       if (this.isTablet) {
+        if (this.container) {
+          this.container.style.removeProperty('transform');
+        }
+
         storage.remove('BOX_POSITION');
       }
     }
@@ -150,9 +154,9 @@ export default class GsapTools extends PureComponent {
   onStoreChange = () => {
     // When a page navigation happens and the store is
     // empty, let's clear existing in/out markers
-    if (store.isEmpty && this.range) {
-      this.range.clear();
-    }
+    // if (store.isEmpty && this.range) {
+    //   this.range.clear();
+    // }
 
     // Clear master timeline to avoid concatenating
     // timelines and tweens on master
@@ -610,7 +614,6 @@ export default class GsapTools extends PureComponent {
         <div
           className={s(s.gsapTools, {
             [s.gsapToolsFixed]: isFixed,
-            isTablet,
             isExpanded,
             isVisible,
           })}
@@ -642,30 +645,31 @@ export default class GsapTools extends PureComponent {
                 />
               )}
 
-              <Controls
-                isPause={playIcon}
-                isLoop={isLoop}
-                isActive={isActive}
-                isExpanded={isExpanded}
-                isTablet={isTablet}
-                onRewind={this.handleRewind}
-                onPlayPause={this.handlePlayPause}
-                onLoop={this.handleLoop}
-              />
+              <div className={s.gsapTools__wrapper}>
+                <Controls
+                  isPause={playIcon}
+                  isLoop={isLoop}
+                  isActive={isActive}
+                  isExpanded={isExpanded}
+                  onRewind={this.handleRewind}
+                  onPlayPause={this.handlePlayPause}
+                  onLoop={this.handleLoop}
+                />
 
-              <Range
-                value={value}
-                isActive={isActive}
-                isExpanded={isExpanded}
-                isTablet={isTablet}
-                onDrag={this.handleRange}
-                onDragStart={this.handleRangeStart}
-                onDragEnd={this.handleRangeEnd}
-                onDragMarkerIn={this.handleMarkerInRange}
-                onDragMarkerOut={this.handleMarkerOutRange}
-                onDragMarkerReset={this.handleMarkerReset}
-                ref={(el) => { this.range = el; }}
-              />
+                <Range
+                  value={value}
+                  isActive={isActive}
+                  isExpanded={isExpanded}
+                  isTablet={isTablet}
+                  onDrag={this.handleRange}
+                  onDragStart={this.handleRangeStart}
+                  onDragEnd={this.handleRangeEnd}
+                  onDragMarkerIn={this.handleMarkerInRange}
+                  onDragMarkerOut={this.handleMarkerOutRange}
+                  onDragMarkerReset={this.handleMarkerReset}
+                  ref={(el) => { this.range = el; }}
+                />
+              </div>
             </div>
 
             <Button

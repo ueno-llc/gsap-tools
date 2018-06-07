@@ -19,7 +19,7 @@
     bottom: 30px;
     z-index: 9999;
 
-    &.isTablet {
+    @media (max-width: $breakpoint) {
       right: 0;
       bottom: 0;
 
@@ -34,7 +34,7 @@
   &.isExpanded {
     width: 960px;
 
-    &.isTablet {
+    @media (max-width: $breakpoint) {
       width: 100%;
     }
   }
@@ -90,11 +90,20 @@
       height: 420px;
     }
 
-    .isTablet & {
+    @media (max-width: $breakpoint) {
       height: 125px;
 
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
+    }
+  }
+
+  &__wrapper {
+    @media (max-width: $breakpoint) {
+      display: flex;
+      align-items: center;
+
+      height: calc(100% - #{$gsap-header});
     }
   }
 }
