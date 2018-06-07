@@ -47,7 +47,7 @@
     pointer-events: none;
 
     path { // stylelint-disable-line
-      transition: fill 240ms;
+      transition: fill $transition;
 
       fill: $color-grey;
     }

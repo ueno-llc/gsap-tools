@@ -8,6 +8,8 @@ import { SIZES } from 'utils/constants';
 
 import s from './Range.scss';
 
+const TRANSITION = parseInt(s.transition, 10);
+
 export default class Range extends PureComponent {
 
   static propTypes = {
@@ -43,8 +45,10 @@ export default class Range extends PureComponent {
     this.isExpanding = false;
 
     // Let's calculate the size of the range if we change screen size
-    if (props.isTablet && props.isTablet !== this.props.isTablet) {
-      this.initRange();
+    if (props.isTablet !== this.props.isTablet) {
+      // We need to wait the end of the css transition between tablet
+      // and desktop to get the new width of the range element again
+      setTimeout(this.initRange, TRANSITION);
     }
 
     // We init markers if we had any on localstorage
@@ -64,7 +68,7 @@ export default class Range extends PureComponent {
         this.initMarkers();
         this.handleProgress(props);
         this.isExpanding = false;
-      }, 240);
+      }, TRANSITION);
     }
 
     // If the value of the range changes, let's update the

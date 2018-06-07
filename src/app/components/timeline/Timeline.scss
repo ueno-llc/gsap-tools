@@ -19,7 +19,7 @@
   background-color: rgba(#000, 0.8);
   border-radius: 6px;
 
-  transition: transform 240ms;
+  transition: transform $transition;
   transform: scale(0.9);
 }
 

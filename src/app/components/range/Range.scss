@@ -1,5 +1,9 @@
 @import '~styles/config';
 
+:export {
+  transition: $transition;
+}
+
 .range {
   position: absolute;
   right: 0;
@@ -10,7 +14,7 @@
 
   width: 100%;
 
-  transition: width 240ms;
+  transition: width $transition;
 
   &.isExpanded {
     padding-left: 0;
@@ -41,7 +45,7 @@
     path { // stylelint-disable-line
       fill: $color-grey;
 
-      transition: fill 240ms;
+      transition: fill $transition;
     }
 
     &:hover {
@@ -54,7 +58,7 @@
       left: 0;
 
       .isExpanding & {
-        transition: left 120ms;
+        transition: left $transition / 2;
       }
     }
 
@@ -62,7 +66,7 @@
       right: 0;
 
       .isExpanding & {
-        transition: right 120ms;
+        transition: right $transition / 2;
       }
     }
   }
@@ -89,7 +93,7 @@
     transform: translate3d(-50%, -50%, 0);
 
     .isExpanding & {
-      transition: left 120ms;
+      transition: left $transition / 2;
     }
   }
 
@@ -125,10 +129,10 @@
     background-color: $color-blue;
     border-radius: 10px;
 
-    transition: opacity 240ms;
+    transition: opacity $transition;
 
     .isExpanding & {
-      transition: width 120ms;
+      transition: width $transition / 2;
     }
 
     .isActive & {
