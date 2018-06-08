@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import Draggable from 'react-draggable';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
-import { TimelineMax } from 'gsap';
+import { TimelineMax, TimelineLite } from 'gsap';
+import { decycle, retrocycle } from 'json-cycle';
 
 import storage from 'utils/storage';
 import { SPEEDS } from 'utils/constants';
@@ -171,6 +172,11 @@ export default class GsapTools extends PureComponent {
 
     if (isEmpty(active)) {
       return;
+    }
+
+    // We store an object of the animations if isMaster is true
+    if (get(active, 'data.isMaster')) {
+      // this.storedMaster = JSON.stringify(decycle(active));
     }
 
     // Add the active animation to the master
@@ -379,8 +385,19 @@ export default class GsapTools extends PureComponent {
     this.master.progress(0, false);
     this.master.clear();
 
+    if (get(active, 'data.isMaster') && this.storedMaster) {
+      // const storedMaster = retrocycle(JSON.parse(this.storedMaster));
+      // const parsedMaster = new TimelineLite(storedMaster);
+      // console.log('parsedMaster', parsedMaster.vars);
+      // console.log('active', active);
+
+      this.master.add(active);
+    } else {
+      this.master.add(active);
+    }
+
     // We add the new animation, and restart
-    this.master.add(active);
+    // this.master.add(active);
 
     // We play the animation if it was paused
     if (isPaused) {

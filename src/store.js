@@ -33,7 +33,7 @@ class Store extends EventEmitter {
     return [];
   }
 
-  add(animation, animationId) {
+  add(animation, { animationId = undefined, isMaster = false } = {}) {
     // If an id is specified on the `add` function,
     // or in the animation constructor itself
     let id = animationId || get(animation, 'vars.id');
@@ -41,7 +41,7 @@ class Store extends EventEmitter {
 
     // We store in the data object, if the animation
     // is a animation or just a tween
-    animation.data = { ...animation.data, isTween };
+    animation.data = { ...animation.data, isTween, isMaster };
 
     // Otherwise, let's generated an id based on
     // the index of the actual animations stored
