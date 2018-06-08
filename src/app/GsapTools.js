@@ -192,7 +192,7 @@ export default class GsapTools extends PureComponent {
     this.master.paused(isPaused);
 
     this.setState({
-      isLoop: this.isInfinite,
+      isLoop: this.isInfinite || this.state.isLoop,
       playIcon: isPaused,
       active,
     });
