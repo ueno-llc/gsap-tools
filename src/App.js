@@ -36,7 +36,7 @@ export default class App extends PureComponent {
           <h2>Installation</h2>
 
           <Code>
-            {'npm install --save-dev gsap-tools'}
+            {'npm install gsap-tools'}
           </Code>
 
           <Features heading={<h2>Features</h2>}>
