@@ -3,8 +3,23 @@
   "description": "A simple tool to debug GSAP animations",
   "version": "1.0.0",
   "main": "dist/gsap-tools.js",
-  "author": "Ueno.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ueno-llc/gsap-tools.git"
+  },
+  "keywords": [
+    "react",
+    "gsap",
+    "animations",
+    "Timeline",
+    "Tween"
+  ],
+  "homepage": "https://ueno-llc.github.io/gsap-tools",
+  "author": "Ueno. <hi@ueno.co> (http://ueno.co)",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ueno-llc/gsap-tools/issues"
+  },
   "scripts": {
     "analyze": "source-map-explorer dist/gsap-tools.*",
     "clean": "rimraf dist",
