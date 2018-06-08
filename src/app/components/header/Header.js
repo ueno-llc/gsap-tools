@@ -67,7 +67,7 @@ export default class Header extends PureComponent {
             </svg>
           </div>
         ) : (
-          <div className={s(s.header__select, s.header__selectEmpty)}>No timeline</div>
+          <div className={s(s.header__select, s.header__selectEmpty)}>No animation</div>
         )}
 
         <div className={s.header__duration}>

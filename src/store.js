@@ -5,80 +5,79 @@ import isEqual from 'lodash/isEqual';
 
 class Store extends EventEmitter {
 
-  timelines = new Map()
+  animations = new Map()
 
-  // Return timelines IDs
+  // Return animations IDs
   get keys() {
-    return Array.from(this.timelines.keys());
+    return Array.from(this.animations.keys());
   }
 
-  // Return timelines gsap objects
+  // Return animations gsap objects
   get values() {
-    return Array.from(this.timelines.values());
+    return Array.from(this.animations.values());
   }
 
   active(id) {
     // If no id is specified and we have at least
-    // one timeline saved, we return the first one
-    if (!id && this.timelines.size > 0) {
+    // one animation saved, we return the first one
+    if (!id && this.animations.size > 0) {
       return this.values[0];
     }
 
-    // Check if the specified timeline exists and return it
-    if (this.timelines.has(id)) {
-      return this.timelines.get(id);
+    // Check if the specified animation exists and return it
+    if (this.animations.has(id)) {
+      return this.animations.get(id);
     }
 
     // Return an empty array if we don't have anything
     return [];
   }
 
-  add(timeline, timelineId) {
-    // If an id is specified on the `add` function, or
-    // in the timeline constructor itself
-    let id = timelineId || get(timeline, 'vars.id');
-
-    const isTween = timeline instanceof TweenLite;
+  add(animation, animationId) {
+    // If an id is specified on the `add` function,
+    // or in the animation constructor itself
+    let id = animationId || get(animation, 'vars.id');
+    const isTween = animation instanceof TweenLite;
 
     // We store in the data object, if the animation
-    // is a timeline or just a tween
-    timeline.data = { ...timeline.data, isTween };
+    // is a animation or just a tween
+    animation.data = { ...animation.data, isTween };
 
-    // Otherwise, let's generated an id based on the index of
-    // the actual timelines stored
+    // Otherwise, let's generated an id based on
+    // the index of the actual animations stored
     if (!id) {
       const name = isTween ? 'Tween' : 'Timeline';
 
-      id = `${name} ${this.timelines.size + 1}`;
+      id = `${name} ${this.animations.size + 1}`;
     }
 
     // As soon as we have the id, we check it doesn't already
-    // exists and then we set the timeline in the map
-    if (!this.timelines.has(id)) {
-      this.timelines.set(id, timeline);
+    // exists and then we set the animation in the map
+    if (!this.animations.has(id)) {
+      this.animations.set(id, animation);
     }
 
     // Event emitted to re-render on the tool
     this.emit('change');
 
-    // Retun a function to remove a timeline from the map
+    // Retun a function to remove a animation from the map
     // without specifying any id
-    return () => this.remove(timeline);
+    return () => this.remove(animation);
   }
 
-  remove(timeline, timelineId) {
+  remove(animation, animationId) {
     // Check if we have an id specified
-    const id = timelineId || get(timeline, 'vars.id');
+    const id = animationId || get(animation, 'vars.id');
 
     if (id) {
-      // Remove the timeline with the specified id
-      this.timelines.delete(id);
+      // Remove the animation with the specified id
+      this.animations.delete(id);
     } else {
       // Otherwise, loop through the `Map()` and
       // use the key to remove it
-      this.timelines.forEach((v, k) => {
-        if (isEqual(v, timeline)) {
-          this.timelines.delete(k);
+      this.animations.forEach((v, k) => {
+        if (isEqual(v, animation)) {
+          this.animations.delete(k);
         }
       });
     }

@@ -59,7 +59,7 @@ export default class GsapTools extends PureComponent {
     // Get screen size
     this.onResize();
 
-    // Init the master timeline which will contain animations to debug
+    // Init the master which will contain animations to debug
     this.initMaster();
 
     // Init controls from local storage values
@@ -160,7 +160,7 @@ export default class GsapTools extends PureComponent {
   }
 
   onStoreChange = () => {
-    // Clear master timeline to avoid
+    // Clear master to avoid
     // concatenating animations on master
     if (this.master) {
       this.master.clear();
@@ -173,10 +173,10 @@ export default class GsapTools extends PureComponent {
       return;
     }
 
-    // Add the active animation to the master timeline
+    // Add the active animation to the master
     this.master.add(active);
 
-    // Check the status of the animation to define the master timeline
+    // Check the status of the animation to define the master
     const isPaused = active.paused();
 
     // Check if it's an infinite animation
@@ -233,7 +233,7 @@ export default class GsapTools extends PureComponent {
   }
 
   initInOutWithStorage = () => {
-    // We retrieve data from local storage and enable a inOutMaster timeline if we have
+    // We retrieve data from local storage and enable a inOutMaster if we have
     // any in/outs markers in local storage, we also avoid to divide by zero
     const inPercent = Number(storage.get('IN_PERCENT')) || 0.01;
     const outPercent = Number(storage.get('OUT_PERCENT')) || 100;
@@ -292,13 +292,13 @@ export default class GsapTools extends PureComponent {
   }
 
   /*
-   * Functions to manage GSAP's timelines
-   * All the methods here are made to control timeline,
-   * play/pause, loop, restart, timescale, markers
+   * Functions to manage GSAP's animations
+   * All the methods here are made to control animations,
+   * play/pause, loop, restart, timescale, markers, expand
    */
 
   initMaster = () => {
-    // Init a master timeline to wrap the child animation and be able to control it
+    // Init a master to wrap the child animation and be able to control it
     this.master = new TimelineMax({
       onUpdate: () => {
         this.setState({ value: this.master.progress() * 100 });
@@ -318,14 +318,14 @@ export default class GsapTools extends PureComponent {
   }
 
   initInOut = ({ inTime, outTime } = {}) => {
-    // If we reset the inTime to zero we don't want to play the inOutMaster timeline
+    // If we reset the inTime to zero we don't want to play the inOutMaster
     if (inTime <= 0) {
       return;
     }
 
     // If inTime or outTime params are undefined, it means we just want to play/pause
-    // the inOutMaster timeline. We check the current status and toggle play/pause on both
-    // inOutMaster timeline and buttons…
+    // the inOutMaster. We check the current status and toggle play/pause on both
+    // inOutMaster and buttons…
     if (!inTime && !outTime && this.inOutMaster) {
       if (this.inOutMasterComplete) {
         this.inOutMaster.restart();
@@ -343,7 +343,7 @@ export default class GsapTools extends PureComponent {
 
     // … otherwise, if we have either inTime or outTime params defined, it means
     // we change the tweenFromTo values, so we need to create a new instance of
-    // tweenFromTo from the master timeline.
+    // tweenFromTo from the master.
     this.inOutMaster = this.master.tweenFromTo(this.inTime, this.outTime, {
       onStart: () => {
         this.inOutMasterComplete = false;
@@ -387,7 +387,7 @@ export default class GsapTools extends PureComponent {
       active.restart();
     }
 
-    // And we restart the master timeline
+    // And we restart the master
     this.master.restart();
 
     // We set the handle value at zero
@@ -401,10 +401,10 @@ export default class GsapTools extends PureComponent {
   handleTimeScale = (e) => {
     const value = typeof e === 'number' ? e : e.currentTarget.value;
 
-    // Change the timescale on the master timeline
+    // Change the timescale on the master
     this.master.timeScale(value);
 
-    // Also change it on the inOutMaster timeline if it's initialized
+    // Also change it on the inOutMaster if it's initialized
     if (this.inOutMaster) {
       this.inOutMaster.timeScale(value);
     }
@@ -427,8 +427,8 @@ export default class GsapTools extends PureComponent {
 
   handleRewind = () => {
     if (this.inTime || this.outTime) {
-      // If inTime or outTime are defined, we want to control the inOutMaster timeline
-      // In this case, we check either if the inOutMaster timeline is paused or not…
+      // If inTime or outTime are defined, we want to control the inOutMaster
+      // In this case, we check either if the inOutMaster is paused or not…
       if (this.inOutMaster.paused()) {
         this.inOutMaster.restart();
         this.inOutMaster.pause();
@@ -438,12 +438,12 @@ export default class GsapTools extends PureComponent {
         this.setState({ playIcon: false });
       }
     } else if (this.master.paused()) {
-      // … otherwise, it means we want to control the default master timeline
-      // We do the same by checking if the master timeline is paused or not
+      // … otherwise, it means we want to control the default master
+      // We do the same by checking if the master is paused or not
       this.master.seek(0);
       this.setState({ value: 0, playIcon: true });
     } else {
-      // And if the master timeline is not paused, we just restart it
+      // And if the master is not paused, we just restart it
       this.master.restart();
       this.setState({ playIcon: false });
     }
@@ -456,7 +456,7 @@ export default class GsapTools extends PureComponent {
       this.initInOut();
     } else if (this.master.totalProgress() === 1) {
       // … otherwise, we check the status of the
-      // master timeline to know how to handle it
+      // master to know how to handle it
       this.master.restart();
       this.setState({ playIcon: false });
     } else if (this.master.paused()) {
@@ -477,7 +477,7 @@ export default class GsapTools extends PureComponent {
   }
 
   handleRange = (value) => {
-    // We use the isChanging flag to not start the master timeline from the
+    // We use the isChanging flag to not start the master from the
     // beginning if it's looped and we are dragging the handle until the end
     this.isChanging = true;
 
@@ -489,7 +489,7 @@ export default class GsapTools extends PureComponent {
   }
 
   handleRangeStart = () => {
-    // Let's keep in memory if the master or inOutMaster timelines
+    // Let's keep in memory if the master or inOutMasters
     // were paused or not when we start dragging the handle
     this.masterWasPlaying = !this.master.paused();
 
@@ -509,7 +509,7 @@ export default class GsapTools extends PureComponent {
   handleRangeEnd = () => {
     this.isChanging = false;
 
-    // After we release the handle, if master or inOutMaster timelines
+    // After we release the handle, if master or inOutMasters
     // was playing when we started dragging, we will just resume them
     if (this.masterWasPlaying) {
       this.master.play();
@@ -525,7 +525,7 @@ export default class GsapTools extends PureComponent {
   }
 
   handleMarkerInRange = (value) => {
-    // We pause the inOutMaster timeline if one is defined
+    // We pause the inOutMaster if one is defined
     if (this.inOutMaster) {
       this.inOutMaster.pause();
     }
@@ -547,7 +547,7 @@ export default class GsapTools extends PureComponent {
   }
 
   handleMarkerOutRange = (value) => {
-    // We pause the inOutMaster timeline if one is defined
+    // We pause the inOutMaster if one is defined
     if (this.inOutMaster) {
       this.inOutMaster.pause();
     }
@@ -592,7 +592,7 @@ export default class GsapTools extends PureComponent {
 
   render() {
     const { onClick, isFixed } = this.props;
-    const isActive = store.timelines.size > 0;
+    const isActive = store.animations.size > 0;
 
     const {
       value,
