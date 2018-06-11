@@ -369,6 +369,7 @@ export default class GsapTools extends PureComponent {
 
     // Check status of new child
     const isPaused = active.paused();
+    const isTween = get(active, 'data.isTween');
 
     // Reset any markers if exists
     this.range.clear();
@@ -397,6 +398,7 @@ export default class GsapTools extends PureComponent {
       playIcon: false,
       value: 0,
       active,
+      isTween,
     });
   }
 
