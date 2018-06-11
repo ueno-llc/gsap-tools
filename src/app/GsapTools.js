@@ -160,6 +160,8 @@ export default class GsapTools extends PureComponent {
   }
 
   onStoreChange = () => {
+    const isLoopStored = storage.get('LOOP') === 'true';
+
     // Clear master to avoid
     // concatenating animations on master
     if (this.master) {
@@ -179,11 +181,10 @@ export default class GsapTools extends PureComponent {
     // Check animation's status to define the master
     const isPaused = active.paused();
     const isTween = get(active, 'data.isTween');
+    const isInfinite = active.totalDuration() === 999999999999;
+    const isLoop = isLoopStored || isInfinite;
 
-    // Check if it's an infinite animation
-    this.isInfinite = active.totalDuration() === 999999999999;
-
-    if (this.isInfinite) {
+    if (isInfinite) {
       const duration = active.duration();
 
       active.repeat(0);
@@ -195,8 +196,9 @@ export default class GsapTools extends PureComponent {
     this.setState({
       playIcon: isPaused,
       active,
-      isLoop: this.isInfinite || this.state.isLoop,
+      isLoop,
       isTween,
+      isInfinite,
     });
 
     this.initInOutWithStorage();
@@ -610,6 +612,7 @@ export default class GsapTools extends PureComponent {
       isLoaded,
       isTablet,
       isTween,
+      isInfinite,
     } = this.state;
 
     return (
@@ -639,7 +642,7 @@ export default class GsapTools extends PureComponent {
                 isExpanded={isExpanded}
                 isTween={isTween}
                 isTablet={isTablet}
-                isInfinite={this.isInfinite}
+                isInfinite={isInfinite}
                 onList={this.handleList}
                 onTimeScale={this.handleTimeScale}
                 onUIClose={this.handleUIClose}
