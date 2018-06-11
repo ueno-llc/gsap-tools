@@ -176,8 +176,9 @@ export default class GsapTools extends PureComponent {
     // Add the active animation to the master
     this.master.add(active);
 
-    // Check the status of the animation to define the master
+    // Check animation's status to define the master
     const isPaused = active.paused();
+    const isTween = get(active, 'data.isTween');
 
     // Check if it's an infinite animation
     this.isInfinite = active.totalDuration() === 999999999999;
@@ -192,9 +193,10 @@ export default class GsapTools extends PureComponent {
     this.master.paused(isPaused);
 
     this.setState({
-      isLoop: this.isInfinite || this.state.isLoop,
       playIcon: isPaused,
       active,
+      isLoop: this.isInfinite || this.state.isLoop,
+      isTween,
     });
 
     this.initInOutWithStorage();
@@ -605,9 +607,8 @@ export default class GsapTools extends PureComponent {
       isLoop,
       isLoaded,
       isTablet,
+      isTween,
     } = this.state;
-
-    const isTween = get(active, 'data.isTween');
 
     return (
       <Draggable
