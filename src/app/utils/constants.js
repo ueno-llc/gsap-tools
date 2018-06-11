@@ -10,6 +10,7 @@ export const LOCAL_STORAGE = {
   IS_EXPANDED: '_gsapToolsIsExpanded',
   BOX_POSITION: '_gsapToolsBoxPosition',
   LOOP: '_gsapToolsIsLoop',
+  REVERSED: '_gsapToolsIsReversed',
   TIME_SCALE: '_gsapToolsTimeScale',
   IN_PERCENT: '_gsapToolsInPercent',
   OUT_PERCENT: '_gsapToolsOutPercent',

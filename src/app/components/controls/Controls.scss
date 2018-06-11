@@ -35,7 +35,7 @@
     }
   }
 
-  &__rewind,
+  &__reverse,
   &__playPause,
   &__loop {
     @include reset-button;
@@ -65,14 +65,18 @@
     }
   }
 
-  &__rewind {
-    margin-right: 40px;
+  &__reverse {
+    margin-left: auto;
+
+    .isActive.isReversed & {
+      path { // stylelint-disable-line
+        fill: #000;
+      }
+    }
 
     .isExpanded & {
       position: relative;
       left: -2px;
-
-      margin-right: 20px;
 
       height: 16px;
     }
@@ -82,14 +86,15 @@
       top: 2px;
       left: -2px;
 
-      margin-right: 12px;
-
       transform: scale(0.9);
     }
   }
 
   &__playPause {
     justify-content: center;
+
+    margin-left: 35px;
+    margin-right: 35px;
 
     width: 40px;
     height: 40px;
@@ -106,7 +111,7 @@
     }
 
     .isExpanded & {
-      margin-top: 2px;
+      margin: 2px 20px 0;
 
       width: 30px;
       height: 30px;
@@ -117,7 +122,7 @@
     }
 
     @media (max-width: $breakpoint) {
-      margin-top: 2px;
+      margin: 2px 20px 0;
 
       width: 30px;
       height: 30px;
@@ -129,7 +134,6 @@
   }
 
   &__loop {
-    margin-left: 40px;
     margin-right: auto;
 
     .isActive.isLoop & {
@@ -139,16 +143,12 @@
     }
 
     .isExpanded & {
-      margin-left: 20px;
-
       height: 16px;
     }
 
     @media (max-width: $breakpoint) {
       position: relative;
       top: 2px;
-
-      margin-left: 12px;
 
       transform: scale(0.9);
     }

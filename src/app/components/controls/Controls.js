@@ -10,7 +10,8 @@ export default class Controls extends PureComponent {
     isLoop: PropTypes.bool,
     isActive: PropTypes.bool,
     isExpanded: PropTypes.bool,
-    onRewind: PropTypes.func,
+    isReversed: PropTypes.bool,
+    onReverse: PropTypes.func,
     onPlayPause: PropTypes.func,
     onLoop: PropTypes.func,
   }
@@ -21,17 +22,19 @@ export default class Controls extends PureComponent {
       isLoop,
       isActive,
       isExpanded,
-      onRewind,
+      isReversed,
+      onReverse,
       onPlayPause,
       onLoop,
     } = this.props;
 
     return (
-      <div className={s(s.controls, { isLoop, isActive, isExpanded })}>
+      <div className={s(s.controls, { isLoop, isActive, isExpanded, isReversed })}>
         <div className={s.controls__container}>
-          <button className={s.controls__rewind} onClick={onRewind}>
-            <svg width="17.9" height="20.4" viewBox="0 0 17.9 20.4">
-              <path d="M17.9,18.4c0,0.4-0.1,0.8-0.3,1.1c-0.6,0.9-1.9,1.2-2.8,0.5L2.5,11.8c-0.2-0.1-0.4-0.3-0.5-0.5v6.8c0,0.6-0.4,1-1,1s-1-0.4-1-1V1.7c0-0.6,0.4-1,1-1s1,0.4,1,1v7.3c0.1-0.2,0.3-0.4,0.5-0.5l12.2-8.2C15.1,0.1,15.5,0,15.9,0c1.1,0,2,0.9,2,2L17.9,18.4z" />
+          <button className={s.controls__reverse} onClick={onReverse}>
+            <svg width="18.9" height="18.8">
+              <path d="M3.2,8.4c0.2,0.2,0.5,0.3,0.7,0.3s0.5-0.1,0.7-0.3C5,8,5,7.4,4.7,7L3.2,5.4h14.5c0.6,0,1-0.4,1-1s-0.4-1-1-1H3.2l1.5-1.7c0.4-0.4,0.3-1-0.1-1.4S3.6,0,3.2,0.4l-3,3.3c-0.3,0.4-0.3,1,0,1.3L3.2,8.4z" />
+              <path d="M18.6,13.7l-3-3.3c-0.4-0.4-1-0.4-1.4-0.1c-0.4,0.4-0.4,1-0.1,1.4l1.5,1.7H1.2c-0.6,0-1,0.4-1,1s0.4,1,1,1h14.5l-1.5,1.7c-0.4,0.4-0.3,1,0.1,1.4c0.2,0.2,0.4,0.3,0.7,0.3s0.5-0.1,0.7-0.3l3-3.3C19,14.7,19,14.1,18.6,13.7z" />
             </svg>
           </button>
 
