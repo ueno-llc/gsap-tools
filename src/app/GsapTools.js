@@ -143,7 +143,7 @@ export default class GsapTools extends PureComponent {
 
       // If we are in tablet version, we need to remove the box position
       // value to avoid any issue while displaying the box
-      if (sIsTablet) {
+      if (isTablet) {
         // If the tool was expanded after switching
         // to tablet view, we minimize it again
         if (isExpanded) {
