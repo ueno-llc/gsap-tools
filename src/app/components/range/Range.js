@@ -33,6 +33,12 @@ export default class Range extends PureComponent {
   markerOut = 0
   widthWithoutHandle = 0
   isExpanding = false
+  isTablet = false
+
+  componentWillMount() {
+    // Listen for document resize to enable mobile version
+    window.addEventListener('resize', this.onResize);
+  }
 
   componentDidMount() {
     // Calculate size of the range element
@@ -64,9 +70,7 @@ export default class Range extends PureComponent {
 
       // The timeout is equal to the css transition to expand the box
       setTimeout(() => {
-        this.initRange();
-        this.initMarkers();
-        this.handleProgress(props);
+        this.updateComponent(props);
         this.isExpanding = false;
       }, TRANSITION);
     }
@@ -78,13 +82,40 @@ export default class Range extends PureComponent {
     }
   }
 
+  componentWillUnmount() {
+    // Remove resize listener
+    window.removeEventListener('resize', this.onResize);
+  }
+
   /**
    * Internal functions
    */
 
+  onResize = () => {
+    const isTablet = window.matchMedia('(max-width: 1020px)').matches;
+
+    if (isTablet) {
+      this.updateComponent(this.props);
+    }
+
+    if (isTablet !== this.isTablet) {
+      this.isTablet = isTablet;
+
+      setTimeout(() => {
+        this.updateComponent(this.props);
+      }, TRANSITION);
+    }
+  }
+
   get calculateFillWidth() {
     // Return the width of the progress bar
     return (this.markerOut + SIZES.MARKER_WIDTH) - this.markerIn;
+  }
+
+  updateComponent = (props) => {
+    this.initRange();
+    this.initMarkers();
+    this.handleProgress(props);
   }
 
   initRange = () => {

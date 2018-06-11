@@ -144,7 +144,7 @@ export default class GsapTools extends PureComponent {
 
       // If we are in tablet version, we need to remove the box position
       // value to avoid any issue while displaying the box
-      if (sIsTablet) {
+      if (isTablet) {
         // If the tool was expanded after switching
         // to tablet view, we minimize it again
         if (isExpanded) {
@@ -182,8 +182,9 @@ export default class GsapTools extends PureComponent {
     // Add the active animation to the master
     this.master.add(active);
 
-    // Check the status of the animation to define the master
+    // Check animation's status to define the master
     const isPaused = active.paused();
+    const isTween = get(active, 'data.isTween');
 
     // Check if it's an infinite animation
     this.isInfinite = active.totalDuration() === 999999999999;
@@ -198,9 +199,10 @@ export default class GsapTools extends PureComponent {
     this.master.paused(isPaused);
 
     this.setState({
-      isLoop: this.isInfinite,
       playIcon: isPaused,
       active,
+      isLoop: this.isInfinite || this.state.isLoop,
+      isTween,
     });
 
     this.initInOutWithStorage();
@@ -373,6 +375,7 @@ export default class GsapTools extends PureComponent {
 
     // Check status of new child
     const isPaused = active.paused();
+    const isTween = get(active, 'data.isTween');
 
     // Reset any markers if exists
     this.range.clear();
@@ -412,6 +415,7 @@ export default class GsapTools extends PureComponent {
       playIcon: false,
       value: 0,
       active,
+      isTween,
     });
   }
 
@@ -622,9 +626,8 @@ export default class GsapTools extends PureComponent {
       isLoop,
       isLoaded,
       isTablet,
+      isTween,
     } = this.state;
-
-    const isTween = get(active, 'data.isTween');
 
     return (
       <Draggable
