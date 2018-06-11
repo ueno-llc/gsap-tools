@@ -49,6 +49,7 @@ export default class GsapTools extends PureComponent {
       isExpanded: false,
       isLoop: false,
       isTablet: false,
+      isReversed: false,
     };
   }
 
@@ -112,7 +113,7 @@ export default class GsapTools extends PureComponent {
     } else if (e.keyCode === 82 && !(e.metaKey || e.ctrlKey)) { // R char
       this.range.clear();
     } else if (e.keyCode === 37) { // Left arrow
-      this.handleRewind();
+      this.handleReverse();
     } else if (e.keyCode === 38) { // Up arrow
       e.preventDefault();
 
@@ -160,6 +161,8 @@ export default class GsapTools extends PureComponent {
   }
 
   onStoreChange = () => {
+    const { isReversed, isLoop } = this.state;
+
     // Clear master to avoid
     // concatenating animations on master
     if (this.master) {
@@ -176,6 +179,9 @@ export default class GsapTools extends PureComponent {
     // Add the active animation to the master
     this.master.add(active);
 
+    // Store if the animation is a Tween or Timeline
+    const isTween = get(active, 'data.isTween');
+
     // Check the status of the animation to define the master
     const isPaused = active.paused();
 
@@ -190,11 +196,13 @@ export default class GsapTools extends PureComponent {
     }
 
     this.master.paused(isPaused);
+    this.master.reversed(isReversed);
 
     this.setState({
-      isLoop: this.isInfinite || this.state.isLoop,
-      playIcon: isPaused,
       active,
+      playIcon: isPaused,
+      isLoop: this.isInfinite || isLoop,
+      isTween,
     });
 
     this.initInOutWithStorage();
@@ -210,14 +218,16 @@ export default class GsapTools extends PureComponent {
     const isVisible = storageIsVisible === null ? this.props.isVisible : storageIsVisible;
     const timeScale = Number(storage.get('TIME_SCALE')) || 1;
     const isLoop = storage.get('LOOP') === 'true';
+    const isReversed = storage.get('REVERSED') === 'true';
     const { x, y } = JSON.parse(storage.get('BOX_POSITION')) || { x: 0, y: 0 };
 
     this.setState({
+      timeScale,
+      position: { x, y },
       isVisible,
       isExpanded,
       isLoop,
-      timeScale,
-      position: { x, y },
+      isReversed,
     });
 
     this.master.timeScale(timeScale);
@@ -238,7 +248,7 @@ export default class GsapTools extends PureComponent {
     const inPercent = Number(storage.get('IN_PERCENT')) || 0.01;
     const outPercent = Number(storage.get('OUT_PERCENT')) || 100;
 
-    if (inPercent > 0 || outPercent < 100) {
+    if (inPercent > 0.01 || outPercent < 100) {
       this.inTime = this.master.totalDuration() * (inPercent / 100);
       this.outTime = this.master.totalDuration() * (outPercent / 100);
       this.initInOut({ inTime: this.inTime, outTime: this.outTime });
@@ -425,32 +435,16 @@ export default class GsapTools extends PureComponent {
     storage.set('IS_EXPANDED', isExpanded);
   }
 
-  handleRewind = () => {
-    if (this.inTime || this.outTime) {
-      // If inTime or outTime are defined, we want to control the inOutMaster
-      // In this case, we check either if the inOutMaster is paused or not…
-      if (this.inOutMaster.paused()) {
-        this.inOutMaster.restart();
-        this.inOutMaster.pause();
-        this.setState({ playIcon: true });
-      } else {
-        this.inOutMaster.restart();
-        this.setState({ playIcon: false });
-      }
-    } else if (this.master.paused()) {
-      // … otherwise, it means we want to control the default master
-      // We do the same by checking if the master is paused or not
-      this.master.seek(0);
-      this.setState({ value: 0, playIcon: true });
-    } else {
-      // And if the master is not paused, we just restart it
-      this.master.restart();
-      this.setState({ playIcon: false });
-    }
+  handleReverse = () => {
+    const { isReversed } = this.state;
+
+    this.setState({ isReversed: !isReversed });
+
+    storage.set('REVERSED', !isReversed);
   }
 
   handlePlayPause = () => {
-    if (this.inTime || this.outTime) {
+    if (this.inTime > 0 || this.outTime) {
       // If inTime or outTime are defined we will handle the
       // play/pause state on the inOutMaster function
       this.initInOut();
@@ -603,11 +597,11 @@ export default class GsapTools extends PureComponent {
       isVisible,
       isExpanded,
       isLoop,
+      isReversed,
       isLoaded,
       isTablet,
+      isTween,
     } = this.state;
-
-    const isTween = get(active, 'data.isTween');
 
     return (
       <Draggable
@@ -658,7 +652,8 @@ export default class GsapTools extends PureComponent {
                   isLoop={isLoop}
                   isActive={isActive}
                   isExpanded={isExpanded}
-                  onRewind={this.handleRewind}
+                  isReversed={isReversed}
+                  onReverse={this.handleReverse}
                   onPlayPause={this.handlePlayPause}
                   onLoop={this.handleLoop}
                 />
