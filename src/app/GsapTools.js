@@ -5,6 +5,7 @@ import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import { TimelineMax } from 'gsap';
 
+import isClient from 'utils/isClient';
 import storage from 'utils/storage';
 import { SPEEDS } from 'utils/constants';
 import clearProps from 'utils/clearProps';
@@ -19,7 +20,7 @@ import store from 'store';
 
 import s from './GsapTools.scss';
 
-export default class GsapTools extends PureComponent {
+class GsapTools extends PureComponent {
 
   static propTypes = {
     onClick: PropTypes.func,
@@ -702,3 +703,5 @@ export default class GsapTools extends PureComponent {
     );
   }
 }
+
+export default isClient ? GsapTools : (() => null);
