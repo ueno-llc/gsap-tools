@@ -141,8 +141,6 @@ export default class GsapTools extends PureComponent {
     if (isTablet !== sIsTablet) {
       this.setState({ isTablet });
 
-      // If we are in tablet version, we need to remove the box position
-      // value to avoid any issue while displaying the box
       if (isTablet) {
         // If the tool was expanded after switching
         // to tablet view, we minimize it again
@@ -150,6 +148,8 @@ export default class GsapTools extends PureComponent {
           this.handleExpand();
         }
 
+        // If we are in tablet version, we need to remove the box position
+        // value to avoid any issue while displaying the box
         if (this.container) {
           this.container.style.removeProperty('transform');
         }
@@ -160,7 +160,13 @@ export default class GsapTools extends PureComponent {
   }
 
   onStoreChange = () => {
-    const isLoopStored = storage.get('LOOP') === 'true';
+    // Get active animation from store
+    const active = store.active();
+
+    // Make sure active return a valid object
+    if (isEmpty(active)) {
+      return;
+    }
 
     // Clear master to avoid
     // concatenating animations on master
@@ -168,17 +174,11 @@ export default class GsapTools extends PureComponent {
       this.master.clear();
     }
 
-    // Get active animation from store
-    const active = store.active();
-
-    if (isEmpty(active)) {
-      return;
-    }
-
     // Add the active animation to the master
     this.master.add(active);
 
     // Check animation's status to define the master
+    const isLoopStored = storage.get('LOOP') === 'true';
     const isPaused = active.paused();
     const isTween = get(active, 'data.isTween');
     const isInfinite = active.totalDuration() === 999999999999;
@@ -242,7 +242,7 @@ export default class GsapTools extends PureComponent {
     const inPercent = Number(storage.get('IN_PERCENT')) || 0.01;
     const outPercent = Number(storage.get('OUT_PERCENT')) || 100;
 
-    if (inPercent > 0 || outPercent < 100) {
+    if (inPercent > 0.01 || outPercent < 100) {
       this.inTime = this.master.totalDuration() * (inPercent / 100);
       this.outTime = this.master.totalDuration() * (outPercent / 100);
       this.initInOut({ inTime: this.inTime, outTime: this.outTime });
@@ -368,6 +368,11 @@ export default class GsapTools extends PureComponent {
   handleList = ({ currentTarget }) => {
     // We get the animation from the store
     const active = store.active(currentTarget.value);
+
+    // Make sure active return a valid object
+    if (isEmpty(active)) {
+      return;
+    }
 
     // Check status of new child
     const isPaused = active.paused();
