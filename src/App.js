@@ -345,14 +345,14 @@ componentWillUnmount() {
           of <a target="_blank" rel="noopener noreferrer" href="http://ueno.co/work/">our projects</a>.
           </p>
 
-          <p>But one thing were struggling with for a long time was debugging big
-          timelines. Most of the time we reload, reload, reload, reload, reload,
+          <p>But one thing we were struggling with for a long time was debugging big
+          animations. Most of the time we reload, reload, reload, reload, reload,
           reload, reload, reload. You get where this is going.
           </p>
 
           <p>Recently GSAP introduced their dev tools. We tried them but found they didn’t really
           fit our needs: Setting the tools up with webpack was a real mess; when unmounting a
-          component, removing its timeline after being registered is not possible; and finally,
+          component, removing its animation after being registered is not possible; and finally,
           animations are only registered if they are played 2 seconds after the page is
           loaded, which is a problem if - for example - we have an animation playing based
           on user interaction, or when a waypoint is triggered.
