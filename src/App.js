@@ -365,7 +365,7 @@ componentWillUnmount() {
           title="You to the rescue"
           subheading="Lend a helping hand?"
         >
-          <p>If you noticied any issues, have any ideas, or want to open pull requests, go check out
+          <p>If you noticed any issues, have any ideas, or want to open pull requests, go check out
           the <a href="https://github.com/ueno-llc/gsap-tools" target="_blank" rel="noopener noreferrer">github repository</a>.
           And if you want to know more about who we are and what we
           do, <a href="http://ueno.co" target="_blank" rel="noopener noreferrer">here’s a link for that</a>.
