@@ -7,7 +7,7 @@
   "dependencies": {
     "classnames": "2.2.5",
     "gsap": "^2.0.1",
-    "gsap-tools": "^1.0.1",
+    "gsap-tools": "^1.0.2",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0"
