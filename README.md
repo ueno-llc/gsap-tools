@@ -2,9 +2,13 @@
 
 **A simple tool to debug GSAP animations**
 
-Managing and debugging Tween and Timeline in GSAP is a hassle, even with the official dev tools. So we created GsapTools, an extension that makes it all so much easier. Scroll down to know more and go take a look at the <a href="https://ueno-llc.github.io/gsap-tools">website</a>.
+Managing and debugging Tween and Timeline in GSAP is a hassle, even with the official dev tools. So we created GsapTools, a tool for React<sup>1</sup>, that makes it all so much easier. Scroll down to know more and go take a look at the <a href="https://ueno-llc.github.io/gsap-tools">website</a>.
 
-![github](https://user-images.githubusercontent.com/937328/41342560-114d03f4-6eec-11e8-96df-f5a9ace6a725.png)
+—
+
+**1. GsapTools only works with React for the moment, but we plan to make it works on other popular front-end library in the future.**
+
+![github](https://user-images.githubusercontent.com/937328/41354476-9bb1015e-6f0e-11e8-8bff-850f990aebe8.png)
 
 ## Installation
 ```bash
@@ -102,6 +106,11 @@ componentWillUnmount() {
 }
 ```
 
+## Examples
+
+- The GsapTools’ website use the tool itself, you can see it in action here: <a href="https://github.com/ueno-llc/gsap-tools/blob/react-gh-pages/src/components/app-layout/AppLayout.js#L23">AppLayout.js</a> and <a href="https://github.com/ueno-llc/gsap-tools/blob/react-gh-pages/src/components/hero/Hero.js#L48">Hero.js</a>.
+- There is also more examples with Tween and Timeline also <a href="https://github.com/JeremDsgn/gsap-test/tree/master/src/components">here</a>.
+
 ## Shortcuts
 
 - `space`: Play/pause
@@ -129,7 +138,7 @@ and already have a way to enable specific tools.
 
 ### `add()` function
 
-- **Timeline/Tween** (required): The first argument to pass is the animation object. It can be either Tween or Timeline instances.
+- **Timeline/Tween** (required) The first argument to pass is the animation object. It can be either Tween or Timeline instances.
 
 - **id** (optional) Instead of passing the id to the timeline method constructor you can pass it on the `add()` function itself.
 
