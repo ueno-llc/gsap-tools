@@ -2,7 +2,9 @@
 
 **A simple tool to debug GSAP animations**
 
-Managing and debugging Tween and Timeline in GSAP is a hassle, even with the official dev tools. So we created GsapTools, an extension that makes it all so much easier. Click on the GSAP button to see in in action, and scroll down to know more.
+Managing and debugging Tween and Timeline in GSAP is a hassle, even with the official dev tools. So we created GsapTools, an extension that makes it all so much easier. Scroll down to know more and go take a look at the <a href="https://ueno-llc.github.io/gsap-tools">website</a>.
+
+![github](https://user-images.githubusercontent.com/937328/41342560-114d03f4-6eec-11e8-96df-f5a9ace6a725.png)
 
 ## Installation
 ```bash
