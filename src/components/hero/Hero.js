@@ -22,9 +22,9 @@ export default class Hero extends PureComponent {
 
   componentWillUnmount() {
     this.disposer1();
-    this.disposer2();
-    this.disposer3();
-    this.disposer4();
+    // this.disposer2();
+    // this.disposer3();
+    // this.disposer4();
   }
 
   animate = () => {
@@ -46,9 +46,9 @@ export default class Hero extends PureComponent {
       .add(appleTimeline, logoTimeline.duration());
 
     this.disposer1 = add(mainTimeline);
-    this.disposer2 = add(circlesTimeline);
-    this.disposer3 = add(logoTimeline);
-    this.disposer4 = add(appleTimeline);
+    // this.disposer2 = add(circlesTimeline);
+    // this.disposer3 = add(logoTimeline);
+    // this.disposer4 = add(appleTimeline);
   }
 
   render() {
