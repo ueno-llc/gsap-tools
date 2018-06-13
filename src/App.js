@@ -29,9 +29,10 @@ export default class App extends PureComponent {
           hasBackground
           title="GsapTools, by Ueno"
           subheading="A simple tool to debug GSAP animations"
-          text="Managing and debugging Tween and Timeline in GSAP is a hassle, even with
-          the official dev tools. So we created GsapTools, an extension that makes it all so much
-          easier. Click on the GSAP button to see in in action, and scroll down to know more."
+          text={<span>Managing and debugging Tween and Timeline in GSAP is a hassle, even with the
+          official dev tools. So we created GsapTools, a tool for React<sup>1</sup>, that makes it
+          all so much easier. Click on the GSAP button to see in in action, and scroll down
+          to know more.</span>}
         >
           <h2>Installation</h2>
 
@@ -264,9 +265,16 @@ componentWillUnmount() {
           </Code>
 
           <Reference>
+            <h2>Examples</h2>
+
+            <ul data-name="list">
+              <li>The GsapTools’ website use the tool itself, you can see it in action here: <a href="https://github.com/ueno-llc/gsap-tools/blob/react-gh-pages/src/components/app-layout/AppLayout.js#L23" target="_blank" rel="noopener noreferrer">AppLayout.js</a> and <a href="https://github.com/ueno-llc/gsap-tools/blob/react-gh-pages/src/components/hero/Hero.js#L48" target="_blank" rel="noopener noreferrer">Hero.js</a>.</li>
+              <li>There is also more examples with Tween and Timeline also <a href="https://github.com/JeremDsgn/gsap-test/tree/master/src/components" target="_blank" rel="noopener noreferrer">here</a>.</li>
+            </ul>
+
             <h2>Shortcuts</h2>
 
-            <ul>
+            <ul data-name="shortcuts">
               <li><code>space</code> Play/pause</li>
               <li><code>R</code> Reset in/out markers</li>
               <li><code>H</code> Toggle UI</li>
@@ -366,10 +374,17 @@ componentWillUnmount() {
           subheading="Lend a helping hand?"
         >
           <p>If you noticed any issues, have any ideas, or want to open pull requests, go check out
-          the <a href="https://github.com/ueno-llc/gsap-tools" target="_blank" rel="noopener noreferrer">github repository</a>.
+          the <a href="https://github.com/ueno-llc/gsap-tools" target="_blank" rel="noopener noreferrer">GitHub repository</a>.
           And if you want to know more about who we are and what we
           do, <a href="http://ueno.co" target="_blank" rel="noopener noreferrer">here’s a link for that</a>.
           </p>
+        </Content>
+
+        <Content>
+          <ol>
+            <li>GsapTools only works with React for the moment, but we plan to make
+            it works on other popular front-end library in the future.</li>
+          </ol>
         </Content>
       </AppLayout>
     );

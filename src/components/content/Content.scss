@@ -5,12 +5,6 @@
 
   overflow: hidden;
 
-  &:nth-child(4) {
-    .content__inner {
-      padding-top: 0;
-    }
-  }
-
   &__col {
     @include grid-col;
 
@@ -26,13 +20,13 @@
     background: #f9f9f9;
 
     @media (min-width: $min-tablet) {
-      margin-top: -80px;
+      transform: translateY(-80px);
     }
 
     @media (min-width: $min-desktop) {
-      margin-top: -100px;
-
       background: transparent;
+
+      transform: translateY(-100px);
     }
   }
 
@@ -108,5 +102,16 @@
   a { // stylelint-disable-line
     @include reset-anchor;
     @include link;
+  }
+
+  ol {
+    @include reset-list;
+
+    opacity: 0.75;
+
+    width: 85%;
+
+    font-size: 18px;
+    list-style: decimal;
   }
 }

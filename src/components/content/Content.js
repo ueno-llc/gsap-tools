@@ -13,7 +13,7 @@ export default class Content extends PureComponent {
     children: PropTypes.node,
     title: PropTypes.string,
     subheading: PropTypes.string,
-    text: PropTypes.string,
+    text: PropTypes.node,
     hasBackground: PropTypes.bool,
   }
 
@@ -26,8 +26,8 @@ export default class Content extends PureComponent {
           <Row>
             <div className="content__col">
               <div className="content__inner">
-                <h1 className="content__heading">{title}</h1>
-                <p className="content__subheading">{subheading}</p>
+                {title && <h1 className="content__heading">{title}</h1>}
+                {subheading && <p className="content__subheading">{subheading}</p>}
                 {text && <p className="content__copy">{text}</p>}
                 {children}
               </div>

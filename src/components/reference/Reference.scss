@@ -1,4 +1,4 @@
-/* stylelint-disable selector-max-type */
+/* stylelint-disable selector-max-type, selector-no-qualifying-type, max-nesting-depth */
 @import '../../styles/config.scss';
 
 .reference {
@@ -6,7 +6,6 @@
 
   code {
     font-size: 0.85em;
-    // color: #ad0303;
   }
 
   p {
@@ -17,23 +16,38 @@
     @include reset-list;
 
     margin-bottom: 3em;
-    max-width: (500px/$font-size) * 1em;
 
     line-height: 2.5;
 
     @media (min-width: $min-mobile) {
       display: flex;
       flex-wrap: wrap;
-    }
 
-    li {
-      flex: none;
+      &[data-name='list'] {
+        padding-left: 1em;
 
-      display: flex;
-      align-items: center;
+        li::before {
+          content: '\2013';
 
-      @media (min-width: $min-mobile) {
-        width: 50%;
+          position: absolute;
+
+          margin-left: -20px;
+
+          color: #cacaca;
+        }
+      }
+
+      &[data-name='shortcuts'] {
+        max-width: (500px/$font-size) * 1em;
+
+        li {
+          flex: none;
+
+          display: flex;
+          align-items: center;
+
+          width: 50%;
+        }
       }
     }
 
