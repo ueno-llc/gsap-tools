@@ -106,12 +106,10 @@
 
   ol {
     @include reset-list;
+    @include responsive-font(15, 18);
 
     opacity: 0.75;
 
-    width: 85%;
-
-    font-size: 18px;
     list-style: decimal;
   }
 }

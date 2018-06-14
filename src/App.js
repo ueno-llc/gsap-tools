@@ -31,8 +31,8 @@ export default class App extends PureComponent {
           subheading="A simple tool to debug GSAP animations"
           text={<span>Managing and debugging Tween and Timeline in GSAP is a hassle, even with the
           official dev tools. So we created GsapTools, a tool for React<sup>1</sup>, that makes it
-          all so much easier. Click on the GSAP button to see in in action, and scroll down
-          to know more.</span>}
+          all so much easier. Click on the GSAP button to see in action, scroll down
+          to know more, and check the code on <a href="https://github.com/ueno-llc/gsap-tools" target="_blank" rel="noopener noreferrer">GitHub</a>.</span>}
         >
           <h2>Installation</h2>
 
