@@ -6,6 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 import { TimelineMax } from 'gsap';
 
 import isClient from 'utils/isClient';
+import getMatrix from 'utils/getMatrix';
 import storage from 'utils/storage';
 import { SPEEDS } from 'utils/constants';
 import clearProps from 'utils/clearProps';
@@ -136,13 +137,36 @@ class GsapTools extends PureComponent {
   }
 
   onResize = () => {
-    const { isTablet: sIsTablet, isExpanded } = this.state;
+    const { isTablet: sIsTablet } = this.state;
     const isTablet = window.matchMedia('(max-width: 1020px)').matches;
 
-    if (isTablet !== sIsTablet) {
-      this.setState({ isTablet });
+    this.checkUIPosition(isTablet, sIsTablet);
+  }
 
-      if (isTablet) {
+  checkUIPosition = (state, prevState) => {
+    const { isExpanded } = this.state;
+
+    if (!this.container) {
+      return;
+    }
+
+    // We are resizing in the desktop view
+    if (!state) {
+      const { top, left } = this.container.getBoundingClientRect();
+      const { tx, ty } = getMatrix(this.container);
+      const x = left < 30 ? tx + parseInt(left, 10) : tx;
+      const y = top < 30 ? ty + parseInt(top, 10) : ty;
+
+      this.container.style.transform = `translate(${x}px, ${y}px)`;
+      this.setState({ position: { x, y } });
+    }
+
+    // We are switching from one view to another
+    if (state !== prevState) {
+      this.setState({ isTablet: state });
+
+      // We are in tablet view
+      if (state) {
         // If the tool was expanded after switching
         // to tablet view, we minimize it again
         if (isExpanded) {
@@ -151,9 +175,8 @@ class GsapTools extends PureComponent {
 
         // If we are in tablet version, we need to remove the box position
         // value to avoid any issue while displaying the box
-        if (this.container) {
-          this.container.style.removeProperty('transform');
-        }
+        this.container.style.removeProperty('transform');
+        this.setState({ position: { x: 0, y: 0 } });
 
         storage.remove('BOX_POSITION');
       }
