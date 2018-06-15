@@ -6,6 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 import { TimelineMax } from 'gsap';
 
 import isClient from 'utils/isClient';
+import getBounds from 'utils/getBounds';
 import getMatrix from 'utils/getMatrix';
 import storage from 'utils/storage';
 import { SPEEDS } from 'utils/constants';
@@ -152,13 +153,17 @@ class GsapTools extends PureComponent {
 
     // We are resizing in the desktop view
     if (!state) {
-      const { top, left } = this.container.getBoundingClientRect();
+      const { innerWidth } = window;
+      const { top: ct, left: cl, right: cr } = this.container.getBoundingClientRect();
       const { tx, ty } = getMatrix(this.container);
-      const x = left < 30 ? tx + parseInt(left, 10) : tx;
-      const y = top < 30 ? ty + parseInt(top, 10) : ty;
+      const bounds = getBounds(this.container.parentNode);
+      const x = cl < bounds ? tx - (cl - bounds) : (cr > (innerWidth - bounds)) ? 0 : tx; // eslint-disable-line
+      const y = ct < bounds ? ty - (cl - bounds) : ty;
 
       this.container.style.transform = `translate(${x}px, ${y}px)`;
       this.setState({ position: { x, y } });
+
+      storage.set('BOX_POSITION', JSON.stringify({ x, y }));
     }
 
     // We are switching from one view to another
