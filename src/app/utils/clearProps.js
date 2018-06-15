@@ -1,4 +1,4 @@
-import { TweenMax } from 'gsap';
+import { TweenLite } from 'gsap';
 
 function clearProps(timeline) {
   const targets = timeline.getChildren();
@@ -7,7 +7,7 @@ function clearProps(timeline) {
 
   targets.forEach((item) => {
     if (item.target) {
-      TweenMax.set(item.target, { clearProps: 'all' });
+      TweenLite.set(item.target, { clearProps: 'all' });
     }
   });
 }
