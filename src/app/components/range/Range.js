@@ -276,7 +276,7 @@ export default class Range extends PureComponent {
     // We remove all listeners as soon as we stop dragging
     document.removeEventListener('mousemove', this.handleDrag);
     document.removeEventListener('mousemove', this.handleMarkerInDrag);
-    document.removeEventListener('mousemove', this.handleMarkerDragOut);
+    document.removeEventListener('mousemove', this.handleMarkerOutDrag);
     document.removeEventListener('mouseup', this.handleEnd);
     document.removeEventListener('touchMove', this.handleDrag);
     document.removeEventListener('touchEnd', this.handleEnd);
@@ -328,11 +328,11 @@ export default class Range extends PureComponent {
   handleMarkerOutDragStart = () => {
     this.fillWidth = this.fill.offsetWidth;
 
-    document.addEventListener('mousemove', this.handleMarkerDragOut);
+    document.addEventListener('mousemove', this.handleMarkerOutDrag);
     document.addEventListener('mouseup', this.handleEnd);
   }
 
-  handleMarkerDragOut = (e) => {
+  handleMarkerOutDrag = (e) => {
     const { onDrag, onDragMarkerOut } = this.props;
 
     if (!onDrag || !this.rangeOut || !this.fill) {
