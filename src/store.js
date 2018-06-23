@@ -1,10 +1,11 @@
-import EventEmitter from 'events';
+import EventEmitter from 'events-async';
 import { TweenLite } from 'gsap';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 
 class Store extends EventEmitter {
 
+  storeReady = false
   animations = new Map()
 
   // Return animations IDs
@@ -58,7 +59,14 @@ class Store extends EventEmitter {
     }
 
     // Event emitted to re-render on the tool
-    this.emit('change');
+    this.emit('added').then(() => {
+      if (!this.storeReady && this.isReady !== this.storeReady) {
+        this.isReady = true;
+        this.storeReady = true;
+
+        this.emit('added');
+      }
+    });
 
     // Retun a function to remove a animation from the map
     // without specifying any id
@@ -83,7 +91,7 @@ class Store extends EventEmitter {
     }
 
     // Event emitted to re-render on the tool
-    this.emit('change');
+    this.emit('removed');
   }
 }
 

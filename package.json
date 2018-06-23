@@ -58,6 +58,7 @@
     "webpack-cli": "^2.1.3"
   },
   "dependencies": {
+    "events-async": "^1.1.0",
     "gsap": "^2.0.1",
     "lodash": "^4.17.10",
     "prop-types": "^15.6.1",

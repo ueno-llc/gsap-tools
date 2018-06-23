@@ -9,6 +9,7 @@ import s from './Header.scss';
 export default class Header extends PureComponent {
 
   static propTypes = {
+    id: PropTypes.string,
     keys: PropTypes.array,
     master: PropTypes.object,
     timeScale: PropTypes.number,
@@ -25,6 +26,7 @@ export default class Header extends PureComponent {
 
   render() {
     const {
+      id,
       keys,
       master,
       timeScale,
@@ -51,7 +53,11 @@ export default class Header extends PureComponent {
       <header className={s(s.header, { isExpanded, isTween })}>
         {isActive ? (
           <div className={s.header__list}>
-            <select className={s.header__select} onChange={onList}>
+            <select
+              className={s.header__select}
+              onChange={onList}
+              value={id}
+            >
               {keys.map((g, i) => (
                 <option
                   key={i} // eslint-disable-line
