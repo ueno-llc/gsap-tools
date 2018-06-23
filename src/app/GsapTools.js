@@ -42,6 +42,7 @@ class GsapTools extends PureComponent {
     this.isChanging = false;
 
     this.state = {
+      id: undefined,
       value: 0,
       active: {},
       timeScale: 1,
@@ -395,8 +396,10 @@ class GsapTools extends PureComponent {
   }
 
   handleList = ({ currentTarget }) => {
+    const id = currentTarget.value;
+
     // We get the animation from the store
-    const active = store.active(currentTarget.value);
+    const active = store.active(id);
 
     // Make sure active return a valid object
     if (isEmpty(active)) {
@@ -431,11 +434,15 @@ class GsapTools extends PureComponent {
 
     // We set the handle value at zero
     this.setState({
+      id,
       playIcon: false,
       value: 0,
       active,
       isTween,
     });
+
+    // Set the active timeline id in localStorage
+    storage.set('ACTIVE', id);
   }
 
   handleTimeScale = (e) => {
@@ -635,6 +642,7 @@ class GsapTools extends PureComponent {
     const isActive = store.animations.size > 0;
 
     const {
+      id,
       value,
       active,
       playIcon,
@@ -670,6 +678,7 @@ class GsapTools extends PureComponent {
             <div className={s(s.gsapTools__box, { isLoaded, onClick })}>
               <Header
                 keys={store.keys}
+                id={id}
                 master={this.master}
                 timeScale={timeScale}
                 isActive={isActive}
