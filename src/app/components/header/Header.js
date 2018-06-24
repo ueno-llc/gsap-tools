@@ -56,7 +56,7 @@ export default class Header extends PureComponent {
             <select
               className={s.header__select}
               onChange={onList}
-              value={id}
+              value={id || ''}
             >
               {keys.map((g, i) => (
                 <option

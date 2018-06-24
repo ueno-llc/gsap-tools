@@ -191,6 +191,29 @@ class GsapTools extends PureComponent {
     }
   }
 
+  onStoreAdd = () => {
+    // Get the id of the active animation
+    const id = store.activeId;
+
+    if (!store.isReady) {
+      return;
+    }
+
+    // Call the shared function to reload store
+    this.onStoreChange(id);
+  }
+
+  onStoreRemove = () => {
+    // Let's remove the previous id
+    // of the active timeline stored
+    this.setState({ id: undefined });
+
+    storage.remove('ACTIVE');
+
+    // Call the shared function to reload store
+    this.onStoreChange();
+  }
+
   onStoreChange = (id) => {
     // Get active animation from store
     const active = store.active(id);
@@ -241,29 +264,6 @@ class GsapTools extends PureComponent {
 
     // Re-render the UI box
     this.forceUpdate();
-  }
-
-  onStoreAdd = () => {
-    // Get the id of the active timeline if stored
-    const id = storage.get('ACTIVE') || '';
-
-    if (!store.isReady) {
-      return;
-    }
-
-    // Call the shared function to reload store
-    this.onStoreChange(id);
-  }
-
-  onStoreRemove = () => {
-    // Let's remove the previous id
-    // of the active timeline stored
-    this.setState({ id: undefined });
-
-    storage.remove('ACTIVE');
-
-    // Call the shared function to reload store
-    this.onStoreChange();
   }
 
   initUI = () => {

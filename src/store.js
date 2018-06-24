@@ -37,12 +37,14 @@ class Store extends EventEmitter {
   }
 
   add(animation, animationId) {
-    const storedId = storage.get('ACTIVE');
     const isTween = animation instanceof TweenLite;
+
+    // Get stored animation if available
+    this.activeId = storage.get('ACTIVE');
 
     // We expose a hasId flag to check on the tool if we
     // need to resume animation that we will pause just after
-    this.hasId = Boolean(storedId);
+    this.hasId = Boolean(this.activeId);
 
     // We store in the data object, if the animation
     // is a animation or just a tween
@@ -62,7 +64,7 @@ class Store extends EventEmitter {
 
     // If an animation's id is stored, we
     // pause all new coming animations
-    if (this.hasId && storedId !== id) {
+    if (this.hasId && this.activeId !== id) {
       animation.progress(0, false);
       animation.pause();
     }
