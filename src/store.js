@@ -30,12 +30,10 @@ class Store extends EventEmitter {
     // Check if the specified animation exists and return it
     if (this.animations.has(id)) {
       return this.animations.get(id);
-    } else {
-      return this.values[0];
     }
 
-    // Return an empty array if we don't have anything
-    return [];
+    // Return the first animation
+    return this.values[0];
   }
 
   add(animation, animationId) {
