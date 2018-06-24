@@ -8,6 +8,8 @@ function resumeAnimations(timeline) {
     return;
   }
 
+  timeline.play();
+
   return timeline.getChildren(false, false, true).forEach((tween) => {
     if (!tween) {
       return;
