@@ -37,18 +37,8 @@ class Store extends EventEmitter {
   }
 
   add(animation, animationId) {
+    // Check if the animation is a Tween
     const isTween = animation instanceof TweenLite;
-
-    // Get stored animation if available
-    this.activeId = storage.get('ACTIVE');
-
-    // We expose a hasId flag to check on the tool if we
-    // need to resume animation that we will pause just after
-    this.hasId = Boolean(this.activeId);
-
-    // We store in the data object, if the animation
-    // is a animation or just a tween
-    animation.data = { ...animation.data, isTween };
 
     // If an id is specified on the `add` function,
     // or in the animation constructor itself
@@ -62,28 +52,42 @@ class Store extends EventEmitter {
       id = `${name} ${this.animations.size + 1}`;
     }
 
-    // If an animation's id is stored, we
-    // pause all new coming animations
-    if (this.hasId && this.activeId !== id) {
-      animation.progress(0, false);
-      animation.pause();
-    }
-
     // As soon as we have the id, we check it doesn't already
     // exists and then we set the animation in the map
+
+    // Check if the animation isn't already registered
     if (!this.animations.has(id)) {
-      this.animations.set(id, animation);
-    }
+      // Get stored animation if available
+      this.activeId = storage.get('ACTIVE');
 
-    // Event emitted to re-render on the tool
-    this.emit('added').then(() => {
-      if (!this.storeReady && this.isReady !== this.storeReady) {
-        this.isReady = true;
-        this.storeReady = true;
+      // We expose a hasId flag to check on the tool if we
+      // need to resume animation that we will pause just after
+      this.hasId = Boolean(this.activeId);
 
-        this.emit('added');
+      // We store in the data object, if the animation
+      // is a animation or just a tween
+      animation.data = { ...animation.data, isTween };
+
+      // If an animation's id is stored, we
+      // pause all new coming animations
+      if (this.hasId && this.activeId !== id) {
+        animation.progress(0, false);
+        animation.pause();
       }
-    });
+
+      // Set values on map
+      this.animations.set(id, animation);
+
+      // Event emitted to re-render on the tool
+      this.emit('added').then(() => {
+        if (!this.storeReady && this.isReady !== this.storeReady) {
+          this.isReady = true;
+          this.storeReady = true;
+
+          this.emit('added');
+        }
+      });
+    }
 
     // Retun a function to remove a animation from the map
     // without specifying any id
