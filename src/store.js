@@ -3,6 +3,8 @@ import { TweenLite } from 'gsap';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 
+import storage from 'utils/storage';
+
 class Store extends EventEmitter {
 
   storeReady = false
@@ -35,14 +37,20 @@ class Store extends EventEmitter {
   }
 
   add(animation, animationId) {
-    // If an id is specified on the `add` function,
-    // or in the animation constructor itself
-    let id = animationId || get(animation, 'vars.id');
+    const storedId = storage.get('ACTIVE');
     const isTween = animation instanceof TweenLite;
+
+    // We expose a hasId flag to check on the tool if we
+    // need to resume animation that we will pause just after
+    this.hasId = Boolean(storedId);
 
     // We store in the data object, if the animation
     // is a animation or just a tween
     animation.data = { ...animation.data, isTween };
+
+    // If an id is specified on the `add` function,
+    // or in the animation constructor itself
+    let id = animationId || get(animation, 'vars.id');
 
     // Otherwise, let's generated an id based on
     // the index of the actual animations stored
@@ -50,6 +58,13 @@ class Store extends EventEmitter {
       const name = isTween ? 'Tween' : 'Timeline';
 
       id = `${name} ${this.animations.size + 1}`;
+    }
+
+    // If an animation's id is stored, we
+    // pause all new coming animations
+    if (this.hasId && storedId !== id) {
+      animation.progress(0, false);
+      animation.pause();
     }
 
     // As soon as we have the id, we check it doesn't already

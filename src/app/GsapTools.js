@@ -11,6 +11,7 @@ import getMatrix from 'utils/getMatrix';
 import storage from 'utils/storage';
 import { SPEEDS } from 'utils/constants';
 import clearProps from 'utils/clearProps';
+import resumeAnimations from 'utils/resumeAnimations';
 
 import Header from 'components/header';
 import Timeline from 'components/timeline';
@@ -57,8 +58,9 @@ class GsapTools extends PureComponent {
   }
 
   componentWillMount() {
-    // Add a store's listener for changes
-    store.on('change', this.onStoreChange);
+    // Add store's listeners for changes
+    store.on('added', this.onStoreAdd);
+    store.on('removed', this.onStoreRemove);
 
     // Get screen size
     this.onResize();
@@ -189,17 +191,20 @@ class GsapTools extends PureComponent {
     }
   }
 
-  onStoreChange = () => {
+  onStoreChange = (id) => {
     // Get active animation from store
-    const active = store.active();
+    const active = store.active(id);
 
     // Make sure active return a valid object
     if (isEmpty(active)) {
       return;
     }
 
-    // Clear master to avoid
-    // concatenating animations on master
+    // Check if we need to resume the active animation
+    resumeAnimations(active);
+
+    // Clear master to avoid other
+    // animations to be add to master
     if (this.master) {
       this.master.clear();
     }
@@ -224,6 +229,7 @@ class GsapTools extends PureComponent {
     this.master.paused(isPaused);
 
     this.setState({
+      id,
       playIcon: isPaused,
       active,
       isLoop,
@@ -235,6 +241,29 @@ class GsapTools extends PureComponent {
 
     // Re-render the UI box
     this.forceUpdate();
+  }
+
+  onStoreAdd = () => {
+    // Get the id of the active timeline if stored
+    const id = storage.get('ACTIVE') || '';
+
+    if (!store.isReady) {
+      return;
+    }
+
+    // Call the shared function to reload store
+    this.onStoreChange(id);
+  }
+
+  onStoreRemove = () => {
+    // Let's remove the previous id
+    // of the active timeline stored
+    this.setState({ id: undefined });
+
+    storage.remove('ACTIVE');
+
+    // Call the shared function to reload store
+    this.onStoreChange();
   }
 
   initUI = () => {
@@ -400,6 +429,9 @@ class GsapTools extends PureComponent {
 
     // We get the animation from the store
     const active = store.active(id);
+
+    // Check if we need to resume the active animation
+    resumeAnimations(active);
 
     // Make sure active return a valid object
     if (isEmpty(active)) {
@@ -677,8 +709,8 @@ class GsapTools extends PureComponent {
           <div className={s.gsapTools__container}>
             <div className={s(s.gsapTools__box, { isLoaded, onClick })}>
               <Header
-                keys={store.keys}
                 id={id}
+                keys={store.keys}
                 master={this.master}
                 timeScale={timeScale}
                 isActive={isActive}
