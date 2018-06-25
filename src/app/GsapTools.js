@@ -380,7 +380,7 @@ class GsapTools extends PureComponent {
     });
   }
 
-  initInOut = ({ inTime, outTime } = {}) => {
+  initInOut = ({ inTime, outTime, marker } = {}) => {
     // If we reset the inTime to zero we don't want to play the inOutMaster
     if (inTime <= 0) {
       return;
@@ -422,6 +422,13 @@ class GsapTools extends PureComponent {
         }
       },
     }).pause();
+
+    if (marker === 'in') {
+      this.master.seek(this.inTime);
+    } else if (this.inOutMaster) {
+      this.master.seek(this.outTime);
+      this.inOutMaster.seek(this.outTime);
+    }
   }
 
   handleList = ({ currentTarget }) => {
@@ -618,8 +625,7 @@ class GsapTools extends PureComponent {
       storage.remove('IN_PERCENT');
     } else {
       this.inTime = this.master.totalDuration() * (value / 100);
-      this.master.seek(this.inTime);
-      this.initInOut({ inTime: this.inTime });
+      this.initInOut({ inTime: this.inTime, marker: 'in' });
 
       storage.set('IN_PERCENT', value);
     }
@@ -639,6 +645,7 @@ class GsapTools extends PureComponent {
 
       storage.remove('OUT_PERCENT');
     } else {
+      this.inOutMasterComplete = true;
       this.outTime = this.master.totalDuration() * (value / 100);
       this.initInOut({ outTime: this.outTime });
 
