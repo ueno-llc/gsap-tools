@@ -1,9 +1,9 @@
 import EventEmitter from 'events-async';
 import { TweenLite } from 'gsap';
 import get from 'lodash/get';
-import isEqual from 'lodash/isEqual';
 
 import storage from 'utils/storage';
+import generateUUID from 'utils/generateUUID';
 
 class Store extends EventEmitter {
 
@@ -37,6 +37,9 @@ class Store extends EventEmitter {
   }
 
   add(animation, animationId) {
+    // Generate a random string uuid
+    const uuid = generateUUID();
+
     // Check if the animation is a Tween
     const isTween = animation instanceof TweenLite;
 
@@ -52,9 +55,6 @@ class Store extends EventEmitter {
       id = `${name} ${this.animations.size + 1}`;
     }
 
-    // As soon as we have the id, we check it doesn't already
-    // exists and then we set the animation in the map
-
     // Check if the animation isn't already registered
     if (!this.animations.has(id)) {
       // Get stored animation if available
@@ -66,7 +66,7 @@ class Store extends EventEmitter {
 
       // We store in the data object, if the animation
       // is a animation or just a tween
-      animation.data = { ...animation.data, isTween };
+      animation.data = { ...animation.data, isTween, uuid };
 
       // If an animation's id is stored, we
       // pause all new coming animations
@@ -89,27 +89,19 @@ class Store extends EventEmitter {
       });
     }
 
-    // Retun a function to remove a animation from the map
-    // without specifying any id
-    return () => this.remove(animation);
+    // Retun a function to remove a animation from
+    // the map without specifying any id
+    return () => this.remove(uuid);
   }
 
-  remove(animation, animationId) {
-    // Check if we have an id specified
-    const id = animationId || get(animation, 'vars.id');
-
-    if (id) {
-      // Remove the animation with the specified id
-      this.animations.delete(id);
-    } else {
-      // Otherwise, loop through the `Map()` and
-      // use the key to remove it
-      this.animations.forEach((v, k) => {
-        if (isEqual(v, animation)) {
-          this.animations.delete(k);
-        }
-      });
-    }
+  remove(uuid) {
+    // Loop through the `Map()` and use
+    // the uuid to remove the animation
+    this.animations.forEach((v, k) => {
+      if (get(v, 'data.uuid') === uuid) {
+        this.animations.delete(k);
+      }
+    });
 
     // Event emitted to re-render on the tool
     this.emit('removed');
