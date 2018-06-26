@@ -57,7 +57,7 @@ componentWillUnmount() {
 That’s the simpler version. Here is an alternative setup.
 
 ```js
-import { add, remove } from 'gsap-tools';
+import { add } from 'gsap-tools';
 
 /*
  * With Timeline
@@ -68,18 +68,15 @@ componentDidMount() {
   this.timeline = new TimelineLite({ id: 'myTimeline' });
 
   // Or you can also define an id on the add function itself
-  add(this.timeline, 'myTimeline');
+  this.disposer = add(this.timeline, 'myTimeline');
 
   // Or it will generate an id if you don't specify any
-  add(this.timeline);
+  this.disposer = add(this.timeline);
 }
 
 componentWillUnmount() {
-  // Remove the Timeline just by passing the reference to it
-  remove(this.timeline);
-
-  // Remove the Timeline by passing his id, without the reference
-  remove(null, 'myTimeline');
+  // Remove the Timeline by using the disposer reference
+  this.disposer();
 }
 
 /*
@@ -91,18 +88,15 @@ componentDidMount() {
   this.tween = TweenLite.to(this.el, 1, { x: 50, id: 'myTween' });
 
   // Or you can define an id on the add function itself
-  add(this.tween, 'myTween');
+  this.disposer = add(this.tween, 'myTween');
 
   // Or it will generate an id if you don't specify any
-  add(this.tween);
+  this.disposer = add(this.tween);
 }
 
 componentWillUnmount() {
-  // Remove the Tween just by passing the reference to it
-  remove(this.tween);
-
-  // Remove the Tween by passing his id, without the reference
-  remove(null, 'myTween');
+  // Remove the Tween by using the disposer reference
+  this.disposer();
 }
 ```
 
@@ -141,14 +135,6 @@ and already have a way to enable specific tools.
 - **Timeline/Tween** (required) The first argument to pass is the animation object. It can be either Tween or Timeline instances.
 
 - **id** (optional) Instead of passing the id to the timeline method constructor you can pass it on the `add()` function itself.
-
-### `remove()` function
-
-This function is not required. It’s simpler to use the disposer function call via the reference to the `add()` function. However, you can still use it if you want.
-
-- **Timeline/Tween** (optional) The first argument to pass is the animation object. It can be either Tween or Timeline instances.
-
-- **id** (optional) The id of the animation if you defined one through the `add()` function. In this case you have to pass the animation object argument as null.
 
 ## But, why?
 
