@@ -107,14 +107,14 @@ componentWillUnmount() {
 
 ## Shortcuts
 
-- `space`: Play/pause
-- `L`: Toggle loop
-- `H`: Toggle UI
-- `E`: Expand Timeline
-- `R`: Reset in/out markers
-- `←`: Rewind
-- `↑`: Speed up
-- `↓`: Slow down
+- <kbd>space</kbd> Play/pause
+- <kbd>L</kbd> Toggle loop
+- <kbd>H</kbd> Toggle UI
+- <kbd>E</kbd> Expand Timeline
+- <kbd>R</kbd> Reset in/out markers
+- <kbd>←</kbd> Rewind
+- <kbd>↑</kbd> Speed up
+- <kbd>↓</kbd> Slow down
 
 ## References
 
