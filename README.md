@@ -1,4 +1,13 @@
-# GsapTools, by Ueno
+[![logo](https://user-images.githubusercontent.com/937328/50185016-8ce8c000-030e-11e9-942b-bdaf2df571f0.png)](https://ueno.co/?utm_source=github&utm_campaign=gsap-tools)
+<br /><br />
+![banner](https://user-images.githubusercontent.com/937328/50185018-8ce8c000-030e-11e9-9968-263f3b98cde2.png)
+<br /><br />
+[![about](https://user-images.githubusercontent.com/937328/50184746-da186200-030d-11e9-8edb-3227e9300524.png)](https://ueno.co/contact/?utm_source=github&utm_campaign=gsap-tools)
+<br /><br />
+
+## GsapTools
+
+[![npm version](https://badge.fury.io/js/gsap-tools.svg)](https://badge.fury.io/js/gsap-tools)
 
 **A simple tool to debug GSAP animations**
 
@@ -7,8 +16,6 @@ Managing and debugging Tween and Timeline in GSAP is a hassle, even with the off
 —
 
 **1. GsapTools only works with React for the moment, but we plan to make it works on other popular front-end library in the future.**
-
-![github](https://user-images.githubusercontent.com/937328/41354476-9bb1015e-6f0e-11e8-8bff-850f990aebe8.png)
 
 ## Installation
 ```bash
