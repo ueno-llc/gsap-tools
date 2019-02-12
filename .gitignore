@@ -6,7 +6,6 @@ dist/*
 node_modules
 
 # Yarn
-yarn.lock
 yarn-error.log
 
 # OSX Files
@@ -17,3 +16,4 @@ build/*
 src/styles/*
 src/components/*
 *.css
+package-lock.json

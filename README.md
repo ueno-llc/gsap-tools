@@ -19,7 +19,7 @@ Managing and debugging Tween and Timeline in GSAP is a hassle, even with the off
 
 ## Installation
 ```bash
-npm install gsap-tools
+yarn add gsap-tools
 ```
 
 ## Features

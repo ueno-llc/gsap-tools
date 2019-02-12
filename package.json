@@ -15,7 +15,9 @@
     "Tween"
   ],
   "homepage": "https://ueno-llc.github.io/gsap-tools",
-  "author": "Ueno. <hi@ueno.co> (http://ueno.co)",
+  "contributors": [
+    "Jérémy Barbet <jeremgraph@gmail.com>"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ueno-llc/gsap-tools/issues"
@@ -34,37 +36,37 @@
     "dist/"
   ],
   "devDependencies": {
-    "@ueno/eslint-config": "^1.2.8",
-    "@ueno/stylelint-config": "^1.0.4",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.4",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "classnames": "^2.2.5",
-    "classnames-loader": "^2.0.0",
-    "css-loader": "^0.28.11",
-    "eslint": "^4.19.1",
-    "node-sass": "^4.9.0",
-    "postcss-csso": "^3.0.0",
-    "postcss-loader": "^2.1.5",
-    "rimraf": "^2.6.2",
-    "sass-loader": "^7.0.1",
-    "simple-universal-style-loader": "^0.14.4",
-    "source-map-explorer": "^1.5.0",
-    "stylelint": "^9.2.0",
-    "webpack": "^4.8.1",
-    "webpack-cli": "^2.1.3"
+    "@ueno/eslint-config": "1.2.8",
+    "@ueno/stylelint-config": "1.0.4",
+    "babel-core": "6.26.3",
+    "babel-loader": "7.1.4",
+    "babel-preset-env": "1.6.1",
+    "babel-preset-es2015": "6.24.1",
+    "babel-preset-react": "6.24.1",
+    "babel-preset-stage-0": "6.24.1",
+    "classnames": "2.2.5",
+    "classnames-loader": "2.0.0",
+    "css-loader": "0.28.11",
+    "eslint": "4.19.1",
+    "node-sass": "4.9.0",
+    "postcss-csso": "3.0.0",
+    "postcss-loader": "2.1.5",
+    "rimraf": "2.6.2",
+    "sass-loader": "7.0.1",
+    "simple-universal-style-loader": "0.14.4",
+    "source-map-explorer": "1.5.0",
+    "stylelint": "9.2.0",
+    "webpack": "4.8.1",
+    "webpack-cli": "2.1.5"
   },
   "dependencies": {
-    "events-async": "^1.1.0",
-    "gsap": "^2.0.1",
-    "lodash": "^4.17.10",
-    "prop-types": "^15.6.1",
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2",
-    "react-draggable": "^3.0.5"
+    "events-async": "1.1.0",
+    "gsap": "2.0.1",
+    "lodash": "4.17.10",
+    "prop-types": "15.6.1",
+    "react": "16.3.2",
+    "react-dom": "16.3.2",
+    "react-draggable": "3.0.5"
   },
   "peerDependencies": {
     "gsap": ">=1.20.4"
