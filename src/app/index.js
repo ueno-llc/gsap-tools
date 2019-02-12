@@ -1,1 +1,1 @@
-export default from './GsapTools';
+export { default } from './GsapTools';
