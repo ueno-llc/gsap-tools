@@ -1,4 +1,5 @@
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: process.env.NODE_ENV,
@@ -26,6 +27,10 @@ module.exports = {
 
   devtool: 'source-map',
 
+  plugins: [
+    new CopyWebpackPlugin([{ from: 'src/index.d.ts', to: './gsap-tools.d.ts' }]),
+  ],
+
   module: {
     rules: [
       {
@@ -43,7 +48,7 @@ module.exports = {
           'sass-loader',
         ],
         exclude: /node_modules.*\.css$/,
-      }
-    ]
+      },
+    ],
   },
 };

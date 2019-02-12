@@ -3,6 +3,7 @@
   "description": "A simple tool to debug GSAP animations",
   "version": "1.0.4",
   "main": "dist/gsap-tools.js",
+  "types": "dist/gsap-tools.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ueno-llc/gsap-tools.git"
@@ -60,6 +61,7 @@
     "webpack-cli": "2.1.5"
   },
   "dependencies": {
+    "copy-webpack-plugin": "4.6.0",
     "events-async": "1.1.0",
     "gsap": "2.0.1",
     "lodash": "4.17.10",
