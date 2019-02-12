@@ -1,7 +1,7 @@
 {
   "name": "gsap-tools",
   "description": "A simple tool to debug GSAP animations",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "dist/gsap-tools.js",
   "types": "dist/gsap-tools.d.ts",
   "repository": {
