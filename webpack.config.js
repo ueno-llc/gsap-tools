@@ -43,7 +43,7 @@ module.exports = {
         use: [
           'classnames-loader',
           'simple-universal-style-loader',
-          'css-loader?modules=1&importLoaders=1',
+          'css-loader?modules=true&importLoaders=true',
           'postcss-loader',
           'sass-loader',
         ],
