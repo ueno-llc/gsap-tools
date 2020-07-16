@@ -66,7 +66,7 @@
     "copy-webpack-plugin": "4.6.0",
     "events-async": "1.1.0",
     "gsap": "^2.0.1",
-    "lodash": "4.17.14",
+    "lodash": "4.17.19",
     "prop-types": "15.6.1",
     "react": "16.4.2",
     "react-dom": "16.4.2",
